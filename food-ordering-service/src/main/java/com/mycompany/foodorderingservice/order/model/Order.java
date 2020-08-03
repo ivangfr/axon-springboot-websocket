@@ -1,0 +1,39 @@
+package com.mycompany.foodorderingservice.order.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.Set;
+
+@Data
+@ToString(exclude = "items")
+@EqualsAndHashCode(exclude = "items")
+@Entity
+@Table(name = "orders")
+public class Order {
+
+    @Id
+    private String id;
+    private String customerId;
+    private String customerName;
+    private String customerAddress;
+    private String restaurantId;
+    private String restaurantName;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    //@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> items;
+
+}

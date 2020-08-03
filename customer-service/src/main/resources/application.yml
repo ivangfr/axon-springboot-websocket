@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: customer-service
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/customerdb?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: secret
+
+#axon:
+#  serializer:
+#    general: jackson
+
+management:
+  endpoints:
+    web:
+      exposure.include: beans, env, health, info, metrics, mappings
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC

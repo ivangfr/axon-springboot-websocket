@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: restaurant-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: restaurantdb
+
+#axon:
+#  serializer:
+#    general: jackson
+
+management:
+  endpoints:
+    web:
+      exposure.include: beans, env, health, info, metrics, mappings
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
