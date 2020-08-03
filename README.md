@@ -1,4 +1,4 @@
-# springboot-axon
+# axon-kafka-springboot-react-keycloak
 
 The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement some [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications.
 
@@ -28,7 +28,7 @@ TODO
 
 ## Start environment
 
-- Open a terminal and inside `springboot-axon` root folder run
+- Open a terminal and inside `axon-kafka-springboot-react-keycloak` root folder run
   ```
   docker-compose up -d
   ```
@@ -40,7 +40,7 @@ TODO
 
 ## Running Applications
 
-Inside `springboot-axon` root folder, run the following commands in different terminals.
+Inside `axon-kafka-springboot-react-keycloak` root folder, run the following commands in different terminals.
 
 - **customer-service**
   ```
@@ -79,7 +79,7 @@ Inside `springboot-axon` root folder, run the following commands in different te
 ## Shutdown
 
 - To stop the applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `springboot-axon` root folder and run
+- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-kafka-springboot-react-keycloak` root folder and run
   ```
   docker-compose down -v
   ```

@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.mycompany</groupId>
-        <artifactId>springboot-axon</artifactId>
+        <artifactId>axon-kafka-springboot-react-keycloak</artifactId>
         <version>0.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
     </parent>
@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <axon.version>4.3.5</axon.version>
+        <axon.spring.version>4.3.5</axon.spring.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
         <springdoc.openapi.version>1.4.3</springdoc.openapi.version>
     </properties>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
-            <version>${axon.version}</version>
+            <version>${axon.spring.version}</version>
         </dependency>
 
         <!-- MapStruct -->
