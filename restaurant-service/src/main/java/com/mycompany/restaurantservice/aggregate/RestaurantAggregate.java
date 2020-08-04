@@ -1,15 +1,18 @@
 package com.mycompany.restaurantservice.aggregate;
 
+import com.mycompany.axoneventcommons.restaurant.RestaurantAddedEvent;
+import com.mycompany.axoneventcommons.restaurant.RestaurantDeletedEvent;
+import com.mycompany.axoneventcommons.restaurant.RestaurantDishAddedEvent;
+import com.mycompany.axoneventcommons.restaurant.RestaurantDishDeletedEvent;
+import com.mycompany.axoneventcommons.restaurant.RestaurantDishUpdatedEvent;
+import com.mycompany.axoneventcommons.restaurant.RestaurantUpdatedEvent;
+import com.mycompany.axoneventcommons.util.MyStringUtils;
 import com.mycompany.restaurantservice.command.AddRestaurantCommand;
 import com.mycompany.restaurantservice.command.AddRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.DeleteRestaurantCommand;
 import com.mycompany.restaurantservice.command.DeleteRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantCommand;
-import com.mycompany.restaurantservice.event.RestaurantAddedEvent;
-import com.mycompany.restaurantservice.event.RestaurantDeletedEvent;
-import com.mycompany.restaurantservice.event.RestaurantDishAddedEvent;
-import com.mycompany.restaurantservice.event.RestaurantDishDeletedEvent;
-import com.mycompany.restaurantservice.event.RestaurantUpdatedEvent;
+import com.mycompany.restaurantservice.command.UpdateRestaurantDishCommand;
 import com.mycompany.restaurantservice.exception.DishNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +53,8 @@ public class RestaurantAggregate {
 
     @CommandHandler
     public void handle(UpdateRestaurantCommand command) {
-        AggregateLifecycle.apply(new RestaurantUpdatedEvent(command.getId(), command.getName()));
+        String newName = MyStringUtils.getTrimmedValueOrElse(command.getName(), this.name);
+        AggregateLifecycle.apply(new RestaurantUpdatedEvent(command.getId(), newName));
     }
 
     @EventSourcingHandler
@@ -83,6 +87,30 @@ public class RestaurantAggregate {
     public void on(RestaurantDishAddedEvent event) {
         this.id = event.getRestaurantId();
         this.dishes.add(new Dish(event.getDishId(), event.getDishName(), event.getDishPrice()));
+    }
+
+    // -- Update Restaurant Dish
+
+    @CommandHandler
+    public void handle(UpdateRestaurantDishCommand command) {
+        this.dishes.stream().filter(d -> d.getId().equals(command.getDishId())).findAny()
+                .ifPresentOrElse(d -> {
+                    String newName = MyStringUtils.getTrimmedValueOrElse(command.getDishName(), d.getName());
+                    Float newPrice = command.getDishPrice() == null ? d.getPrice() : command.getDishPrice();
+                    AggregateLifecycle.apply(new RestaurantDishUpdatedEvent(command.getRestaurantId(), command.getDishId(), newName, newPrice));
+                }, () -> {
+                    throw new DishNotFoundException(command.getRestaurantId(), command.getDishId());
+                });
+    }
+
+    @EventSourcingHandler
+    public void on(RestaurantDishUpdatedEvent event) {
+        this.id = event.getRestaurantId();
+        this.dishes.stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
+                .ifPresent(d -> {
+                    d.setName(event.getDishName());
+                    d.setPrice(event.getDishPrice());
+                });
     }
 
     // -- Delete Restaurant Dish

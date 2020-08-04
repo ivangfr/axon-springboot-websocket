@@ -22,6 +22,7 @@
     </properties>
 
     <modules>
+        <module>axon-event-commons</module>
         <module>customer-service</module>
         <module>restaurant-service</module>
         <module>food-ordering-service</module>

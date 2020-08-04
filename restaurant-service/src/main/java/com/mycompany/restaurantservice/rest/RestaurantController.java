@@ -5,6 +5,7 @@ import com.mycompany.restaurantservice.command.AddRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.DeleteRestaurantCommand;
 import com.mycompany.restaurantservice.command.DeleteRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantCommand;
+import com.mycompany.restaurantservice.command.UpdateRestaurantDishCommand;
 import com.mycompany.restaurantservice.mapper.RestaurantMapper;
 import com.mycompany.restaurantservice.model.Restaurant;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
@@ -12,6 +13,7 @@ import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantRequest;
 import com.mycompany.restaurantservice.rest.dto.RestaurantDto;
+import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -79,6 +81,13 @@ public class RestaurantController {
     public CompletableFuture<String> addRestaurantDish(@PathVariable UUID restaurantId,
                                                        @Valid @RequestBody AddRestaurantDishRequest request) {
         return commandGateway.send(new AddRestaurantDishCommand(restaurantId.toString(), UUID.randomUUID().toString(),
+                request.getName(), request.getPrice()));
+    }
+
+    @PatchMapping("/{restaurantId}/dishes/{dishId}")
+    public CompletableFuture<String> updateRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId,
+                                                          @Valid @RequestBody UpdateRestaurantDishRequest request) {
+        return commandGateway.send(new UpdateRestaurantDishCommand(restaurantId.toString(), dishId.toString(),
                 request.getName(), request.getPrice()));
     }
 

@@ -42,6 +42,11 @@ TODO
 
 Inside `axon-kafka-springboot-react-keycloak` root folder, run the following commands in different terminals.
 
+- **axon-event-commons**
+  ```
+  ./mvnw clean install --projects axon-event-commons
+  ```
+
 - **customer-service**
   ```
   ./mvnw clean spring-boot:run --projects customer-service -Dspring-boot.run.jvmArguments="-Dserver.port=9080"

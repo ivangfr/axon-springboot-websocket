@@ -22,18 +22,18 @@ public class OrderRepositoryProjector {
     private final OrderRepository orderRepository;
 
     @QueryHandler
-    public List<Order> getOrders(GetOrdersQuery query) {
+    public List<Order> on(GetOrdersQuery query) {
         return orderRepository.findAll();
     }
 
     @QueryHandler
-    public Order getOrder(GetOrderQuery query) {
+    public Order on(GetOrderQuery query) {
         return orderRepository.findById(query.getId())
                 .orElseThrow(() -> new OrderNotFoundException(query.getId()));
     }
 
     @EventHandler
-    public void openOrder(OrderOpenedEvent event) {
+    public void on(OrderOpenedEvent event) {
         Order order = new Order();
         order.setId(event.getOrderId());
         order.setCustomerId(event.getCustomerId());
@@ -43,7 +43,7 @@ public class OrderRepositoryProjector {
     }
 
     @EventHandler
-    public void addOrderItem(OrderItemAddedEvent event) {
+    public void on(OrderItemAddedEvent event) {
         orderRepository.findById(event.getOrderId())
                 .ifPresent(o -> {
                     OrderItem orderItem = new OrderItem();
@@ -57,7 +57,7 @@ public class OrderRepositoryProjector {
     }
 
     @EventHandler
-    public void deleteOrderItem(OrderItemDeletedEvent event) {
+    public void on(OrderItemDeletedEvent event) {
         orderRepository.findById(event.getOrderId())
                 .ifPresent(o -> {
                     o.getItems().removeIf(i -> i.getId().equals(event.getItemId()));

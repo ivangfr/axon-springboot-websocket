@@ -4,16 +4,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Data
 public class OpenOrderRequest {
 
-    @Schema(example = "abc")
+    @Schema(example = "...")
     @NotBlank
-    private String customerId;
+    private UUID customerId;
 
-    @Schema(example = "def")
+    @Schema(example = "...")
     @NotBlank
-    private String restaurantId;
+    private UUID restaurantId;
 
 }

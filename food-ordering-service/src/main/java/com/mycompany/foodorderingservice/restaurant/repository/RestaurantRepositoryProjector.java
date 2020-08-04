@@ -1,4 +1,4 @@
-package com.mycompany.restaurantservice.repository;
+package com.mycompany.foodorderingservice.restaurant.repository;
 
 import com.mycompany.axoneventcommons.restaurant.RestaurantAddedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDeletedEvent;
@@ -6,38 +6,27 @@ import com.mycompany.axoneventcommons.restaurant.RestaurantDishAddedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDishDeletedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDishUpdatedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantUpdatedEvent;
-import com.mycompany.restaurantservice.exception.RestaurantNotFoundException;
-import com.mycompany.restaurantservice.model.Dish;
-import com.mycompany.restaurantservice.model.Restaurant;
-import com.mycompany.restaurantservice.query.GetRestaurantQuery;
-import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
+import com.mycompany.foodorderingservice.restaurant.model.Dish;
+import com.mycompany.foodorderingservice.restaurant.model.Restaurant;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
+@ProcessingGroup("kafka-axon-event-processor")
 @Service
 public class RestaurantRepositoryProjector {
 
     private final RestaurantRepository restaurantRepository;
 
-    @QueryHandler
-    public List<Restaurant> on(GetRestaurantsQuery query) {
-        return restaurantRepository.findAll();
-    }
-
-    @QueryHandler
-    public Restaurant on(GetRestaurantQuery query) {
-        return restaurantRepository.findById(query.getId())
-                .orElseThrow(() -> new RestaurantNotFoundException(query.getId()));
-    }
-
     @EventHandler
     public void on(RestaurantAddedEvent event) {
+        log.info("Received: {}", event);
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
@@ -47,6 +36,7 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void on(RestaurantUpdatedEvent event) {
+        log.info("Received: {}", event);
         restaurantRepository.findById(event.getId())
                 .ifPresent(r -> {
                     r.setName(event.getName());
@@ -56,14 +46,20 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void on(RestaurantDeletedEvent event) {
+        log.info("Received: {}", event);
         restaurantRepository.findById(event.getId()).ifPresent(restaurantRepository::delete);
     }
 
     @EventHandler
     public void on(RestaurantDishAddedEvent event) {
+        log.info("Received: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
-                    Dish dish = new Dish(event.getDishId(), event.getDishName(), event.getDishPrice());
+                    Dish dish = new Dish();
+                    dish.setId(event.getDishId());
+                    dish.setName(event.getDishName());
+                    dish.setPrice(event.getDishPrice());
+                    dish.setRestaurant(r);
                     r.getDishes().add(dish);
                     restaurantRepository.save(r);
                 });
@@ -71,6 +67,7 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void on(RestaurantDishUpdatedEvent event) {
+        log.info("Received: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> r.getDishes().stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
                         .ifPresent(d -> {
@@ -82,6 +79,7 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void on(RestaurantDishDeletedEvent event) {
+        log.info("Received: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
                     r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));

@@ -7,9 +7,21 @@ spring:
       port: 27017
       database: restaurantdb
 
-#axon:
+axon:
 #  serializer:
 #    general: jackson
+  kafka:
+    bootstrap-servers: localhost:9092
+    client-id: ${spring.application.name}
+    default-topic: axon.events
+#    properties:
+#      security.protocol: PLAINTEXT
+#    publisher:
+#      confirmation-mode: transactional
+    producer:
+#      transaction-id-prefix: ${spring.application.name}.
+      retries: 3
+      event-processor-mode: subscribing
 
 management:
   endpoints:

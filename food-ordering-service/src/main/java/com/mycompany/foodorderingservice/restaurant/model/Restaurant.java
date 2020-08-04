@@ -25,8 +25,4 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dish> dishes;
 
-    public Restaurant(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

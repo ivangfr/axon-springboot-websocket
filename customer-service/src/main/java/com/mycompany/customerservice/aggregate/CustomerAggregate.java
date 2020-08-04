@@ -1,11 +1,12 @@
 package com.mycompany.customerservice.aggregate;
 
+import com.mycompany.axoneventcommons.customer.CustomerAddedEvent;
+import com.mycompany.axoneventcommons.customer.CustomerDeletedEvent;
+import com.mycompany.axoneventcommons.customer.CustomerUpdatedEvent;
+import com.mycompany.axoneventcommons.util.MyStringUtils;
 import com.mycompany.customerservice.command.AddCustomerCommand;
 import com.mycompany.customerservice.command.DeleteCustomerCommand;
 import com.mycompany.customerservice.command.UpdateCustomerCommand;
-import com.mycompany.customerservice.event.CustomerAddedEvent;
-import com.mycompany.customerservice.event.CustomerDeletedEvent;
-import com.mycompany.customerservice.event.CustomerUpdatedEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -40,7 +41,9 @@ public class CustomerAggregate {
 
     @CommandHandler
     public void handle(UpdateCustomerCommand command) {
-        AggregateLifecycle.apply(new CustomerUpdatedEvent(command.getId(), command.getName(), command.getAddress()));
+        String newName = MyStringUtils.getTrimmedValueOrElse(command.getName(), this.name);
+        String newAddress = MyStringUtils.getTrimmedValueOrElse(command.getAddress(), this.address);
+        AggregateLifecycle.apply(new CustomerUpdatedEvent(command.getId(), newName, newAddress));
     }
 
     @EventSourcingHandler

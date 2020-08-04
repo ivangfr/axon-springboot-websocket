@@ -1,9 +1,7 @@
 package com.mycompany.foodorderingservice.restaurant.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
@@ -15,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = "restaurant")
 @EqualsAndHashCode(exclude = "restaurant")
 @Entity

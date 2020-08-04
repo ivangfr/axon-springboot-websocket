@@ -1,4 +1,4 @@
-package com.mycompany.customerservice.event;
+package com.mycompany.axoneventcommons.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDeletedEvent {
+public class CustomerDeletedEvent implements CustomerEvent {
 
     private String id;
 
