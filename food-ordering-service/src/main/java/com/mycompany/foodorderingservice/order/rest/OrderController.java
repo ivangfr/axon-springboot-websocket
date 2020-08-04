@@ -55,7 +55,7 @@ public class OrderController {
     @PostMapping
     public CompletableFuture<String> openOrder(@Valid @RequestBody OpenOrderRequest request) {
         String orderId = UUID.randomUUID().toString();
-        return commandGateway.send(new OpenOrderCommand(orderId, request.getCustomerId(), request.getRestaurantId()));
+        return commandGateway.send(new OpenOrderCommand(orderId, request.getCustomerId().toString(), request.getRestaurantId().toString()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,7 +63,7 @@ public class OrderController {
     public CompletableFuture<String> addOrderItem(@PathVariable UUID orderId,
                                                   @Valid @RequestBody AddOrderItemRequest request) {
         Float dishPrice = 10.99f;
-        return commandGateway.send(new AddOrderItemCommand(orderId.toString(), request.getDishId(), dishPrice, request.getQuantity()));
+        return commandGateway.send(new AddOrderItemCommand(orderId.toString(), request.getDishId().toString(), dishPrice, request.getQuantity()));
     }
 
     @DeleteMapping("/{orderId}/items/{itemId}")
