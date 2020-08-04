@@ -10,6 +10,7 @@ import com.mycompany.restaurantservice.event.RestaurantDeletedEvent;
 import com.mycompany.restaurantservice.event.RestaurantDishAddedEvent;
 import com.mycompany.restaurantservice.event.RestaurantDishDeletedEvent;
 import com.mycompany.restaurantservice.event.RestaurantUpdatedEvent;
+import com.mycompany.restaurantservice.exception.DishNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -88,6 +89,9 @@ public class RestaurantAggregate {
 
     @CommandHandler
     public void handle(DeleteRestaurantDishCommand command) {
+        if (this.dishes.stream().noneMatch(d -> d.getId().equals(command.getDishId()))) {
+            throw new DishNotFoundException(command.getRestaurantId(), command.getDishId());
+        }
         AggregateLifecycle.apply(new RestaurantDishDeletedEvent(command.getRestaurantId(), command.getDishId()));
     }
 

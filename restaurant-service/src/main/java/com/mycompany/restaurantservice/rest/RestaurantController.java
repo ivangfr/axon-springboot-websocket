@@ -13,7 +13,6 @@ import com.mycompany.restaurantservice.rest.dto.AddRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantRequest;
 import com.mycompany.restaurantservice.rest.dto.RestaurantDto;
 import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantRequest;
-import com.mycompany.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -42,7 +41,6 @@ public class RestaurantController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-    private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
 
     @GetMapping
@@ -68,14 +66,11 @@ public class RestaurantController {
     @PatchMapping("/{restaurantId}")
     public CompletableFuture<String> updateRestaurant(@PathVariable UUID restaurantId,
                                                       @Valid @RequestBody UpdateRestaurantRequest request) {
-        Restaurant restaurant = restaurantService.validateAndGetRestaurant(restaurantId.toString());
-        String name = request.getName() == null ? restaurant.getName() : request.getName();
-        return commandGateway.send(new UpdateRestaurantCommand(restaurant.getId(), name));
+        return commandGateway.send(new UpdateRestaurantCommand(restaurantId.toString(), request.getName()));
     }
 
     @DeleteMapping("/{restaurantId}")
     public CompletableFuture<String> deleteRestaurant(@PathVariable UUID restaurantId) {
-        restaurantService.validateAndGetRestaurant(restaurantId.toString());
         return commandGateway.send(new DeleteRestaurantCommand(restaurantId.toString()));
     }
 
@@ -83,14 +78,12 @@ public class RestaurantController {
     @PostMapping("/{restaurantId}/dishes")
     public CompletableFuture<String> addRestaurantDish(@PathVariable UUID restaurantId,
                                                        @Valid @RequestBody AddRestaurantDishRequest request) {
-        restaurantService.validateAndGetRestaurant(restaurantId.toString());
         return commandGateway.send(new AddRestaurantDishCommand(restaurantId.toString(), UUID.randomUUID().toString(),
                 request.getName(), request.getPrice()));
     }
 
     @DeleteMapping("/{restaurantId}/dishes/{dishId}")
     public CompletableFuture<String> deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
-        restaurantService.validateAndGetRestaurantDish(restaurantId.toString(), dishId.toString());
         return commandGateway.send(new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
     }
 

@@ -10,7 +10,6 @@ import com.mycompany.customerservice.query.GetCustomersQuery;
 import com.mycompany.customerservice.rest.dto.AddCustomerRequest;
 import com.mycompany.customerservice.rest.dto.CustomerDto;
 import com.mycompany.customerservice.rest.dto.UpdateCustomerRequest;
-import com.mycompany.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -39,7 +38,6 @@ public class CustomerController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-    private final CustomerService customerService;
     private final CustomerMapper customerMapper;
 
     @GetMapping
@@ -63,15 +61,11 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public CompletableFuture<String> updateCustomer(@PathVariable String id,
                                                     @Valid @RequestBody UpdateCustomerRequest request) {
-        Customer customer = customerService.validateAndGetCustomer(id);
-        String name = request.getName() == null ? customer.getName() : request.getName();
-        String address = request.getAddress() == null ? customer.getAddress() : request.getAddress();
-        return commandGateway.send(new UpdateCustomerCommand(id, name, address));
+        return commandGateway.send(new UpdateCustomerCommand(id, request.getName(), request.getAddress()));
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<String> deleteCustomer(@PathVariable String id) {
-        customerService.validateAndGetCustomer(id);
         return commandGateway.send(new DeleteCustomerCommand(id));
     }
 

@@ -6,6 +6,7 @@ import com.mycompany.foodorderingservice.order.command.OpenOrderCommand;
 import com.mycompany.foodorderingservice.order.event.OrderItemAddedEvent;
 import com.mycompany.foodorderingservice.order.event.OrderItemDeletedEvent;
 import com.mycompany.foodorderingservice.order.event.OrderOpenedEvent;
+import com.mycompany.foodorderingservice.order.exception.OrderItemNotFoundException;
 import com.mycompany.foodorderingservice.order.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -69,6 +70,9 @@ public class OrderAggregate {
 
     @CommandHandler
     public void handle(DeleteOrderItemCommand command) {
+        if (this.items.stream().noneMatch(i -> i.getId().equals(command.getItemId()))) {
+            throw new OrderItemNotFoundException(command.getOrderId(), command.getItemId());
+        }
         AggregateLifecycle.apply(new OrderItemDeletedEvent(command.getOrderId(), command.getItemId()));
     }
 
