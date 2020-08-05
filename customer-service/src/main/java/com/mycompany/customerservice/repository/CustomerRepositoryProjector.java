@@ -21,18 +21,18 @@ public class CustomerRepositoryProjector {
     private final CustomerRepository customerRepository;
 
     @QueryHandler
-    public List<Customer> on(GetCustomersQuery query) {
+    public List<Customer> handle(GetCustomersQuery query) {
         return customerRepository.findAll();
     }
 
     @QueryHandler
-    public Customer on(GetCustomerQuery query) {
+    public Customer handle(GetCustomerQuery query) {
         return customerRepository.findById(query.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(query.getId()));
     }
 
     @EventHandler
-    public void on(CustomerAddedEvent event) {
+    public void handle(CustomerAddedEvent event) {
         Customer customer = new Customer();
         customer.setId(event.getId());
         customer.setName(event.getName());
@@ -41,7 +41,7 @@ public class CustomerRepositoryProjector {
     }
 
     @EventHandler
-    public void on(CustomerUpdatedEvent event) {
+    public void handle(CustomerUpdatedEvent event) {
         customerRepository.findById(event.getId())
                 .ifPresent(c -> {
                     c.setName(event.getName());
@@ -51,7 +51,7 @@ public class CustomerRepositoryProjector {
     }
 
     @EventHandler
-    public void on(CustomerDeletedEvent event) {
+    public void handle(CustomerDeletedEvent event) {
         customerRepository.findById(event.getId()).ifPresent(customerRepository::delete);
     }
 

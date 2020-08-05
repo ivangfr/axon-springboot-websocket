@@ -41,14 +41,19 @@ public class OrderAggregate {
 
     @CommandHandler
     public OrderAggregate(OpenOrderCommand command) {
-        AggregateLifecycle.apply(new OrderOpenedEvent(command.getOrderId(), command.getCustomerId(), command.getRestaurantId(), OrderStatus.OPENED));
+        AggregateLifecycle.apply(new OrderOpenedEvent(command.getOrderId(),
+                command.getCustomerId(), command.getCustomerName(), command.getCustomerAddress(),
+                command.getRestaurantId(), command.getRestaurantName(), OrderStatus.OPENED));
     }
 
     @EventSourcingHandler
-    public void on(OrderOpenedEvent event) {
+    public void handle(OrderOpenedEvent event) {
         this.orderId = event.getOrderId();
         this.customerId = event.getCustomerId();
+        this.customerName = event.getCustomerName();
+        this.customerAddress = event.getCustomerAddress();
         this.restaurantId = event.getRestaurantId();
+        this.restaurantName = event.getRestaurantName();
         this.status = event.getStatus();
         this.items = new LinkedHashSet<>();
     }
@@ -57,13 +62,14 @@ public class OrderAggregate {
 
     @CommandHandler
     public void handle(AddOrderItemCommand command) {
-        AggregateLifecycle.apply(new OrderItemAddedEvent(command.getOrderId(), command.getItemId(), command.getItemPrice(), command.getQuantity()));
+        AggregateLifecycle.apply(new OrderItemAddedEvent(command.getOrderId(), command.getItemId(), command.getDishId(),
+                command.getDishName(), command.getDishPrice(), command.getQuantity()));
     }
 
     @EventSourcingHandler
-    public void on(OrderItemAddedEvent event) {
+    public void handle(OrderItemAddedEvent event) {
         this.orderId = event.getOrderId();
-        this.items.add(new OrderItem(event.getItemId(), event.getItemPrice(), event.getQuantity()));
+        this.items.add(new OrderItem(event.getItemId(), event.getDishId(), event.getDishName(), event.getDishPrice(), event.getQuantity()));
     }
 
     // -- Delete Order Item
@@ -77,7 +83,7 @@ public class OrderAggregate {
     }
 
     @EventSourcingHandler
-    public void on(OrderItemDeletedEvent event) {
+    public void handle(OrderItemDeletedEvent event) {
         this.orderId = event.getOrderId();
         this.items.removeIf(i -> i.getId().equals(event.getItemId()));
     }
@@ -88,7 +94,9 @@ public class OrderAggregate {
     public static class OrderItem {
 
         private String id;
-        private Float price;
+        private String dishId;
+        private String dishName;
+        private Float dishPrice;
         private Short quantity;
     }
 

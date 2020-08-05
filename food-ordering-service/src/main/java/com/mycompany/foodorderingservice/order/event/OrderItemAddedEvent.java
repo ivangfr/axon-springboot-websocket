@@ -11,7 +11,9 @@ public class OrderItemAddedEvent {
 
     private String orderId;
     private String itemId;
-    private Float itemPrice;
+    private String dishId;
+    private String dishName;
+    private Float dishPrice;
     private Short quantity;
 
 }

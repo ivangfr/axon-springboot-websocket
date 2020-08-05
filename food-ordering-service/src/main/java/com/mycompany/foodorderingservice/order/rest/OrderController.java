@@ -1,5 +1,7 @@
 package com.mycompany.foodorderingservice.order.rest;
 
+import com.mycompany.foodorderingservice.customer.model.Customer;
+import com.mycompany.foodorderingservice.customer.service.CustomerService;
 import com.mycompany.foodorderingservice.order.command.AddOrderItemCommand;
 import com.mycompany.foodorderingservice.order.command.DeleteOrderItemCommand;
 import com.mycompany.foodorderingservice.order.command.OpenOrderCommand;
@@ -10,6 +12,10 @@ import com.mycompany.foodorderingservice.order.query.GetOrdersQuery;
 import com.mycompany.foodorderingservice.order.rest.dto.AddOrderItemRequest;
 import com.mycompany.foodorderingservice.order.rest.dto.OpenOrderRequest;
 import com.mycompany.foodorderingservice.order.rest.dto.OrderDto;
+import com.mycompany.foodorderingservice.restaurant.model.Dish;
+import com.mycompany.foodorderingservice.restaurant.model.Restaurant;
+import com.mycompany.foodorderingservice.restaurant.service.DishService;
+import com.mycompany.foodorderingservice.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -37,6 +43,9 @@ public class OrderController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
+    private final CustomerService customerService;
+    private final RestaurantService restaurantService;
+    private final DishService dishService;
     private final OrderMapper orderMapper;
 
     @GetMapping
@@ -54,16 +63,23 @@ public class OrderController {
 
     @PostMapping
     public CompletableFuture<String> openOrder(@Valid @RequestBody OpenOrderRequest request) {
+        Customer customer = customerService.validateAndGetCustomer(request.getCustomerId().toString());
+        Restaurant restaurant = restaurantService.validateAndGetRestaurant(request.getRestaurantId().toString());
         String orderId = UUID.randomUUID().toString();
-        return commandGateway.send(new OpenOrderCommand(orderId, request.getCustomerId().toString(), request.getRestaurantId().toString()));
+
+        return commandGateway.send(new OpenOrderCommand(orderId, customer.getId(), customer.getName(), customer.getAddress(),
+                restaurant.getId(), restaurant.getName()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{orderId}/items")
     public CompletableFuture<String> addOrderItem(@PathVariable UUID orderId,
                                                   @Valid @RequestBody AddOrderItemRequest request) {
-        Float dishPrice = 10.99f;
-        return commandGateway.send(new AddOrderItemCommand(orderId.toString(), request.getDishId().toString(), dishPrice, request.getQuantity()));
+        Dish dish = dishService.validateAndGetDish(request.getDishId().toString());
+        String itemId = UUID.randomUUID().toString();
+
+        return commandGateway.send(new AddOrderItemCommand(orderId.toString(), itemId, dish.getId(), dish.getName(),
+                dish.getPrice(), request.getQuantity()));
     }
 
     @DeleteMapping("/{orderId}/items/{itemId}")

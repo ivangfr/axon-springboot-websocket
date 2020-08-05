@@ -13,6 +13,9 @@ public class OpenOrderCommand {
     @TargetAggregateIdentifier
     private String orderId;
     private String customerId;
+    private String customerName;
+    private String customerAddress;
     private String restaurantId;
+    private String restaurantName;
 
 }

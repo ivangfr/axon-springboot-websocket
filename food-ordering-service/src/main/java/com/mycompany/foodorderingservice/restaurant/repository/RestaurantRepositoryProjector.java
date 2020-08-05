@@ -25,8 +25,8 @@ public class RestaurantRepositoryProjector {
     private final RestaurantRepository restaurantRepository;
 
     @EventHandler
-    public void on(RestaurantAddedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantAddedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
@@ -35,8 +35,8 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantUpdatedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantUpdatedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         restaurantRepository.findById(event.getId())
                 .ifPresent(r -> {
                     r.setName(event.getName());
@@ -45,14 +45,14 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDeletedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantDeletedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         restaurantRepository.findById(event.getId()).ifPresent(restaurantRepository::delete);
     }
 
     @EventHandler
-    public void on(RestaurantDishAddedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantDishAddedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
                     Dish dish = new Dish();
@@ -66,8 +66,8 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDishUpdatedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantDishUpdatedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> r.getDishes().stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
                         .ifPresent(d -> {
@@ -78,8 +78,8 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDishDeletedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(RestaurantDishDeletedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
                     r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));

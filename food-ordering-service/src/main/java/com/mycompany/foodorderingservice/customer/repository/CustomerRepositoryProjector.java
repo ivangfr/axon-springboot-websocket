@@ -19,8 +19,8 @@ public class CustomerRepositoryProjector {
     private final CustomerRepository customerRepository;
 
     @EventHandler
-    public void on(CustomerAddedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(CustomerAddedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         Customer customer = new Customer();
         customer.setId(event.getId());
         customer.setName(event.getName());
@@ -29,8 +29,8 @@ public class CustomerRepositoryProjector {
     }
 
     @EventHandler
-    public void on(CustomerUpdatedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(CustomerUpdatedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         customerRepository.findById(event.getId())
                 .ifPresent(c -> {
                     c.setName(event.getName() == null ? c.getName() : event.getName());
@@ -40,8 +40,8 @@ public class CustomerRepositoryProjector {
     }
 
     @EventHandler
-    public void on(CustomerDeletedEvent event) {
-        log.info("Received: {}", event);
+    public void handle(CustomerDeletedEvent event) {
+        log.info("<=[K] Received a message: {}", event);
         customerRepository.findById(event.getId()).ifPresent(customerRepository::delete);
     }
 

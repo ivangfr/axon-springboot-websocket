@@ -43,7 +43,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantAddedEvent event) {
+    public void handle(RestaurantAddedEvent event) {
         this.id = event.getId();
         this.name = event.getName();
         this.dishes = new LinkedHashSet<>();
@@ -58,7 +58,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantUpdatedEvent event) {
+    public void handle(RestaurantUpdatedEvent event) {
         this.id = event.getId();
         this.name = event.getName();
     }
@@ -71,7 +71,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantDeletedEvent event) {
+    public void handle(RestaurantDeletedEvent event) {
         AggregateLifecycle.markDeleted();
     }
 
@@ -84,7 +84,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantDishAddedEvent event) {
+    public void handle(RestaurantDishAddedEvent event) {
         this.id = event.getRestaurantId();
         this.dishes.add(new Dish(event.getDishId(), event.getDishName(), event.getDishPrice()));
     }
@@ -104,7 +104,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantDishUpdatedEvent event) {
+    public void handle(RestaurantDishUpdatedEvent event) {
         this.id = event.getRestaurantId();
         this.dishes.stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
                 .ifPresent(d -> {
@@ -124,7 +124,7 @@ public class RestaurantAggregate {
     }
 
     @EventSourcingHandler
-    public void on(RestaurantDishDeletedEvent event) {
+    public void handle(RestaurantDishDeletedEvent event) {
         this.id = event.getRestaurantId();
         this.dishes.removeIf(d -> d.getId().equals(event.getDishId()));
     }

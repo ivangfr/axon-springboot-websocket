@@ -3,7 +3,7 @@ spring:
     name: food-ordering-service
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3307/foodorderingdb?characterEncoding=UTF-8&serverTimezone=UTC
     username: root

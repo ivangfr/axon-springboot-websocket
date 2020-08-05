@@ -1,6 +1,6 @@
-package com.mycompany.restaurantservice.kafka;
+package com.mycompany.customerservice.kafka;
 
-import com.mycompany.axoneventcommons.restaurant.RestaurantEvent;
+import com.mycompany.axoneventcommons.customer.CustomerEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
@@ -11,14 +11,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class AxonEventPublisher {
+public class KafkaAxonEventPublisher {
 
     private final KafkaPublisher<String, byte[]> kafkaPublisher;
 
     @EventHandler
-    public void on(RestaurantEvent event) {
-        kafkaPublisher.send(new GenericEventMessage<>(event));
-        log.info("Sent: {}", event);
+    public void handle(CustomerEvent event) {
+        GenericEventMessage<CustomerEvent> eventMessage = new GenericEventMessage<>(event);
+        kafkaPublisher.send(eventMessage);
+        log.info("[K]=> Publishing a Kafka message: {}", eventMessage);
     }
 
 }

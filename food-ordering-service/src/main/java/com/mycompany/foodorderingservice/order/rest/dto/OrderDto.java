@@ -20,8 +20,9 @@ public class OrderDto {
     @Data
     public static class OrderItem {
         private String id;
-        private String name;
-        private Float price;
+        private String dishId;
+        private String dishName;
+        private Float dishPrice;
         private Short quantity;
     }
 

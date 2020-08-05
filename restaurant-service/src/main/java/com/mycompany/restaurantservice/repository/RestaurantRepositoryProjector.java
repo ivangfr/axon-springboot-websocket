@@ -26,18 +26,18 @@ public class RestaurantRepositoryProjector {
     private final RestaurantRepository restaurantRepository;
 
     @QueryHandler
-    public List<Restaurant> on(GetRestaurantsQuery query) {
+    public List<Restaurant> handle(GetRestaurantsQuery query) {
         return restaurantRepository.findAll();
     }
 
     @QueryHandler
-    public Restaurant on(GetRestaurantQuery query) {
+    public Restaurant handle(GetRestaurantQuery query) {
         return restaurantRepository.findById(query.getId())
                 .orElseThrow(() -> new RestaurantNotFoundException(query.getId()));
     }
 
     @EventHandler
-    public void on(RestaurantAddedEvent event) {
+    public void handle(RestaurantAddedEvent event) {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
@@ -46,7 +46,7 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantUpdatedEvent event) {
+    public void handle(RestaurantUpdatedEvent event) {
         restaurantRepository.findById(event.getId())
                 .ifPresent(r -> {
                     r.setName(event.getName());
@@ -55,12 +55,12 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDeletedEvent event) {
+    public void handle(RestaurantDeletedEvent event) {
         restaurantRepository.findById(event.getId()).ifPresent(restaurantRepository::delete);
     }
 
     @EventHandler
-    public void on(RestaurantDishAddedEvent event) {
+    public void handle(RestaurantDishAddedEvent event) {
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
                     Dish dish = new Dish(event.getDishId(), event.getDishName(), event.getDishPrice());
@@ -70,7 +70,7 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDishUpdatedEvent event) {
+    public void handle(RestaurantDishUpdatedEvent event) {
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> r.getDishes().stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
                         .ifPresent(d -> {
@@ -81,7 +81,7 @@ public class RestaurantRepositoryProjector {
     }
 
     @EventHandler
-    public void on(RestaurantDishDeletedEvent event) {
+    public void handle(RestaurantDishDeletedEvent event) {
         restaurantRepository.findById(event.getRestaurantId())
                 .ifPresent(r -> {
                     r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));

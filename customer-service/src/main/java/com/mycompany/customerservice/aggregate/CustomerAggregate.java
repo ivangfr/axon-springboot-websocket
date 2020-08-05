@@ -31,7 +31,7 @@ public class CustomerAggregate {
     }
 
     @EventSourcingHandler
-    public void on(CustomerAddedEvent event) {
+    public void handle(CustomerAddedEvent event) {
         this.id = event.getId();
         this.name = event.getName();
         this.address = event.getAddress();
@@ -47,7 +47,7 @@ public class CustomerAggregate {
     }
 
     @EventSourcingHandler
-    public void on(CustomerUpdatedEvent event) {
+    public void handle(CustomerUpdatedEvent event) {
         this.id = event.getId();
         this.name = event.getName();
         this.address = event.getAddress();
@@ -61,7 +61,7 @@ public class CustomerAggregate {
     }
 
     @EventSourcingHandler
-    public void on(CustomerDeletedEvent event) {
+    public void handle(CustomerDeletedEvent event) {
         AggregateLifecycle.markDeleted();
     }
 

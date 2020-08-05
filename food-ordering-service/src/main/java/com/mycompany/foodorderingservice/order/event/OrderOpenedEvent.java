@@ -12,7 +12,10 @@ public class OrderOpenedEvent {
 
     private String orderId;
     private String customerId;
+    private String customerName;
+    private String customerAddress;
     private String restaurantId;
+    private String restaurantName;
     private OrderStatus status;
 
 }

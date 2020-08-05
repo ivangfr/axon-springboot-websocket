@@ -19,8 +19,9 @@ public class OrderItem {
 
     @Id
     private String id;
-    private String name;
-    private Float price;
+    private String dishId;
+    private String dishName;
+    private Float dishPrice;
     private Short quantity;
 
     //@ManyToOne(fetch = FetchType.LAZY)

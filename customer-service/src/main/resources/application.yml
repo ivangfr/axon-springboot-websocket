@@ -3,7 +3,7 @@ spring:
     name: customer-service
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3306/customerdb?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
