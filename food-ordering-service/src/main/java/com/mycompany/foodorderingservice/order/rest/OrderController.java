@@ -5,6 +5,7 @@ import com.mycompany.foodorderingservice.customer.service.CustomerService;
 import com.mycompany.foodorderingservice.order.command.AddOrderItemCommand;
 import com.mycompany.foodorderingservice.order.command.DeleteOrderItemCommand;
 import com.mycompany.foodorderingservice.order.command.OpenOrderCommand;
+import com.mycompany.foodorderingservice.order.command.SubmitOrderCommand;
 import com.mycompany.foodorderingservice.order.mapper.OrderMapper;
 import com.mycompany.foodorderingservice.order.model.Order;
 import com.mycompany.foodorderingservice.order.query.GetOrderQuery;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -61,7 +63,8 @@ public class OrderController {
                 .thenApply(orderMapper::toOrderDto);
     }
 
-    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/open")
     public CompletableFuture<String> openOrder(@Valid @RequestBody OpenOrderRequest request) {
         Customer customer = customerService.validateAndGetCustomer(request.getCustomerId().toString());
         Restaurant restaurant = restaurantService.validateAndGetRestaurant(request.getRestaurantId().toString());
@@ -71,7 +74,11 @@ public class OrderController {
                 restaurant.getId(), restaurant.getName()));
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/{orderId}/submit")
+    public CompletableFuture<String> submitOrder(@PathVariable UUID orderId) {
+        return commandGateway.send(new SubmitOrderCommand(orderId.toString()));
+    }
+
     @PostMapping("/{orderId}/items")
     public CompletableFuture<String> addOrderItem(@PathVariable UUID orderId,
                                                   @Valid @RequestBody AddOrderItemRequest request) {

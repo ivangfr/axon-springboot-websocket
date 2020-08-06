@@ -15,6 +15,7 @@ public class OrderDto {
     private String restaurantId;
     private String restaurantName;
     private OrderStatus status;
+    private Float total;
     private Set<OrderItem> items;
 
     @Data

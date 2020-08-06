@@ -1,6 +1,5 @@
-package com.mycompany.foodorderingservice.order.event;
+package com.mycompany.axoneventcommons.order;
 
-import com.mycompany.foodorderingservice.order.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderOpenedEvent {
+public class OrderOpenedEvent implements OrderEvent {
 
     private String orderId;
     private String customerId;
@@ -16,6 +15,6 @@ public class OrderOpenedEvent {
     private String customerAddress;
     private String restaurantId;
     private String restaurantName;
-    private OrderStatus status;
+    private String status;
 
 }

@@ -23,14 +23,16 @@ public class Order {
 
     @Id
     private String id;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    private Float total = 0.0f;
     private String customerId;
     private String customerName;
     private String customerAddress;
     private String restaurantId;
     private String restaurantName;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
 
     //@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
