@@ -21,6 +21,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class OrderAggregate {
     @AggregateIdentifier
     private String orderId;
     private OrderStatus status;
-    private Float total;
+    private BigDecimal total;
 
     private String customerId;
     private String customerName;
@@ -55,7 +56,7 @@ public class OrderAggregate {
     public void handle(OrderOpenedEvent event) {
         this.orderId = event.getOrderId();
         this.status = OrderStatus.valueOf(event.getStatus());
-        this.total = 0.0f;
+        this.total = BigDecimal.ZERO;
         this.customerId = event.getCustomerId();
         this.customerName = event.getCustomerName();
         this.customerAddress = event.getCustomerAddress();
@@ -94,7 +95,7 @@ public class OrderAggregate {
     @EventSourcingHandler
     public void handle(OrderItemAddedEvent event) {
         this.orderId = event.getOrderId();
-        this.total += event.getDishPrice() * event.getQuantity();
+        this.total = this.total.add(event.getDishPrice().multiply(BigDecimal.valueOf(event.getQuantity())));
         this.items.add(new OrderItem(event.getItemId(), event.getDishId(), event.getDishName(), event.getDishPrice(), event.getQuantity()));
     }
 
@@ -113,7 +114,7 @@ public class OrderAggregate {
         this.orderId = event.getOrderId();
         this.items.stream().filter(i -> i.getId().equals(event.getItemId())).findAny()
                 .ifPresent(i -> {
-                    this.total -= i.getDishPrice() * i.getQuantity();
+                    this.total = this.total.subtract(i.getDishPrice().multiply(BigDecimal.valueOf(i.getQuantity())));
                     this.items.remove(i);
                 });
     }
@@ -126,7 +127,7 @@ public class OrderAggregate {
         private String id;
         private String dishId;
         private String dishName;
-        private Float dishPrice;
+        private BigDecimal dishPrice;
         private Short quantity;
     }
 

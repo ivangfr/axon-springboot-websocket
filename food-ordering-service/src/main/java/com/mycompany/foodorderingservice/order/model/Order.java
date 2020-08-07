@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Data
@@ -27,7 +28,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Float total = 0.0f;
+    private BigDecimal total = BigDecimal.ZERO;
     private String customerId;
     private String customerName;
     private String customerAddress;

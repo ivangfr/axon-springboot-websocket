@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 
 @Data
 public class AddRestaurantDishRequest {
@@ -15,6 +16,6 @@ public class AddRestaurantDishRequest {
 
     @Schema(example = "6.99")
     @Positive
-    private Float price;
+    private BigDecimal price;
 
 }

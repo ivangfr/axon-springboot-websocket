@@ -3,6 +3,8 @@ package com.mycompany.restaurantservice.rest.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class UpdateRestaurantDishRequest {
 
@@ -10,6 +12,6 @@ public class UpdateRestaurantDishRequest {
     private String name;
 
     @Schema(example = "7.99")
-    private Float price;
+    private BigDecimal price;
 
 }

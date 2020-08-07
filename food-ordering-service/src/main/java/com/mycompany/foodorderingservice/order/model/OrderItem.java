@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Data
 @ToString(exclude = "order")
@@ -21,7 +22,7 @@ public class OrderItem {
     private String id;
     private String dishId;
     private String dishName;
-    private Float dishPrice;
+    private BigDecimal dishPrice;
     private Short quantity;
 
     //@ManyToOne(fetch = FetchType.LAZY)

@@ -15,6 +15,7 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +67,7 @@ public class OrderRepositoryProjector {
             orderItem.setQuantity(event.getQuantity());
             orderItem.setOrder(o);
             o.getItems().add(orderItem);
-            o.setTotal(orderItem.getDishPrice() * orderItem.getQuantity());
+            o.setTotal(orderItem.getDishPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())));
             orderRepository.save(o);
         });
     }
@@ -78,7 +79,7 @@ public class OrderRepositoryProjector {
                     .filter(i -> i.getId().equals(event.getItemId())).findAny();
             if (orderItemOptional.isPresent()) {
                 OrderItem orderItem = orderItemOptional.get();
-                o.setTotal(o.getTotal() - orderItem.getDishPrice() * orderItem.getQuantity());
+                o.setTotal(o.getTotal().subtract(orderItem.getDishPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity()))));
                 o.getItems().remove(orderItem);
             }
             orderRepository.save(o);

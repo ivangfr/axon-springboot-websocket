@@ -23,6 +23,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -96,7 +97,7 @@ public class RestaurantAggregate {
         this.dishes.stream().filter(d -> d.getId().equals(command.getDishId())).findAny()
                 .ifPresentOrElse(d -> {
                     String newName = MyStringUtils.getTrimmedValueOrElse(command.getDishName(), d.getName());
-                    Float newPrice = command.getDishPrice() == null ? d.getPrice() : command.getDishPrice();
+                    BigDecimal newPrice = command.getDishPrice() == null ? d.getPrice() : command.getDishPrice();
                     AggregateLifecycle.apply(new RestaurantDishUpdatedEvent(command.getRestaurantId(), command.getDishId(), newName, newPrice));
                 }, () -> {
                     throw new DishNotFoundException(command.getRestaurantId(), command.getDishId());
@@ -136,7 +137,7 @@ public class RestaurantAggregate {
 
         private String id;
         private String name;
-        private Float price;
+        private BigDecimal price;
     }
 
 }

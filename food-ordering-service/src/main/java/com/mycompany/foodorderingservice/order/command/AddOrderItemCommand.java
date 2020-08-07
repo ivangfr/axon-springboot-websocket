@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class AddOrderItemCommand {
     private String itemId;
     private String dishId;
     private String dishName;
-    private Float dishPrice;
+    private BigDecimal dishPrice;
     private Short quantity;
 
 }

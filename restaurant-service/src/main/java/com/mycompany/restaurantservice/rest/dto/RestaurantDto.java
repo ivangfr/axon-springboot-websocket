@@ -2,6 +2,7 @@ package com.mycompany.restaurantservice.rest.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -15,7 +16,7 @@ public class RestaurantDto {
     public static class Dish {
         private String id;
         private String name;
-        private Float price;
+        private BigDecimal price;
     }
 
 }
