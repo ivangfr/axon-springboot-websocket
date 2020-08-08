@@ -12,6 +12,7 @@ import com.mycompany.restaurantservice.model.Restaurant;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RestaurantRepositoryProjector {
@@ -38,6 +40,7 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void handle(RestaurantAddedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
@@ -47,32 +50,34 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void handle(RestaurantUpdatedEvent event) {
-        restaurantRepository.findById(event.getId())
-                .ifPresent(r -> {
-                    r.setName(event.getName());
-                    restaurantRepository.save(r);
-                });
+        log.info("<=[E] Received an event: {}", event);
+        restaurantRepository.findById(event.getId()).ifPresent(r -> {
+            r.setName(event.getName());
+            restaurantRepository.save(r);
+        });
     }
 
     @EventHandler
     public void handle(RestaurantDeletedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
         restaurantRepository.findById(event.getId()).ifPresent(restaurantRepository::delete);
     }
 
     @EventHandler
     public void handle(RestaurantDishAddedEvent event) {
-        restaurantRepository.findById(event.getRestaurantId())
-                .ifPresent(r -> {
-                    Dish dish = new Dish(event.getDishId(), event.getDishName(), event.getDishPrice());
-                    r.getDishes().add(dish);
-                    restaurantRepository.save(r);
-                });
+        log.info("<=[E] Received an event: {}", event);
+        restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
+            Dish dish = new Dish(event.getDishId(), event.getDishName(), event.getDishPrice());
+            r.getDishes().add(dish);
+            restaurantRepository.save(r);
+        });
     }
 
     @EventHandler
     public void handle(RestaurantDishUpdatedEvent event) {
-        restaurantRepository.findById(event.getRestaurantId())
-                .ifPresent(r -> r.getDishes().stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
+        log.info("<=[E] Received an event: {}", event);
+        restaurantRepository.findById(event.getRestaurantId()).ifPresent(r ->
+                r.getDishes().stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
                         .ifPresent(d -> {
                             d.setName(event.getDishName());
                             d.setPrice(event.getDishPrice());
@@ -82,11 +87,11 @@ public class RestaurantRepositoryProjector {
 
     @EventHandler
     public void handle(RestaurantDishDeletedEvent event) {
-        restaurantRepository.findById(event.getRestaurantId())
-                .ifPresent(r -> {
-                    r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));
-                    restaurantRepository.save(r);
-                });
+        log.info("<=[E] Received an event: {}", event);
+        restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
+            r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));
+            restaurantRepository.save(r);
+        });
     }
 
 }

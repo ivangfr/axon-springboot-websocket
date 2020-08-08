@@ -94,24 +94,22 @@ public class RestaurantAggregate {
 
     @CommandHandler
     public void handle(UpdateRestaurantDishCommand command) {
-        this.dishes.stream().filter(d -> d.getId().equals(command.getDishId())).findAny()
-                .ifPresentOrElse(d -> {
-                    String newName = MyStringUtils.getTrimmedValueOrElse(command.getDishName(), d.getName());
-                    BigDecimal newPrice = command.getDishPrice() == null ? d.getPrice() : command.getDishPrice();
-                    AggregateLifecycle.apply(new RestaurantDishUpdatedEvent(command.getRestaurantId(), command.getDishId(), newName, newPrice));
-                }, () -> {
-                    throw new DishNotFoundException(command.getRestaurantId(), command.getDishId());
-                });
+        this.dishes.stream().filter(d -> d.getId().equals(command.getDishId())).findAny().ifPresentOrElse(d -> {
+            String newName = MyStringUtils.getTrimmedValueOrElse(command.getDishName(), d.getName());
+            BigDecimal newPrice = command.getDishPrice() == null ? d.getPrice() : command.getDishPrice();
+            AggregateLifecycle.apply(new RestaurantDishUpdatedEvent(command.getRestaurantId(), command.getDishId(), newName, newPrice));
+        }, () -> {
+            throw new DishNotFoundException(command.getRestaurantId(), command.getDishId());
+        });
     }
 
     @EventSourcingHandler
     public void handle(RestaurantDishUpdatedEvent event) {
         this.id = event.getRestaurantId();
-        this.dishes.stream().filter(d -> d.getId().equals(event.getDishId())).findAny()
-                .ifPresent(d -> {
-                    d.setName(event.getDishName());
-                    d.setPrice(event.getDishPrice());
-                });
+        this.dishes.stream().filter(d -> d.getId().equals(event.getDishId())).findAny().ifPresent(d -> {
+            d.setName(event.getDishName());
+            d.setPrice(event.getDishPrice());
+        });
     }
 
     // -- Delete Restaurant Dish

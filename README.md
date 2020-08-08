@@ -1,4 +1,4 @@
-# axon-kafka-springboot-react-keycloak
+# axon-springboot-react-keycloak
 
 The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement some [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications.
 
@@ -28,7 +28,7 @@ TODO
 
 ## Start environment
 
-- Open a terminal and inside `axon-kafka-springboot-react-keycloak` root folder run
+- Open a terminal and inside `axon-springboot-react-keycloak` root folder run
   ```
   docker-compose up -d
   ```
@@ -40,7 +40,7 @@ TODO
 
 ## Running Applications
 
-Inside `axon-kafka-springboot-react-keycloak` root folder, run the following commands in different terminals.
+Inside `axon-springboot-react-keycloak` root folder, run the following commands in different terminals.
 
 - **axon-event-commons**
   ```
@@ -84,10 +84,14 @@ Inside `axon-kafka-springboot-react-keycloak` root folder, run the following com
 ## Shutdown
 
 - To stop the applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-kafka-springboot-react-keycloak` root folder and run
+- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot-react-keycloak` root folder and run
   ```
   docker-compose down -v
   ```
+
+## TODO
+
+- Add createAt date for order;
 
 ## References
 

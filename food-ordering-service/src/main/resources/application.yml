@@ -9,27 +9,9 @@ spring:
     username: root
     password: secret
 
-axon:
+#axon:
 #  serializer:
 #    general: jackson
-  kafka:
-    bootstrap-servers: localhost:9092
-    client-id: ${spring.application.name}
-    default-topic: axon.events
-#    properties:
-#      security.protocol: PLAINTEXT
-#    fetcher:
-#      poll-timeout: 3000
-    consumer:
-      group-id: ${spring.application.name}-group
-      enable-auto-commit: true
-      auto-commit-interval: 3000
-      event-processor-mode: tracking
-  eventhandling:
-    processors:
-      kafka-axon-event-processor:
-        source: kafkaMessageSource
-        mode: tracking
 
 management:
   endpoints:

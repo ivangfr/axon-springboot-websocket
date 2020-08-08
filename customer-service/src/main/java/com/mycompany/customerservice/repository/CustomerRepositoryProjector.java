@@ -3,22 +3,28 @@ package com.mycompany.customerservice.repository;
 import com.mycompany.axoneventcommons.customer.CustomerAddedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerDeletedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerUpdatedEvent;
+import com.mycompany.axoneventcommons.order.OrderOpenedEvent;
+import com.mycompany.axoneventcommons.order.OrderSubmittedEvent;
 import com.mycompany.customerservice.exception.CustomerNotFoundException;
 import com.mycompany.customerservice.model.Customer;
+import com.mycompany.customerservice.model.Order;
 import com.mycompany.customerservice.query.GetCustomerQuery;
 import com.mycompany.customerservice.query.GetCustomersQuery;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomerRepositoryProjector {
 
     private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
 
     @QueryHandler
     public List<Customer> handle(GetCustomersQuery query) {
@@ -33,6 +39,7 @@ public class CustomerRepositoryProjector {
 
     @EventHandler
     public void handle(CustomerAddedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
         Customer customer = new Customer();
         customer.setId(event.getId());
         customer.setName(event.getName());
@@ -42,17 +49,44 @@ public class CustomerRepositoryProjector {
 
     @EventHandler
     public void handle(CustomerUpdatedEvent event) {
-        customerRepository.findById(event.getId())
-                .ifPresent(c -> {
-                    c.setName(event.getName());
-                    c.setAddress(event.getAddress());
-                    customerRepository.save(c);
-                });
+        log.info("<=[E] Received an event: {}", event);
+        customerRepository.findById(event.getId()).ifPresent(c -> {
+            c.setName(event.getName());
+            c.setAddress(event.getAddress());
+            customerRepository.save(c);
+        });
     }
 
     @EventHandler
     public void handle(CustomerDeletedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
         customerRepository.findById(event.getId()).ifPresent(customerRepository::delete);
+    }
+
+    // -- Order Events
+
+    @EventHandler
+    public void handle(OrderOpenedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
+        customerRepository.findById(event.getCustomerId()).ifPresent(c -> {
+            Order order = new Order();
+            order.setId(event.getOrderId());
+            order.setRestaurantName(event.getRestaurantName());
+            order.setStatus(event.getStatus());
+            order.setCustomer(c);
+            c.getOrders().add(order);
+            customerRepository.save(c);
+        });
+    }
+
+    @EventHandler
+    public void handle(OrderSubmittedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
+        orderRepository.findById(event.getOrderId()).ifPresent(o -> {
+            o.setTotal(event.getTotal());
+            o.setStatus(event.getStatus());
+            orderRepository.save(o);
+        });
     }
 
 }

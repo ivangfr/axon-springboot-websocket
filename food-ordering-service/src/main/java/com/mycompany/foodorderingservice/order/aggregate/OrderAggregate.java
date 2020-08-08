@@ -33,14 +33,11 @@ public class OrderAggregate {
     private String orderId;
     private OrderStatus status;
     private BigDecimal total;
-
     private String customerId;
     private String customerName;
     private String customerAddress;
-
     private String restaurantId;
     private String restaurantName;
-
     private Set<OrderItem> items;
 
     // -- Open Order
@@ -112,11 +109,10 @@ public class OrderAggregate {
     @EventSourcingHandler
     public void handle(OrderItemDeletedEvent event) {
         this.orderId = event.getOrderId();
-        this.items.stream().filter(i -> i.getId().equals(event.getItemId())).findAny()
-                .ifPresent(i -> {
-                    this.total = this.total.subtract(i.getDishPrice().multiply(BigDecimal.valueOf(i.getQuantity())));
-                    this.items.remove(i);
-                });
+        this.items.stream().filter(i -> i.getId().equals(event.getItemId())).findAny().ifPresent(i -> {
+            this.total = this.total.subtract(i.getDishPrice().multiply(BigDecimal.valueOf(i.getQuantity())));
+            this.items.remove(i);
+        });
     }
 
     @Data
