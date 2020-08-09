@@ -1,24 +1,30 @@
 # axon-springboot-react-keycloak
 
-The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement some [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications.
+The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications: `customer-service`, `restaurant-service` and `food-ordering-service`. Those services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind so, in order to achieve it, we used [`Axon Framework`](https://axoniq.io/product-overview/axon-framework). Those three services are connected to `axon-server` that is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
 
 ## Project Architecture
 
-TODO
+![project-diagram](images/project-diagram.png)
 
 ## Applications
 
 - ### customer-service
 
-  `Spring Boot` application that exposes a REST API to manage `Customers`. The data is stored in `MySQL`.
+  `Spring Boot` application that exposes a REST API to manage `Customers`. This service was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
+  
+  `customer-service` uses `MySQL` to store customers data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call any other service to get those information.
 
 - ### restaurant-service
 
-  `Spring Boot` application that exposes a REST API to manage `Restaurants`. The data is stored in `MongoDB`.
+  `Spring Boot` application that exposes a REST API to manage `Restaurants`. This service was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
+  
+  `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call any other service to get those information.
   
 - ### food-ordering-service
 
-  `Spring Boot` application that exposes a REST API to manage `Orders`. The data is stored in `MySQL`.
+  `Spring Boot` application that exposes a REST API to manage `Orders`. This service was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
+  
+  `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call any other service to get those information.
 
 ## Prerequisites
 
@@ -62,7 +68,21 @@ Inside `axon-springboot-react-keycloak` root folder, run the following commands 
   ./mvnw clean spring-boot:run --projects food-ordering-service -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
-## Useful Commands
+## Application's URLs
+
+| Application           | URL                                   |
+| --------------------- | ------------------------------------- |
+| customer-service      | http://localhost:9080/swagger-ui.html |
+| restaurant-service    | http://localhost:9081/swagger-ui.html |
+| food-ordering-service | http://localhost:9082/swagger-ui.html |
+
+## Useful Commands & Links
+
+- **Axon Server**
+  
+  Axon Server dashboard can be accessed at http://localhost:8024
+  
+  ![axon-server](images/axon-server.png)
 
 - **MySQL**
   ```
