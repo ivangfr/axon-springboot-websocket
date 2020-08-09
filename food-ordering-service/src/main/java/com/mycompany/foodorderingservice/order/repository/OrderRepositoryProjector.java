@@ -14,7 +14,6 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,11 +46,9 @@ public class OrderRepositoryProjector {
         order.setStatus(OrderStatus.valueOf(event.getStatus()));
         order.setTotal(event.getTotal());
         order.setCreatedAt(event.getCreatedAt());
-
-        Set<OrderItem> items = event.getItems().stream()
+        order.setItems(event.getItems().stream()
                 .map(i -> new OrderItem(i.getDishId(), i.getDishName(), i.getDishPrice(), i.getQuantity()))
-                .collect(Collectors.toSet());
-        order.setItems(items);
+                .collect(Collectors.toSet()));
         orderRepository.save(order);
     }
 

@@ -7,6 +7,7 @@ import com.mycompany.axoneventcommons.order.OrderCreatedEvent;
 import com.mycompany.customerservice.exception.CustomerNotFoundException;
 import com.mycompany.customerservice.model.Customer;
 import com.mycompany.customerservice.model.Order;
+import com.mycompany.customerservice.model.OrderItem;
 import com.mycompany.customerservice.query.GetCustomerOrdersQuery;
 import com.mycompany.customerservice.query.GetCustomerQuery;
 import com.mycompany.customerservice.query.GetCustomersQuery;
@@ -17,6 +18,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -80,6 +82,9 @@ public class CustomerRepositoryProjector {
             order.setStatus(event.getStatus());
             order.setTotal(event.getTotal());
             order.setCreatedAt(event.getCreatedAt());
+            order.setItems(event.getItems().stream()
+                    .map(i -> new OrderItem(i.getDishName(), i.getDishPrice(), i.getQuantity()))
+                    .collect(Collectors.toSet()));
             order.setCustomer(c);
             c.getOrders().add(order);
             customerRepository.save(c);

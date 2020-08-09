@@ -10,6 +10,7 @@ import com.mycompany.axoneventcommons.restaurant.RestaurantUpdatedEvent;
 import com.mycompany.restaurantservice.exception.RestaurantNotFoundException;
 import com.mycompany.restaurantservice.model.Dish;
 import com.mycompany.restaurantservice.model.Order;
+import com.mycompany.restaurantservice.model.OrderItem;
 import com.mycompany.restaurantservice.model.Restaurant;
 import com.mycompany.restaurantservice.query.GetRestaurantOrdersQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
@@ -21,6 +22,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -118,6 +120,9 @@ public class RestaurantRepositoryProjector {
             order.setStatus(event.getStatus());
             order.setTotal(event.getTotal());
             order.setCreatedAt(event.getCreatedAt());
+            order.setItems(event.getItems().stream()
+                    .map(i -> new OrderItem(i.getDishId(), i.getDishName(), i.getDishPrice(), i.getQuantity()))
+                    .collect(Collectors.toSet()));
             order.setRestaurant(r);
             r.getOrders().add(order);
             restaurantRepository.save(r);
