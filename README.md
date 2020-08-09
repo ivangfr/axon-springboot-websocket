@@ -26,6 +26,10 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   
   `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call another service to get this information.
 
+- ### axon-event-commons
+
+  `Maven` project where all events mentioned above are defined. It generates a JAR file that is added as a dependency in the `pom.xml` of all the services.
+
 ## Prerequisites
 
 - [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
