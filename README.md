@@ -1,4 +1,4 @@
-# axon-springboot-react-keycloak
+# axon-springboot
 
 The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications: `customer-service`, `restaurant-service` and `food-ordering-service`. Those services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind so, in order to achieve it, we used [`Axon Framework`](https://axoniq.io/product-overview/axon-framework). Those three services are connected to `axon-server` that is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
 
@@ -12,19 +12,19 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Customers`. This service was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
   
-  `customer-service` uses `MySQL` to store customers data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call any other service to get those information.
+  `customer-service` uses `MySQL` to store customers data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
 
 - ### restaurant-service
 
   `Spring Boot` application that exposes a REST API to manage `Restaurants`. This service was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
   
-  `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call any other service to get those information.
+  `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
   
 - ### food-ordering-service
 
   `Spring Boot` application that exposes a REST API to manage `Orders`. This service was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
   
-  `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call any other service to get those information.
+  `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call another service to get this information.
 
 ## Prerequisites
 
@@ -34,7 +34,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Start environment
 
-- Open a terminal and inside `axon-springboot-react-keycloak` root folder run
+- Open a terminal and inside `axon-springboot` root folder run
   ```
   docker-compose up -d
   ```
@@ -46,7 +46,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Running Applications
 
-Inside `axon-springboot-react-keycloak` root folder, run the following commands in different terminals.
+Inside `axon-springboot` root folder, run the following commands in different terminals.
 
 - **axon-event-commons**
   ```
@@ -115,7 +115,7 @@ Inside `axon-springboot-react-keycloak` root folder, run the following commands 
 ## Shutdown
 
 - To stop the applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot-react-keycloak` root folder and run
+- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot` root folder and run
   ```
   docker-compose down -v
   ```

@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>axon-springboot-react-keycloak</artifactId>
+    <artifactId>axon-springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>axon-springboot-react-keycloak</name>
+    <name>axon-springboot</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
