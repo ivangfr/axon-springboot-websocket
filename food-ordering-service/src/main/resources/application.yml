@@ -1,13 +1,11 @@
 spring:
   application:
     name: food-ordering-service
-  jpa:
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:mysql://localhost:3307/foodorderingdb?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: secret
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: foodorderingdb
 
 #axon:
 #  serializer:

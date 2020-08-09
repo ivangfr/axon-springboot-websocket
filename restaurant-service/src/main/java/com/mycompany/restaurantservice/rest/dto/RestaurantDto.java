@@ -3,14 +3,14 @@ package com.mycompany.restaurantservice.rest.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class RestaurantDto {
 
     private String id;
     private String name;
-    private List<Dish> dishes;
+    private Set<Dish> dishes;
 
     @Data
     public static class Dish {

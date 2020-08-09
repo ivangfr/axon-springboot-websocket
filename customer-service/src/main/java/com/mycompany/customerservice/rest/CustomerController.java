@@ -5,10 +5,13 @@ import com.mycompany.customerservice.command.DeleteCustomerCommand;
 import com.mycompany.customerservice.command.UpdateCustomerCommand;
 import com.mycompany.customerservice.mapper.CustomerMapper;
 import com.mycompany.customerservice.model.Customer;
+import com.mycompany.customerservice.model.Order;
+import com.mycompany.customerservice.query.GetCustomerOrdersQuery;
 import com.mycompany.customerservice.query.GetCustomerQuery;
 import com.mycompany.customerservice.query.GetCustomersQuery;
 import com.mycompany.customerservice.rest.dto.AddCustomerRequest;
 import com.mycompany.customerservice.rest.dto.CustomerDto;
+import com.mycompany.customerservice.rest.dto.CustomerOrderDto;
 import com.mycompany.customerservice.rest.dto.UpdateCustomerRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -67,6 +70,13 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public CompletableFuture<String> deleteCustomer(@PathVariable String id) {
         return commandGateway.send(new DeleteCustomerCommand(id));
+    }
+
+    @GetMapping("/{id}/orders")
+    public CompletableFuture<List<CustomerOrderDto>> getCustomerOrders(@PathVariable String id) {
+        return queryGateway.query(new GetCustomerOrdersQuery(id), ResponseTypes.multipleInstancesOf(Order.class))
+                .thenApply(orders -> orders.stream()
+                        .map(customerMapper::toCustomerOrderDto).collect(Collectors.toList()));
     }
 
 }

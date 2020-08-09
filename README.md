@@ -62,24 +62,35 @@ Inside `axon-springboot-react-keycloak` root folder, run the following commands 
   ./mvnw clean spring-boot:run --projects food-ordering-service -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
-## Useful Commands & Links
+## Useful Commands
 
 - **MySQL**
   ```
-  docker exec -it mysql-customer mysql -uroot -psecret --database customerdb
-  docker exec -it mysql-food-ordering mysql -uroot -psecret --database foodorderingdb
+  docker exec -it mysql mysql -uroot -psecret --database customerdb
+  SELECT * FROM customers;
+  SELECT * FROM orders;
   ```
+  > Type `exit` to exit
+
+- **PostgreSQL**
+  ```
+  docker exec -it postgres psql -U postgres -d restaurantdb
+  SELECT * FROM restaurants;
+  SELECT * FROM dishes;
+  SELECT * FROM orders;
+  ```
+  > Type `\q` to exit
   
 - **MongoDB**
   ```
   docker exec -it mongodb mongo
-  use restaurantdb
+  use foodorderingdb
+  
+  db.customers.find()
   db.restaurants.find()
+  db.orders.find()
   ```
-
-- **Kafka Topics UI**
-
-  `Kafka Topics UI` can be accessed at http://localhost:8085
+  > Type `exit` to exit
 
 ## Shutdown
 

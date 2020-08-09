@@ -1,17 +1,25 @@
 package com.mycompany.foodorderingservice.order.command;
 
+import com.mycompany.foodorderingservice.order.model.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteOrderItemCommand {
+public class CreateOrderCommand {
 
     @TargetAggregateIdentifier
     private String orderId;
-    private String itemId;
+    private String customerId;
+    private String customerName;
+    private String customerAddress;
+    private String restaurantId;
+    private String restaurantName;
+    private Set<OrderItem> items;
 
 }

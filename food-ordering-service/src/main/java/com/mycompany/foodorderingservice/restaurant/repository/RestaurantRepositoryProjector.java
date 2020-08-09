@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -28,7 +26,6 @@ public class RestaurantRepositoryProjector {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
-        restaurant.setDishes(Collections.emptyList());
         restaurantRepository.save(restaurant);
     }
 
@@ -55,7 +52,6 @@ public class RestaurantRepositoryProjector {
             dish.setId(event.getDishId());
             dish.setName(event.getDishName());
             dish.setPrice(event.getDishPrice());
-            dish.setRestaurant(r);
             r.getDishes().add(dish);
             restaurantRepository.save(r);
         });

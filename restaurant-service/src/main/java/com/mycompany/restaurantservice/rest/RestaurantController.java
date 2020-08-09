@@ -7,12 +7,15 @@ import com.mycompany.restaurantservice.command.DeleteRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantDishCommand;
 import com.mycompany.restaurantservice.mapper.RestaurantMapper;
+import com.mycompany.restaurantservice.model.Order;
 import com.mycompany.restaurantservice.model.Restaurant;
+import com.mycompany.restaurantservice.query.GetRestaurantOrdersQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantRequest;
 import com.mycompany.restaurantservice.rest.dto.RestaurantDto;
+import com.mycompany.restaurantservice.rest.dto.RestaurantOrderDto;
 import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantRequest;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +97,14 @@ public class RestaurantController {
     @DeleteMapping("/{restaurantId}/dishes/{dishId}")
     public CompletableFuture<String> deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
         return commandGateway.send(new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
+    }
+
+    @GetMapping("/{restaurantId}/orders")
+    public CompletableFuture<List<RestaurantOrderDto>> getRestaurantOrders(@PathVariable UUID restaurantId) {
+        return queryGateway.query(new GetRestaurantOrdersQuery(restaurantId.toString()), ResponseTypes.multipleInstancesOf(Order.class))
+                .thenApply(restaurants -> restaurants.stream()
+                        .map(restaurantMapper::toRestaurantOrderDto)
+                        .collect(Collectors.toList()));
     }
 
 }

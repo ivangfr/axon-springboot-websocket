@@ -3,11 +3,11 @@ package com.mycompany.customerservice.repository;
 import com.mycompany.axoneventcommons.customer.CustomerAddedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerDeletedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerUpdatedEvent;
-import com.mycompany.axoneventcommons.order.OrderOpenedEvent;
-import com.mycompany.axoneventcommons.order.OrderSubmittedEvent;
+import com.mycompany.axoneventcommons.order.OrderCreatedEvent;
 import com.mycompany.customerservice.exception.CustomerNotFoundException;
 import com.mycompany.customerservice.model.Customer;
 import com.mycompany.customerservice.model.Order;
+import com.mycompany.customerservice.query.GetCustomerOrdersQuery;
 import com.mycompany.customerservice.query.GetCustomerQuery;
 import com.mycompany.customerservice.query.GetCustomersQuery;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +35,11 @@ public class CustomerRepositoryProjector {
     public Customer handle(GetCustomerQuery query) {
         return customerRepository.findById(query.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(query.getId()));
+    }
+
+    @QueryHandler
+    public List<Order> handle(GetCustomerOrdersQuery query) {
+        return orderRepository.findByCustomerId(query.getId());
     }
 
     @EventHandler
@@ -66,26 +71,17 @@ public class CustomerRepositoryProjector {
     // -- Order Events
 
     @EventHandler
-    public void handle(OrderOpenedEvent event) {
+    public void handle(OrderCreatedEvent event) {
         log.info("<=[E] Received an event: {}", event);
         customerRepository.findById(event.getCustomerId()).ifPresent(c -> {
             Order order = new Order();
             order.setId(event.getOrderId());
             order.setRestaurantName(event.getRestaurantName());
             order.setStatus(event.getStatus());
+            order.setTotal(event.getTotal());
             order.setCustomer(c);
             c.getOrders().add(order);
             customerRepository.save(c);
-        });
-    }
-
-    @EventHandler
-    public void handle(OrderSubmittedEvent event) {
-        log.info("<=[E] Received an event: {}", event);
-        orderRepository.findById(event.getOrderId()).ifPresent(o -> {
-            o.setTotal(event.getTotal());
-            o.setStatus(event.getStatus());
-            orderRepository.save(o);
         });
     }
 

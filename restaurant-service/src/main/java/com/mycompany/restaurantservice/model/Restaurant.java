@@ -1,16 +1,33 @@
 package com.mycompany.restaurantservice.model;
 
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
-@Document(collection = "restaurants")
+@ToString(exclude = {"dishes", "orders"})
+@EqualsAndHashCode(exclude = {"dishes", "orders"})
+@Entity
+@Table(name = "restaurants")
 public class Restaurant {
 
+    @Id
     private String id;
     private String name;
-    private List<Dish> dishes;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Dish> dishes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new LinkedHashSet<>();
 
 }

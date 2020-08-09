@@ -1,5 +1,6 @@
 package com.mycompany.restaurantservice.repository;
 
+import com.mycompany.axoneventcommons.order.OrderCreatedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantAddedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDeletedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDishAddedEvent;
@@ -8,7 +9,9 @@ import com.mycompany.axoneventcommons.restaurant.RestaurantDishUpdatedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantUpdatedEvent;
 import com.mycompany.restaurantservice.exception.RestaurantNotFoundException;
 import com.mycompany.restaurantservice.model.Dish;
+import com.mycompany.restaurantservice.model.Order;
 import com.mycompany.restaurantservice.model.Restaurant;
+import com.mycompany.restaurantservice.query.GetRestaurantOrdersQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,6 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +28,7 @@ import java.util.List;
 public class RestaurantRepositoryProjector {
 
     private final RestaurantRepository restaurantRepository;
+    private final OrderRepository orderRepository;
 
     @QueryHandler
     public List<Restaurant> handle(GetRestaurantsQuery query) {
@@ -38,13 +41,17 @@ public class RestaurantRepositoryProjector {
                 .orElseThrow(() -> new RestaurantNotFoundException(query.getId()));
     }
 
+    @QueryHandler
+    public List<Order> handle(GetRestaurantOrdersQuery query) {
+        return orderRepository.findByRestaurantId(query.getId());
+    }
+
     @EventHandler
     public void handle(RestaurantAddedEvent event) {
         log.info("<=[E] Received an event: {}", event);
         Restaurant restaurant = new Restaurant();
         restaurant.setId(event.getId());
         restaurant.setName(event.getName());
-        restaurant.setDishes(Collections.emptyList());
         restaurantRepository.save(restaurant);
     }
 
@@ -67,7 +74,11 @@ public class RestaurantRepositoryProjector {
     public void handle(RestaurantDishAddedEvent event) {
         log.info("<=[E] Received an event: {}", event);
         restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
-            Dish dish = new Dish(event.getDishId(), event.getDishName(), event.getDishPrice());
+            Dish dish = new Dish();
+            dish.setId(event.getDishId());
+            dish.setName(event.getDishName());
+            dish.setPrice(event.getDishPrice());
+            dish.setRestaurant(r);
             r.getDishes().add(dish);
             restaurantRepository.save(r);
         });
@@ -90,6 +101,24 @@ public class RestaurantRepositoryProjector {
         log.info("<=[E] Received an event: {}", event);
         restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
             r.getDishes().removeIf(d -> d.getId().equals(event.getDishId()));
+            restaurantRepository.save(r);
+        });
+    }
+
+    // -- Order Events
+
+    @EventHandler
+    public void handle(OrderCreatedEvent event) {
+        log.info("<=[E] Received an event: {}", event);
+        restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
+            Order order = new Order();
+            order.setId(event.getOrderId());
+            order.setCustomerName(event.getCustomerName());
+            order.setCustomerAddress(event.getCustomerAddress());
+            order.setStatus(event.getStatus());
+            order.setTotal(event.getTotal());
+            order.setRestaurant(r);
+            r.getOrders().add(order);
             restaurantRepository.save(r);
         });
     }

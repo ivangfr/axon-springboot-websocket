@@ -1,14 +1,11 @@
 package com.mycompany.foodorderingservice.customer.model;
 
 import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
-@Table(name = "customers")
+@Document(collection = "customers")
 public class Customer {
 
     @Id

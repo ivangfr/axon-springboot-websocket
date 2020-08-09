@@ -21,7 +21,6 @@ public class OrderDto {
 
     @Data
     public static class OrderItem {
-        private String id;
         private String dishId;
         private String dishName;
         private BigDecimal dishPrice;

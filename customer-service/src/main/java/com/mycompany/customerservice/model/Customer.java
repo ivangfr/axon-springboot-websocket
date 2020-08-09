@@ -6,12 +6,11 @@ import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @ToString(exclude = "orders")
@@ -25,8 +24,7 @@ public class Customer {
     private String name;
     private String address;
 
-    //@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new LinkedList<>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new LinkedHashSet<>();
 
 }

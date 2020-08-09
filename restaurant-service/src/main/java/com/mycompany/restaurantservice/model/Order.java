@@ -1,4 +1,4 @@
-package com.mycompany.customerservice.model;
+package com.mycompany.restaurantservice.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,20 +13,21 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 
 @Data
-@ToString(exclude = "customer")
-@EqualsAndHashCode(exclude = "customer")
+@ToString(exclude = "restaurant")
+@EqualsAndHashCode(exclude = "restaurant")
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
     private String id;
-    private String restaurantName;
+    private String customerName;
+    private String customerAddress;
     private String status;
     private BigDecimal total = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
 }

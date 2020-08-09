@@ -1,12 +1,12 @@
-package com.mycompany.customerservice.repository;
+package com.mycompany.restaurantservice.repository;
 
-import com.mycompany.customerservice.model.Order;
+import com.mycompany.restaurantservice.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, String> {
 
-    List<Order> findByCustomerId(String customerId);
+    List<Order> findByRestaurantId(String restaurantId);
 
 }

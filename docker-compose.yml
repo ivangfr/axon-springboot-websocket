@@ -10,9 +10,9 @@ services:
       - "8024:8024"
       - "8124:8124"
 
-  mysql-customer:
+  mysql:
     image: mysql:8.0.21
-    container_name: mysql-customer
+    container_name: mysql
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -21,20 +21,21 @@ services:
       - MYSQL_DATABASE=customerdb
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
-      start_period: 60s
+      start_period: 30s
 
-  mysql-food-ordering:
-    image: mysql:8.0.21
-    container_name: mysql-food-ordering
+  postgres:
+    container_name: postgres
+    image: postgres:12.3
     restart: unless-stopped
     ports:
-      - "3307:3306"
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=foodorderingdb
+      - POSTGRES_DB=restaurantdb
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
     healthcheck:
-      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
-      start_period: 60s
+      test: "pg_isready -U postgres"
+      start_period: 30s
 
   mongodb:
     image: mongo:4.2.7
@@ -43,5 +44,5 @@ services:
     ports:
       - "27017:27017"
     healthcheck:
-      test: "echo 'db.stats().ok' | mongo localhost:27017/restaurantdb --quiet"
+      test: "echo 'db.stats().ok' | mongo localhost:27017/foodorderingdb --quiet"
       start_period: 30s

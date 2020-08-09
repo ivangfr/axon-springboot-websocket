@@ -1,11 +1,13 @@
 spring:
   application:
     name: restaurant-service
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: restaurantdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/restaurantdb
+    username: postgres
+    password: postgres
 
 #axon:
 #  serializer:
