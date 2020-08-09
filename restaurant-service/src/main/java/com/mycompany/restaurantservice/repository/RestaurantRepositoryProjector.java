@@ -43,7 +43,7 @@ public class RestaurantRepositoryProjector {
 
     @QueryHandler
     public List<Order> handle(GetRestaurantOrdersQuery query) {
-        return orderRepository.findByRestaurantId(query.getId());
+        return orderRepository.findByRestaurantIdOrderByCreatedAtDesc(query.getId());
     }
 
     @EventHandler
@@ -117,6 +117,7 @@ public class RestaurantRepositoryProjector {
             order.setCustomerAddress(event.getCustomerAddress());
             order.setStatus(event.getStatus());
             order.setTotal(event.getTotal());
+            order.setCreatedAt(event.getCreatedAt());
             order.setRestaurant(r);
             r.getOrders().add(order);
             restaurantRepository.save(r);

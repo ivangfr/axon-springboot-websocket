@@ -46,6 +46,7 @@ public class OrderRepositoryProjector {
         order.setRestaurantName(event.getRestaurantName());
         order.setStatus(OrderStatus.valueOf(event.getStatus()));
         order.setTotal(event.getTotal());
+        order.setCreatedAt(event.getCreatedAt());
 
         Set<OrderItem> items = event.getItems().stream()
                 .map(i -> new OrderItem(i.getDishId(), i.getDishName(), i.getDishPrice(), i.getQuantity()))

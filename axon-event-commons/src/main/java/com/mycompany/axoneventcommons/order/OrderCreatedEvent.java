@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 @Data
@@ -20,6 +21,7 @@ public class OrderCreatedEvent implements OrderEvent {
     private String restaurantName;
     private String status;
     private BigDecimal total;
+    private ZonedDateTime createdAt;
     private Set<OrderItem> items;
 
     @Data

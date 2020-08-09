@@ -39,7 +39,7 @@ public class CustomerRepositoryProjector {
 
     @QueryHandler
     public List<Order> handle(GetCustomerOrdersQuery query) {
-        return orderRepository.findByCustomerId(query.getId());
+        return orderRepository.findByCustomerIdOrderByCreatedAtDesc(query.getId());
     }
 
     @EventHandler
@@ -79,6 +79,7 @@ public class CustomerRepositoryProjector {
             order.setRestaurantName(event.getRestaurantName());
             order.setStatus(event.getStatus());
             order.setTotal(event.getTotal());
+            order.setCreatedAt(event.getCreatedAt());
             order.setCustomer(c);
             c.getOrders().add(order);
             customerRepository.save(c);

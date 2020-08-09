@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 @Data
 @ToString(exclude = "restaurant")
@@ -25,6 +26,7 @@ public class Order {
     private String customerAddress;
     private String status;
     private BigDecimal total = BigDecimal.ZERO;
+    private ZonedDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")

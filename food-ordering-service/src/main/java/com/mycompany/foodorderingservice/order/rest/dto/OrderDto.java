@@ -4,6 +4,7 @@ import com.mycompany.foodorderingservice.order.model.OrderStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 @Data
@@ -17,6 +18,7 @@ public class OrderDto {
     private String restaurantName;
     private OrderStatus status;
     private BigDecimal total;
+    private ZonedDateTime createdAt;
     private Set<OrderItem> items;
 
     @Data

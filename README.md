@@ -100,10 +100,6 @@ Inside `axon-springboot-react-keycloak` root folder, run the following commands 
   docker-compose down -v
   ```
 
-## TODO
-
-- Add createAt date for order;
-
 ## References
 
 - https://sgitario.github.io/axon-by-example/

@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 @Data
@@ -15,6 +16,7 @@ public class Order {
     private String id;
     private OrderStatus status;
     private BigDecimal total = BigDecimal.ZERO;
+    private ZonedDateTime createdAt;
     private String customerId;
     private String customerName;
     private String customerAddress;

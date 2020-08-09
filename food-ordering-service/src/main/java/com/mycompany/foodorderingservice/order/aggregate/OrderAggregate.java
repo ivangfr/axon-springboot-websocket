@@ -12,6 +12,7 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ public class OrderAggregate {
     private String orderId;
     private OrderStatus status;
     private BigDecimal total;
+    private ZonedDateTime createdAt;
     private String customerId;
     private String customerName;
     private String customerAddress;
@@ -43,7 +45,7 @@ public class OrderAggregate {
 
         AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), command.getCustomerId(),
                 command.getCustomerName(), command.getCustomerAddress(), command.getRestaurantId(),
-                command.getRestaurantName(), OrderStatus.CREATED.name(), bdTotal, evtItems));
+                command.getRestaurantName(), OrderStatus.CREATED.name(), bdTotal, ZonedDateTime.now(), evtItems));
     }
 
     @EventSourcingHandler
@@ -51,6 +53,7 @@ public class OrderAggregate {
         this.orderId = event.getOrderId();
         this.status = OrderStatus.valueOf(event.getStatus());
         this.total = event.getTotal();
+        this.createdAt = event.getCreatedAt();
         this.customerId = event.getCustomerId();
         this.customerName = event.getCustomerName();
         this.customerAddress = event.getCustomerAddress();
