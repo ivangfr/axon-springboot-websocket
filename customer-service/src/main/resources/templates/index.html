@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer-Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="ui huge menu">
+            <div class="header item">Customer-Service</div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="ui container">
+        <div class="ui divider"></div>
+        <div class="ui grid">
+            <div class="four wide column">
+                <form id="customerForm" class="ui form">
+                    <div class="field disabled">
+                        <label>ID</label>
+                        <input name="id" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Name</label>
+                        <input name="name" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Address</label>
+                        <input name="address" type="text">
+                    </div>
+                    <button id="btnClear" class="ui button" type="button">Clear</button>
+                    <button id="btnSave" class="ui teal button" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="twelve wide column">
+                <table id="customerTable" class="ui striped compact unstackable teal table">
+                    <thead>
+                    <tr>
+                        <th class="two wide"></th>
+                        <th class="six wide">ID</th>
+                        <th class="three wide">Name</th>
+                        <th class="five wide">Address</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!--JavaScript at end of body for optimized loading-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="/app.js"></script>
+
+</body>
+</html>

@@ -43,7 +43,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   docker-compose up -d
   ```
 
-- Wait a bit until `MySQL` is `Up (healthy)`. You can check it by running
+- Wait a bit until `MySQL`, `PostgreSQL` and `MongoDB` are `Up (healthy)`. You can check it by running
   ```
   docker-compose ps
   ```
