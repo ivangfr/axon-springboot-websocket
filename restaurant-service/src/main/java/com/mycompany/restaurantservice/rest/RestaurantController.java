@@ -7,13 +7,16 @@ import com.mycompany.restaurantservice.command.DeleteRestaurantDishCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantCommand;
 import com.mycompany.restaurantservice.command.UpdateRestaurantDishCommand;
 import com.mycompany.restaurantservice.mapper.RestaurantMapper;
+import com.mycompany.restaurantservice.model.Dish;
 import com.mycompany.restaurantservice.model.Order;
 import com.mycompany.restaurantservice.model.Restaurant;
+import com.mycompany.restaurantservice.query.GetRestaurantDishQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantOrdersQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantDishRequest;
 import com.mycompany.restaurantservice.rest.dto.AddRestaurantRequest;
+import com.mycompany.restaurantservice.rest.dto.DishDto;
 import com.mycompany.restaurantservice.rest.dto.RestaurantDto;
 import com.mycompany.restaurantservice.rest.dto.RestaurantOrderDto;
 import com.mycompany.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
@@ -85,6 +88,12 @@ public class RestaurantController {
                                                        @Valid @RequestBody AddRestaurantDishRequest request) {
         return commandGateway.send(new AddRestaurantDishCommand(restaurantId.toString(), UUID.randomUUID().toString(),
                 request.getName(), request.getPrice()));
+    }
+
+    @GetMapping("/{restaurantId}/dishes/{dishId}")
+    public CompletableFuture<DishDto> getRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
+        return queryGateway.query(new GetRestaurantDishQuery(restaurantId.toString(), dishId.toString()), Dish.class)
+                .thenApply(restaurantMapper::toDishDto);
     }
 
     @PatchMapping("/{restaurantId}/dishes/{dishId}")

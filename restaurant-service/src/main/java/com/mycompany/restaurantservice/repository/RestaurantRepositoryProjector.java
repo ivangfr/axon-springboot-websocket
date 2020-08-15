@@ -7,11 +7,13 @@ import com.mycompany.axoneventcommons.restaurant.RestaurantDishAddedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDishDeletedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantDishUpdatedEvent;
 import com.mycompany.axoneventcommons.restaurant.RestaurantUpdatedEvent;
+import com.mycompany.restaurantservice.exception.DishNotFoundException;
 import com.mycompany.restaurantservice.exception.RestaurantNotFoundException;
 import com.mycompany.restaurantservice.model.Dish;
 import com.mycompany.restaurantservice.model.Order;
 import com.mycompany.restaurantservice.model.OrderItem;
 import com.mycompany.restaurantservice.model.Restaurant;
+import com.mycompany.restaurantservice.query.GetRestaurantDishQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantOrdersQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantQuery;
 import com.mycompany.restaurantservice.query.GetRestaurantsQuery;
@@ -41,6 +43,17 @@ public class RestaurantRepositoryProjector {
     public Restaurant handle(GetRestaurantQuery query) {
         return restaurantRepository.findById(query.getId())
                 .orElseThrow(() -> new RestaurantNotFoundException(query.getId()));
+    }
+
+    @QueryHandler
+    public Dish handle(GetRestaurantDishQuery query) {
+        return restaurantRepository.findById(query.getRestaurantId())
+                .orElseThrow(() -> new RestaurantNotFoundException(query.getRestaurantId()))
+                .getDishes()
+                .stream()
+                .filter(dish -> dish.getId().equals(query.getDishId()))
+                .findAny()
+                .orElseThrow(() -> new DishNotFoundException(query.getRestaurantId(), query.getDishId()));
     }
 
     @QueryHandler

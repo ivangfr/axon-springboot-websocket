@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant-Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="ui huge menu">
+            <div class="header item">Restaurant-Service</div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="ui container">
+        <div class="ui divider"></div>
+        <div class="ui grid">
+            <div class="four wide column">
+                <form id="restaurantForm" class="ui form">
+                    <div class="field disabled">
+                        <label>Restaurant ID</label>
+                        <input name="id" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Restaurant Name</label>
+                        <input name="name" type="text">
+                    </div>
+                    <button name="btnCancel" class="ui button" type="button">Cancel</button>
+                    <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                </form>
+                <form id="restaurantDishForm" class="ui form hidden" style="display:none">
+                    <div class="field disabled">
+                        <label>Restaurant ID</label>
+                        <input name="restaurantId" type="text">
+                    </div>
+                    <div class="field disabled">
+                        <label>Dish ID</label>
+                        <input name="dishId" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Dish Name</label>
+                        <input name="dishName" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Dish Price</label>
+                        <input name="dishPrice" type="number">
+                    </div>
+                    <button name="btnCancel" class="ui button" type="button">Cancel</button>
+                    <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                </form>
+            </div>
+            <div class="twelve wide column">
+                <div id="restaurantList" class="ui relaxed divided list"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!--JavaScript at end of body for optimized loading-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="/app.js"></script>
+
+</body>
+</html>

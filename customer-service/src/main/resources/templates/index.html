@@ -22,33 +22,23 @@
             <div class="four wide column">
                 <form id="customerForm" class="ui form">
                     <div class="field disabled">
-                        <label>ID</label>
+                        <label>Customer ID</label>
                         <input name="id" type="text">
                     </div>
                     <div class="field">
-                        <label>Name</label>
+                        <label>Customer Name</label>
                         <input name="name" type="text">
                     </div>
                     <div class="field">
-                        <label>Address</label>
+                        <label>Customer Address</label>
                         <input name="address" type="text">
                     </div>
-                    <button id="btnClear" class="ui button" type="button">Clear</button>
-                    <button id="btnSave" class="ui teal button" type="submit">Submit</button>
+                    <button id="btnCancel" class="ui button" type="button">Cancel</button>
+                    <button id="btnSave" class="ui teal button" type="submit">Save</button>
                 </form>
             </div>
             <div class="twelve wide column">
-                <table id="customerTable" class="ui striped compact unstackable teal table">
-                    <thead>
-                    <tr>
-                        <th class="two wide"></th>
-                        <th class="six wide">ID</th>
-                        <th class="three wide">Name</th>
-                        <th class="five wide">Address</th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="customerList" class="ui relaxed divided list"></div>
             </div>
         </div>
     </div>
