@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class OrderCreatedEvent implements OrderEvent {
 
-    private String orderId;
+    private String id;
     private String customerId;
     private String customerName;
     private String customerAddress;

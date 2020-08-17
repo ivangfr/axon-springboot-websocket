@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food-Ordering-Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="ui huge menu">
+            <div class="header item">Food-Ordering-Service</div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="ui container">
+
+        <div class="ui top attached tabular menu" style="margin-top: 10px;">
+            <a class="active item" data-tab="place-order">Place an Order</a>
+            <a class="item" data-tab="check-order">Check Orders</a>
+        </div>
+
+        <!-- Place an Order Tab -->
+        <div class="ui bottom attached active tab segment" data-tab="place-order">
+
+            <!-- Select Customer -->
+            <div class="ui teal floating labeled icon dropdown button">
+                <i class="user icon"></i>
+                <span class="text">Select Customer</span>
+                <div class="menu"></div>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <!-- Restaurant Accordion -->
+            <div class="ui styled fluid accordion"></div>
+        </div>
+
+        <!-- Check Orders Tab -->
+        <div class="ui bottom attached tab segment" data-tab="check-order">
+
+            <!-- Order Table -->
+            <table id="orderTable" class="ui eight column striped small very compact table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Address</th>
+                    <th>Restaurant Name</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>CreatedAt</th>
+                    <th>Items</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<!--JavaScript at end of body for optimized loading-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="/app.js"></script>
+
+</body>
+</html>

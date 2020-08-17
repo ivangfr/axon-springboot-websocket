@@ -37,7 +37,7 @@ public class OrderRepositoryProjector {
     public void handle(OrderCreatedEvent event) {
         log.info("<=[E] Received an event: {}", event);
         Order order = new Order();
-        order.setId(event.getOrderId());
+        order.setId(event.getId());
         order.setCustomerId(event.getCustomerId());
         order.setCustomerName(event.getCustomerName());
         order.setCustomerAddress(event.getCustomerAddress());

@@ -124,6 +124,15 @@ Inside `axon-springboot` root folder, run the following commands in different te
   docker-compose down -v
   ```
 
+## TODO
+
+- add moment.js to format dates;
+- remove disabled fields in customer and restaurant forms;
+- add confirmation when deleting a customer, restaurant or dish;
+- add some library to format money;
+- show total order when select dishes;
+- replace alert to semantic ui modal;
+
 ## References
 
 - https://sgitario.github.io/axon-by-example/

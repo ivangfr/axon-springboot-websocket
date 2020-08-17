@@ -6,6 +6,8 @@ import com.mycompany.foodorderingservice.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -16,4 +18,10 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer validateAndGetCustomer(String id) {
         return customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
     }
+
+    @Override
+    public List<Customer> getCustomers() {
+        return customerRepository.findAll();
+    }
+    
 }

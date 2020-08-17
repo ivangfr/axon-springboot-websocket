@@ -45,18 +45,21 @@ function loadCustomers() {
                         data.map(function(order) {
                             return {
                                 customerId: customer.id,
-                                orderId: order.id,
-                                restaurantName: order.restaurantName,
+                                id: order.id,
+                                createdAt: order.createdAt,
                                 status: order.status,
+                                restaurantName: order.restaurantName,
                                 total: order.total,
                                 items: order.items
                             }
                         })
                         .forEach(order => addOrder(order))
-                    }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {}
                 })
             })
-        }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {}
     })
 }
 
@@ -79,7 +82,7 @@ function addCustomer(customer) {
                         '<div class="ui label">'+customer.id+'</div>'+
                     '</div>'+
                     '<div class="sixteen wide column" style="padding-top: 0;margin-bottom: 10px;">'+
-                        '<table class="ui striped small compact unstackable table">'+
+                        '<table class="ui six column striped small compact unstackable table">'+
                             '<tbody></tbody>'+
                         '</table>'+
                     '</div>'+
@@ -96,12 +99,13 @@ function getOrderRow(order) {
         .join('')
 
     return (
-        '<tr id="'+order.orderId+'">'+
-            '<td class="six wide">'+order.orderId+'</td>'+
-            '<td class="two wide"><strong>'+order.restaurantName+'</strong></td>'+
-            '<td class="one wide">'+order.status+'</td>'+
-            '<td class="one wide">$'+order.total+'</td>'+
-            '<td class="six wide"><div class="ui bulleted list">'+items+'</div></td>'+
+        '<tr id="'+order.id+'">'+
+            '<td>'+order.id+'</td>'+
+            '<td>'+order.createdAt+'</td>'+
+            '<td>'+order.status+'</td>'+
+            '<td><strong>'+order.restaurantName+'</strong></td>'+
+            '<td>$'+order.total+'</td>'+
+            '<td><div class="ui bulleted list">'+items+'</div></td>'+
         '</tr>'
     )
 }
@@ -149,7 +153,7 @@ $(function () {
 
     connectToWebSocket()
 
-    $('#btnSave').click(function(event) {
+    $('#customerForm button[name="btnSave"]').click(function(event) {
         event.preventDefault()
         const customerData = validateAndGetFormData()
         if (customerData == null) {
@@ -196,7 +200,7 @@ $(function () {
         })
     })
 
-    $('#btnCancel').click(function() {
+    $('#customerForm button[name="btnCancel"]').click(function() {
         resetForm()
     })
 })

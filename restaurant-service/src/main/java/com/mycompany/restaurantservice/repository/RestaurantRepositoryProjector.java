@@ -127,7 +127,7 @@ public class RestaurantRepositoryProjector {
         log.info("<=[E] Received an event: {}", event);
         restaurantRepository.findById(event.getRestaurantId()).ifPresent(r -> {
             Order order = new Order();
-            order.setId(event.getOrderId());
+            order.setId(event.getId());
             order.setCustomerName(event.getCustomerName());
             order.setCustomerAddress(event.getCustomerAddress());
             order.setStatus(event.getStatus());

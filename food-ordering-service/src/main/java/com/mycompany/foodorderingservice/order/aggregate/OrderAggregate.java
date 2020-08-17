@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class OrderAggregate {
 
     @AggregateIdentifier
-    private String orderId;
+    private String id;
     private OrderStatus status;
     private BigDecimal total;
     private ZonedDateTime createdAt;
@@ -43,14 +43,14 @@ public class OrderAggregate {
             bdTotal = bdTotal.add(orderItem.getDishPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())));
         }
 
-        AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), command.getCustomerId(),
+        AggregateLifecycle.apply(new OrderCreatedEvent(command.getId(), command.getCustomerId(),
                 command.getCustomerName(), command.getCustomerAddress(), command.getRestaurantId(),
                 command.getRestaurantName(), OrderStatus.CREATED.name(), bdTotal, ZonedDateTime.now(), evtItems));
     }
 
     @EventSourcingHandler
     public void handle(OrderCreatedEvent event) {
-        this.orderId = event.getOrderId();
+        this.id = event.getId();
         this.status = OrderStatus.valueOf(event.getStatus());
         this.total = event.getTotal();
         this.createdAt = event.getCreatedAt();

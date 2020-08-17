@@ -14,7 +14,7 @@ import java.util.Set;
 public class CreateOrderCommand {
 
     @TargetAggregateIdentifier
-    private String orderId;
+    private String id;
     private String customerId;
     private String customerName;
     private String customerAddress;

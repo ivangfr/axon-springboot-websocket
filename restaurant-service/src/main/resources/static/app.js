@@ -51,7 +51,8 @@ function loadRestaurants() {
                 })
                 .map(dish => addRestaurantDish(dish))
             })
-        }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {}
     })
 }
 
@@ -109,8 +110,9 @@ function addRestaurantDish(dish) {
 }
 
 function updateRestaurantDish(dish) {
-    $('#'+dish.dishId).find('td.name').text(dish.dishName)
-    $('#'+dish.dishId).find('td.price').text('$' + dish.dishPrice)
+    const $dish = $('#'+dish.dishId)
+    $dish.find('td.name > strong').text(dish.dishName)
+    $dish.find('td.price').text('$' + dish.dishPrice)
 }
 
 function removeRestaurantDish(dish) {

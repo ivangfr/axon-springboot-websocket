@@ -67,8 +67,8 @@ public class OrderController {
             return new OrderItem(dish.getId(), dish.getName(), dish.getPrice(), i.getQuantity());
         }).collect(Collectors.toSet());
 
-        String orderId = UUID.randomUUID().toString();
-        return commandGateway.send(new CreateOrderCommand(orderId, customer.getId(), customer.getName(),
+        String id = UUID.randomUUID().toString();
+        return commandGateway.send(new CreateOrderCommand(id, customer.getId(), customer.getName(),
                 customer.getAddress(), restaurant.getId(), restaurant.getName(), items));
     }
 

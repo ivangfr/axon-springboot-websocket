@@ -8,6 +8,8 @@ import com.mycompany.foodorderingservice.restaurant.repository.RestaurantReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -23,5 +25,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Dish validateAndGetRestaurantDish(String restaurantId, String dishId) {
         return validateAndGetRestaurant(restaurantId).getDishes().stream()
                 .filter(d -> d.getId().equals(dishId)).findAny().orElseThrow(() -> new DishNotFoundException(dishId));
+    }
+
+    @Override
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
     }
 }

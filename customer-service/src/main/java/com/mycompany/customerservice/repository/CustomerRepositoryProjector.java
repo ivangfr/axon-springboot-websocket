@@ -77,7 +77,7 @@ public class CustomerRepositoryProjector {
         log.info("<=[E] Received an event: {}", event);
         customerRepository.findById(event.getCustomerId()).ifPresent(c -> {
             Order order = new Order();
-            order.setId(event.getOrderId());
+            order.setId(event.getId());
             order.setRestaurantName(event.getRestaurantName());
             order.setStatus(event.getStatus());
             order.setTotal(event.getTotal());
