@@ -24,23 +24,29 @@
         </div>
 
         <!-- Place an Order Tab -->
-        <div class="ui bottom attached active tab segment" data-tab="place-order">
+        <div class="ui bottom attached active tab segment" data-tab="place-order" style="border: 0px">
 
-            <!-- Select Customer -->
-            <div class="ui teal floating labeled icon dropdown button">
-                <i class="user icon"></i>
-                <span class="text">Select Customer</span>
-                <div class="menu"></div>
+            <div class="ui grid">
+                <div class="four wide column">
+
+                    <!-- Select Customer -->
+                    <div class="ui teal floating labeled icon dropdown fluid button">
+                        <i class="user icon"></i>
+                        <span class="text">Select Customer</span>
+                        <div class="menu"></div>
+                    </div>
+                </div>
+
+                <div class="twelve wide column">
+
+                    <!-- Restaurant Accordion -->
+                    <div class="ui styled fluid accordion"></div>
+                </div>
             </div>
-
-            <div class="ui divider"></div>
-
-            <!-- Restaurant Accordion -->
-            <div class="ui styled fluid accordion"></div>
         </div>
 
         <!-- Check Orders Tab -->
-        <div class="ui bottom attached tab segment" data-tab="check-order">
+        <div class="ui bottom attached tab segment" data-tab="check-order" style="border: 0px">
 
             <!-- Order Table -->
             <table id="orderTable" class="ui eight column striped very compact table">
@@ -60,6 +66,14 @@
             </table>
         </div>
 
+        <!-- Alert Modal -->
+        <div class="ui tiny modal alert">
+            <div class="header"></div>
+            <div class="content"></div>
+            <div class="actions">
+                <div class="ui positive button">Ok</div>
+            </div>
+        </div>
     </div>
 </main>
 

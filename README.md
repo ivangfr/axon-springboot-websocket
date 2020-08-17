@@ -126,10 +126,9 @@ Inside `axon-springboot` root folder, run the following commands in different te
 
 ## TODO
 
-- show total order when select dishes;
 - add order in restaurant-service;
 - use axios for ajax calls;
-- replace alert to semantic ui modal;
+- show if page is connected to WebSocket.
 
 ## References
 

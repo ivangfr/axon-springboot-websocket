@@ -148,7 +148,7 @@ function validateAndGetRestaurantFormData() {
     const name = $('#restaurantForm input[name="name"]').val()
 
     if (name.trim().length === 0) {
-        alert("Please inform restaurant name")
+        showModal($('.modal.alert'), 'Missing fields', 'Please inform restaurant Name')
         return null
     }
 
@@ -162,7 +162,7 @@ function validateAndGetRestaurantDishFormData() {
     const dishPrice = $('#restaurantDishForm input[name="dishPrice"]').val()
 
     if (dishName.trim().length === 0 || dishPrice <= 0) {
-        alert("Please inform dish name and price")
+        showModal($('.modal.alert'), 'Missing fields', 'Please inform dish Name and Price')
         return null
     }
 
@@ -183,6 +183,16 @@ function showRestaurantDishForm() {
 
 function hideRestaurantDishForm() {
     $('#restaurantDishForm').css('display', 'none')
+}
+
+function showModal($modal, header, description, fnApprove) {
+    $modal.find('.header').text(header)
+    $modal.find('.content').text(description)
+    $modal.modal({
+        onApprove: function() {
+            fnApprove && fnApprove()
+        }
+    }).modal('show')
 }
 
 $(function () {
@@ -217,17 +227,16 @@ $(function () {
     })
 
     $('#restaurantList').on('click', '.btnDelete', function() {
-        const id = $(this).closest('div.item').attr('id')
-        const resp = confirm('Delete restaurant?')
-        if (!resp) {
-            return
-        }
-
-        $.ajax({
-            type: "DELETE",
-            url: restaurantServiceApiBaseUrl.concat("/", id),
-            success: function(data, textStatus, jqXHR) {},
-            error: function (jqXHR, textStatus, errorThrown) {}
+        const $restaurant = $(this).closest('div.item')
+        const id = $restaurant.attr('id')
+        const name = $restaurant.find('h3').text()
+        showModal($('.modal.confirmation'), 'Delete Restaurant', 'Are you sure you want to delete restaurant "'+name+'"?', function() {
+            $.ajax({
+                type: "DELETE",
+                url: restaurantServiceApiBaseUrl.concat("/", id),
+                success: function(data, textStatus, jqXHR) {},
+                error: function (jqXHR, textStatus, errorThrown) {}
+            })
         })
     })
 
@@ -294,18 +303,20 @@ $(function () {
     })
 
     $('#restaurantList').on('click', '.btnDeleteDish', function() {
-        const restaurantId = $(this).closest('div.item').attr('id')
-        const dishId = $(this).closest('tr').attr('id')
-        const resp = confirm('Delete dish?')
-        if (!resp) {
-            return
-        }
+        const $restaurant = $(this).closest('div.item')
+        const restaurantId = $restaurant.attr('id')
+        const restaurantName = $restaurant.find('h3').text()
+        const $dish = $(this).closest('tr')
+        const dishId = $dish.attr('id')
+        const dishName = $dish.find('td.name').text()
 
-        $.ajax({
-            type: "DELETE",
-            url: restaurantServiceApiBaseUrl.concat("/", restaurantId, "/dishes/", dishId),
-            success: function(data, textStatus, jqXHR) {},
-            error: function (jqXHR, textStatus, errorThrown) {}
+        showModal($('.modal.confirmation'), 'Delete Restaurant Dish', 'Are you sure you want to delete the dish "'+dishName+'" of "'+restaurantName+'"?', function() {
+            $.ajax({
+                type: "DELETE",
+                url: restaurantServiceApiBaseUrl.concat("/", restaurantId, "/dishes/", dishId),
+                success: function(data, textStatus, jqXHR) {},
+                error: function (jqXHR, textStatus, errorThrown) {}
+            })
         })
     })
 

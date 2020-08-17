@@ -137,7 +137,7 @@ function addRestaurant(restaurant) {
             '<h3>'+restaurant.name+'</h3>'+
         '</div>'+
         '<div id="'+restaurant.id+'_content" class="content">'+
-            '<table class="ui compact table">'+
+            '<table class="ui compact table unstackable">'+
                 '<tbody></tbody>'+
                 '<tfoot>'+
                     '<tr>'+
@@ -172,7 +172,7 @@ function getRestaurantDishRow(dish) {
             '</td>'+
             '<td class="name">'+dish.dishName+'</td>'+
             '<td class="price">'+accounting.formatMoney(dish.dishPrice)+'</td>'+
-            '<td>'+
+            '<td class="quantity">'+
                 '<div class="ui small input">'+
                     '<input type="number" value="1" min="1" max="10">'+
                 '</div>'+
@@ -218,18 +218,46 @@ function getOrderRequest($this) {
 
 function validOrderRequest(orderRequest) {
     if (orderRequest.customerId.length === 0) {
-        alert('Select the customer')
-        return false
-    }
-    if (orderRequest.restaurantId.length === 0) {
-        alert('Select the restaurant')
+        showModal($('.modal.alert'), 'Select a customer', 'Please select a Customer in the dropbox')
         return false
     }
     if (orderRequest.items.length === 0) {
-        alert('Select a dish')
+        showModal($('.modal.alert'), 'Choose some dishes', 'Please select some dishes of a restaurant')
         return false
     }
     return true
+}
+
+function handlePreviewTotalOrder($this) {
+    const $table = $this.closest('table')
+
+    let total = 0
+    $table.find('tr.dish').each(function(index, tr) {
+        const $tr = $(tr)
+        const dishChecked = $tr.find('input[type="checkbox"]').prop('checked')
+        if (dishChecked) {
+            const price = accounting.unformat($tr.find('td.price').text())
+            const quantity = $tr.find('input[type="number"]').val()
+            total += price * quantity
+        }
+    });
+
+    const $total = $table.find('.total')
+    if (total > 0) {
+        $total.text(accounting.formatMoney(total))
+    } else {
+        $total.text('')
+    }
+}
+
+function showModal($modal, header, description, fnApprove) {
+    $modal.find('.header').text(header)
+    $modal.find('.content').text(description)
+    $modal.modal({
+        onApprove: function() {
+            fnApprove && fnApprove()
+        }
+    }).modal('show')
 }
 
 $(function () {
@@ -252,27 +280,18 @@ $(function () {
                 contentType: "application/json",
                 data: JSON.stringify(orderRequest),
                 success: function(data, textStatus, jqXHR) {
-                    alert('Order submitted successfully. The order id is "' + data + '"')
+                    showModal($('.modal.alert'), 'Order Submitted', 'Order submitted successfully. The order id is "' + data + '"')
                 },
                 error: function (jqXHR, textStatus, errorThrown) {}
             })
         }
     })
+
+    $('.accordion').on('change', 'input[type="checkbox"]', function() {
+        handlePreviewTotalOrder($(this))
+    })
+
+    $('.accordion').on('change', 'input[type="number"]', function() {
+        handlePreviewTotalOrder($(this))
+    })
 })
-
-
-// code for total
-//                $('.checkbox').checkbox({
-//                    onChecked: function() {
-//                        const price = parseFloat($(this).closest('tr').find('td.price').text())
-//                        const $total = $(this).closest('table').find('tfoot').find('.total')
-//                        const total = parseFloat($total.text())
-//                        $total.text(total + price)
-//                    },
-//                    onUnchecked: function() {
-//                        const price = parseFloat($(this).closest('tr').find('td.price').text())
-//                        const $total = $(this).closest('table').find('tfoot').find('.total')
-//                        const total = parseFloat($total.text())
-//                        $total.text(total - price)
-//                    }
-//                })

@@ -76,7 +76,7 @@ function addCustomer(customer) {
                         '<h3>'+customer.name+'</h3>'+
                     '</div>'+
                     '<div class="four wide center aligned column">'+
-                        '<p>'+customer.address+'</p>'+
+                        '<p>Address: '+customer.address+'</p>'+
                     '</div>'+
                     '<div class="six wide right aligned column">'+
                         '<div class="ui label">'+customer.id+'</div>'+
@@ -140,11 +140,21 @@ function validateAndGetFormData() {
     const address = $('#customerForm input[name="address"]').val()
 
     if (name.trim().length === 0 || address.trim().length === 0) {
-        alert("Please inform customer name and address")
+        showModal($('.modal.alert'), 'Missing fields', 'Please inform customer Name and Address')
         return null
     }
 
     return {id, name, address}
+}
+
+function showModal($modal, header, description, fnApprove) {
+    $modal.find('.header').text(header)
+    $modal.find('.content').text(description)
+    $modal.modal({
+        onApprove: function() {
+            fnApprove && fnApprove()
+        }
+    }).modal('show')
 }
 
 $(function () {
@@ -179,17 +189,16 @@ $(function () {
     })
 
     $('#customerList').on('click', '.btnDelete', function() {
-        const id = $(this).closest('div.item').attr('id')
-        const resp = confirm('Delete customer?')
-        if (!resp) {
-            return
-        }
-
-        $.ajax({
-            type: "DELETE",
-            url: customerServiceApiBaseUrl.concat("/", id),
-            success: function(data, textStatus, jqXHR) {},
-            error: function (jqXHR, textStatus, errorThrown) {}
+        const $customer = $(this).closest('div.item')
+        const id = $customer.attr('id')
+        const name = $customer.find('h3').text()
+        showModal($('.modal.confirmation'), 'Delete Customer', 'Are you sure you want to delete customer "'+name+'"?', function() {
+            $.ajax({
+                type: "DELETE",
+                url: customerServiceApiBaseUrl.concat("/", id),
+                success: function(data, textStatus, jqXHR) {},
+                error: function (jqXHR, textStatus, errorThrown) {}
+            })
         })
     })
 
