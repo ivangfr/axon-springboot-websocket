@@ -94,18 +94,17 @@ function addCustomer(customer) {
 
 function getOrderRow(order) {
     const items = order.items
-        .map(item => item.quantity + "x " + item.dishName + " $" + item.dishPrice + " ($" + item.quantity*item.dishPrice + ")")
-        .map(description => '<div class="item">' + description + '</div>')
+        .map(item => item.quantity + "x " + item.dishName + " " + accounting.formatMoney(item.dishPrice) + " (" + accounting.formatMoney(item.quantity*item.dishPrice) + ")")
+        .map(description => '<li>' + description + '</li>')
         .join('')
-
     return (
         '<tr id="'+order.id+'">'+
             '<td>'+order.id+'</td>'+
-            '<td>'+order.createdAt+'</td>'+
+            '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
             '<td>'+order.status+'</td>'+
             '<td><strong>'+order.restaurantName+'</strong></td>'+
-            '<td>$'+order.total+'</td>'+
-            '<td><div class="ui bulleted list">'+items+'</div></td>'+
+            '<td>'+accounting.formatMoney(order.total)+'</td>'+
+            '<td><ul class="ui list">'+items+'</ul></td>'+
         '</tr>'
     )
 }
@@ -181,6 +180,11 @@ $(function () {
 
     $('#customerList').on('click', '.btnDelete', function() {
         const id = $(this).closest('div.item').attr('id')
+        const resp = confirm('Delete customer?')
+        if (!resp) {
+            return
+        }
+
         $.ajax({
             type: "DELETE",
             url: customerServiceApiBaseUrl.concat("/", id),

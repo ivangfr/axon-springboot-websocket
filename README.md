@@ -126,11 +126,9 @@ Inside `axon-springboot` root folder, run the following commands in different te
 
 ## TODO
 
-- add moment.js to format dates;
-- remove disabled fields in customer and restaurant forms;
-- add confirmation when deleting a customer, restaurant or dish;
-- add some library to format money;
 - show total order when select dishes;
+- add order in restaurant-service;
+- use axios for ajax calls;
 - replace alert to semantic ui modal;
 
 ## References

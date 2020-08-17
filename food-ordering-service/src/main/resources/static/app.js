@@ -100,8 +100,8 @@ function loadOrders() {
 
 function addOrder(order) {
     const items = order.items
-        .map(item => item.quantity + "x " + item.dishName + " $" + item.dishPrice + " ($" + item.quantity*item.dishPrice + ")")
-        .map(description => '<div class="item">' + description + '</div>')
+        .map(item => item.quantity + "x " + item.dishName + " " + accounting.formatMoney(item.dishPrice) + " (" + accounting.formatMoney(item.quantity*item.dishPrice) + ")")
+        .map(description => '<li>' + description + '</li>')
         .join('')
 
     const row =
@@ -111,9 +111,9 @@ function addOrder(order) {
             '<td>'+order.customerAddress+'</th>'+
             '<td><strong>'+order.restaurantName+'</strong></th>'+
             '<td>'+order.status+'</th>'+
-            '<td>'+order.total+'</th>'+
-            '<td>'+order.createdAt+'</th>'+
-            '<td><div class="ui bulleted list">'+items+'</div></td>'+
+            '<td>'+accounting.formatMoney(order.total)+'</th>'+
+            '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</th>'+
+            '<td><ul class="ui list">'+items+'</ul></td>'+
         '</tr>'
 
     $('#orderTable').find('tbody').prepend(row)
@@ -171,7 +171,7 @@ function getRestaurantDishRow(dish) {
                 '<input type="checkbox">'+
             '</td>'+
             '<td class="name">'+dish.dishName+'</td>'+
-            '<td class="price">'+dish.dishPrice+'</td>'+
+            '<td class="price">'+accounting.formatMoney(dish.dishPrice)+'</td>'+
             '<td>'+
                 '<div class="ui small input">'+
                     '<input type="number" value="1" min="1" max="10">'+
@@ -189,7 +189,7 @@ function addRestaurantDish(dish) {
 function updateRestaurantDish(dish) {
     const $dish = $('#'+dish.dishId);
     $dish.find('td.name').text(dish.dishName)
-    $dish.find('td.price').text(dish.dishPrice)
+    $dish.find('td.price').text(accounting.formatMoney(dish.dishPrice))
 }
 
 function removeRestaurantDish(dish) {

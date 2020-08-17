@@ -88,7 +88,7 @@ function getRestaurantDishRow(dish) {
         '<tr id="'+dish.dishId+'">'+
             '<td class="six wide">'+dish.dishId+'</td>'+
             '<td class="name six wide"><strong>'+dish.dishName+'</strong></td>'+
-            '<td class="price two wide">$'+dish.dishPrice+'</td>'+
+            '<td class="price two wide">'+accounting.formatMoney(dish.dishPrice)+'</td>'+
             '<td class="two right aligned wide">'+
                 '<button class="btnDeleteDish mini red ui icon button"><i class="icon trash alternate"></i></button>'+
                 '<button class="btnEditDish mini orange ui icon button"><i class="icon edit"></i></button>'+
@@ -112,7 +112,7 @@ function addRestaurantDish(dish) {
 function updateRestaurantDish(dish) {
     const $dish = $('#'+dish.dishId)
     $dish.find('td.name > strong').text(dish.dishName)
-    $dish.find('td.price').text('$' + dish.dishPrice)
+    $dish.find('td.price').text(accounting.formatMoney(dish.dishPrice))
 }
 
 function removeRestaurantDish(dish) {
@@ -218,6 +218,11 @@ $(function () {
 
     $('#restaurantList').on('click', '.btnDelete', function() {
         const id = $(this).closest('div.item').attr('id')
+        const resp = confirm('Delete restaurant?')
+        if (!resp) {
+            return
+        }
+
         $.ajax({
             type: "DELETE",
             url: restaurantServiceApiBaseUrl.concat("/", id),
@@ -291,6 +296,11 @@ $(function () {
     $('#restaurantList').on('click', '.btnDeleteDish', function() {
         const restaurantId = $(this).closest('div.item').attr('id')
         const dishId = $(this).closest('tr').attr('id')
+        const resp = confirm('Delete dish?')
+        if (!resp) {
+            return
+        }
+
         $.ajax({
             type: "DELETE",
             url: restaurantServiceApiBaseUrl.concat("/", restaurantId, "/dishes/", dishId),
