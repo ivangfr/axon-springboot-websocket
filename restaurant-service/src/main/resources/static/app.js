@@ -8,6 +8,7 @@ function connectToWebSocket() {
     stompClient.connect({},
         function (frame) {
             console.log('Connected: ' + frame)
+            $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
             stompClient.subscribe('/topic/restaurant/added', function (event) {
                 addRestaurant(JSON.parse(event.body))
@@ -34,7 +35,8 @@ function connectToWebSocket() {
             })
         },
         function() {
-            console.log('Unable to connect to Websocket!')
+            showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, restaurant-service is down or restarting')
+            $('.connWebSocket').find('i').removeClass('green').addClass('red')
         }
     )
 }
@@ -62,9 +64,11 @@ function addRestaurant(restaurant) {
             '<div class="content">'+
                 '<div class="ui grid">'+
                     '<div class="four wide column">'+
-                        '<button class="btnDelete tiny red ui icon button"><i class="icon trash alternate"></i></button>'+
-                        '<button class="btnEdit tiny orange ui icon button"><i class="icon edit"></i></button>'+
-                        '<button class="btnAddDish tiny teal ui icon button">Add Dish</button>'+
+                        '<button class="btnDelete ui tiny red icon button"><i class="icon trash alternate"></i></button>'+
+                        '<button class="btnEdit ui tiny orange icon button"><i class="icon edit"></i></button>'+
+                        '<button class="btnAddDish ui tiny teal labeled icon button">'+
+                            '<i class="plus icon"></i>Dish'+
+                         '</button>'+
                     '</div>'+
                     '<div class="six wide center aligned column">'+
                         '<h3>'+restaurant.name+'</h3>'+
@@ -332,6 +336,10 @@ $(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {}
         })
+    })
+
+    $('.connWebSocket').click(function(event) {
+        connectToWebSocket()
     })
 
 })

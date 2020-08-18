@@ -128,7 +128,6 @@ Inside `axon-springboot` root folder, run the following commands in different te
 
 - add order in restaurant-service;
 - use axios for ajax calls;
-- show if page is connected to WebSocket.
 
 ## References
 

@@ -8,6 +8,7 @@ function connectToWebSocket() {
     stompClient.connect({},
         function (frame) {
             console.log('Connected: ' + frame)
+            $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
             stompClient.subscribe('/topic/customer/added', function (event) {
                 addCustomer(JSON.parse(event.body))
@@ -50,7 +51,8 @@ function connectToWebSocket() {
             })
         },
         function() {
-            console.log('Unable to connect to Websocket!')
+            showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, food-ordering-service is down or restarting')
+            $('.connWebSocket').find('i').removeClass('green').addClass('red')
         }
     )
 }
@@ -293,5 +295,9 @@ $(function () {
 
     $('.accordion').on('change', 'input[type="number"]', function() {
         handlePreviewTotalOrder($(this))
+    })
+
+    $('.connWebSocket').click(function(event) {
+        connectToWebSocket()
     })
 })

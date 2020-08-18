@@ -12,6 +12,9 @@
     <nav>
         <div class="ui huge menu">
             <div class="header item">Restaurant-Service</div>
+            <div class="right menu">
+                <a class="connWebSocket ui item"><i class="circle green icon"></i>WebSocket</a>
+            </div>
         </div>
     </nav>
 </header>
@@ -29,8 +32,10 @@
                         <label>Restaurant Name</label>
                         <input name="name" type="text">
                     </div>
-                    <button name="btnCancel" class="ui button" type="button">Cancel</button>
-                    <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                    <div class="ui fluid buttons">
+                        <button name="btnCancel" class="ui button" type="button">Cancel</button>
+                        <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                    </div>
                 </form>
                 <form id="restaurantDishForm" class="ui form hidden" style="display:none">
                     <div class="field disabled">
@@ -49,8 +54,10 @@
                         <label>Dish Price</label>
                         <input name="dishPrice" type="number">
                     </div>
-                    <button name="btnCancel" class="ui button" type="button">Cancel</button>
-                    <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                    <div class="ui fluid buttons">
+                        <button name="btnCancel" class="ui button" type="button">Cancel</button>
+                        <button name="btnSave" class="ui teal button" type="submit">Save</button>
+                    </div>
                 </form>
             </div>
             <div class="twelve wide column">

@@ -8,6 +8,7 @@ function connectToWebSocket() {
     stompClient.connect({},
         function (frame) {
             console.log('Connected: ' + frame)
+            $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
             stompClient.subscribe('/topic/customer/added', function (event) {
                 addCustomer(JSON.parse(event.body))
@@ -26,7 +27,8 @@ function connectToWebSocket() {
             })
         },
         function() {
-            console.log('Unable to connect to Websocket!')
+            showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, customer-service is down or restarting')
+            $('.connWebSocket').find('i').removeClass('green').addClass('red')
         }
     )
 }
@@ -73,10 +75,10 @@ function addCustomer(customer) {
                         '<button class="btnEdit tiny orange ui icon button"><i class="icon edit"></i></button>'+
                     '</div>'+
                     '<div class="four wide center aligned column">'+
-                        '<h3>'+customer.name+'</h3>'+
+                        '<h3 class="name">'+customer.name+'</h3>'+
                     '</div>'+
                     '<div class="four wide center aligned column">'+
-                        '<p>Address: '+customer.address+'</p>'+
+                        '<p class="address">Address: <strong>'+customer.address+'</strong></p>'+
                     '</div>'+
                     '<div class="six wide right aligned column">'+
                         '<div class="ui label">'+customer.id+'</div>'+
@@ -110,8 +112,8 @@ function getOrderRow(order) {
 }
 
 function updateCustomer(customer) {
-    $('#'+customer.id).find('h3').text(customer.name)
-    $('#'+customer.id).find('p').text(customer.id)
+    $('#'+customer.id).find('h3.id').text(customer.name)
+    $('#'+customer.id).find('p.address > strong').text(customer.address)
 }
 
 function removeCustomer(customer) {
@@ -215,5 +217,9 @@ $(function () {
 
     $('#customerForm button[name="btnCancel"]').click(function() {
         resetForm()
+    })
+
+    $('.connWebSocket').click(function(event) {
+        connectToWebSocket()
     })
 })
