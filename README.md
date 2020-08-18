@@ -1,4 +1,4 @@
-# axon-springboot
+# axon-springboot-websocket
 
 The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications: `customer-service`, `restaurant-service` and `food-ordering-service`. Those services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind so, in order to achieve it, we used [`Axon Framework`](https://axoniq.io/product-overview/axon-framework). Those three services are connected to `axon-server` that is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
 
@@ -38,7 +38,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Start environment
 
-- Open a terminal and inside `axon-springboot` root folder run
+- Open a terminal and inside `axon-springboot-websocket` root folder run
   ```
   docker-compose up -d
   ```
@@ -50,7 +50,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Running Applications
 
-Inside `axon-springboot` root folder, run the following commands in different terminals.
+Inside `axon-springboot-websocket` root folder, run the following commands in different terminals.
 
 - **axon-event-commons**
   ```
@@ -119,7 +119,7 @@ Inside `axon-springboot` root folder, run the following commands in different te
 ## Shutdown
 
 - To stop the applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot` root folder and run
+- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot-websocket` root folder and run
   ```
   docker-compose down -v
   ```

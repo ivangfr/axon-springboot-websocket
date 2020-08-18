@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.mycompany</groupId>
-        <artifactId>axon-springboot</artifactId>
+        <artifactId>axon-springboot-websocket</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
