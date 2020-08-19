@@ -22,7 +22,7 @@
     <div class="ui container">
         <div class="ui divider"></div>
         <div class="ui grid">
-            <div class="four wide column">
+            <div class="three wide column">
                 <form id="restaurantForm" class="ui form">
                     <div class="field disabled">
                         <label>Restaurant ID</label>
@@ -60,8 +60,17 @@
                     </div>
                 </form>
             </div>
-            <div class="twelve wide column">
+            <div class="thirteen wide column">
                 <div id="restaurantList" class="ui relaxed divided list"></div>
+            </div>
+        </div>
+
+        <!-- Orders Modal -->
+        <div class="ui large modal orders">
+            <div class="header"></div>
+            <div class="content"></div>
+            <div class="actions">
+                <div class="ui positive button">Ok</div>
             </div>
         </div>
 
@@ -90,6 +99,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="/app.js"></script>

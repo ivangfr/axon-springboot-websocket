@@ -1,9 +1,8 @@
-let stompClient = null
 const foodOrderingServiceApiBaseUrl = "http://localhost:9082/api"
 
 function connectToWebSocket() {
     const socket = new SockJS('/websocket')
-    stompClient = Stomp.over(socket)
+    const stompClient = Stomp.over(socket)
 
     stompClient.connect({},
         function (frame) {
@@ -77,7 +76,7 @@ function loadRestaurants() {
         success: function(data, textStatus, jqXHR) {
             data.forEach(restaurant => {
                 addRestaurant(restaurant)
-                restaurant.dishes.map(function(dish) {
+                restaurant.dishes.map(dish => {
                     return {restaurantId: restaurant.id, dishId: dish.id, dishName: dish.name, dishPrice: dish.price}
                 })
                 .map(dish => addRestaurantDish(dish))
@@ -297,7 +296,7 @@ $(function () {
         handlePreviewTotalOrder($(this))
     })
 
-    $('.connWebSocket').click(function(event) {
+    $('.connWebSocket').click(function() {
         connectToWebSocket()
     })
 })

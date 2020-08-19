@@ -1,9 +1,8 @@
-let stompClient = null
 const restaurantServiceApiBaseUrl = "http://localhost:9081/api/restaurants"
 
 function connectToWebSocket() {
     const socket = new SockJS('/websocket')
-    stompClient = Stomp.over(socket)
+    const stompClient = Stomp.over(socket)
 
     stompClient.connect({},
         function (frame) {
@@ -48,7 +47,7 @@ function loadRestaurants() {
         success: function(data, textStatus, jqXHR) {
             data.forEach(restaurant => {
                 addRestaurant(restaurant)
-                restaurant.dishes.map(function(dish) {
+                restaurant.dishes.map(dish => {
                     return {restaurantId: restaurant.id, dishId: dish.id, dishName: dish.name, dishPrice: dish.price}
                 })
                 .map(dish => addRestaurantDish(dish))
@@ -63,14 +62,15 @@ function addRestaurant(restaurant) {
         '<div id="'+restaurant.id+'" class="item">'+
             '<div class="content">'+
                 '<div class="ui grid">'+
-                    '<div class="four wide column">'+
+                    '<div class="six wide column">'+
                         '<button class="btnDelete ui tiny red icon button"><i class="icon trash alternate"></i></button>'+
                         '<button class="btnEdit ui tiny orange icon button"><i class="icon edit"></i></button>'+
                         '<button class="btnAddDish ui tiny teal labeled icon button">'+
                             '<i class="plus icon"></i>Dish'+
-                         '</button>'+
+                        '</button>'+
+                        '<button class="btnOrders ui tiny violet button">Orders</button>'+
                     '</div>'+
-                    '<div class="six wide center aligned column">'+
+                    '<div class="four wide center aligned column">'+
                         '<h3>'+restaurant.name+'</h3>'+
                     '</div>'+
                     '<div class="six wide right aligned column">'+
@@ -189,6 +189,43 @@ function hideRestaurantDishForm() {
     $('#restaurantDishForm').css('display', 'none')
 }
 
+function buildRestaurantOrderTable(data) {
+    const orders = data.map(order => {
+        const items = order.items
+            .map(item => item.quantity + "x " + item.dishName + " " + accounting.formatMoney(item.dishPrice) + " (" + accounting.formatMoney(item.quantity*item.dishPrice) + ")")
+            .map(description => '<li>' + description + '</li>')
+            .join('')
+        return (
+            '<tr>'+
+                '<td>'+order.id+'</td>'+
+                '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
+                '<td>'+order.status+'</td>'+
+                '<td><strong>'+order.customerName+'</strong></td>'+
+                '<td><strong>'+order.customerAddress+'</strong></td>'+
+                '<td>'+accounting.formatMoney(order.total)+'</td>'+
+                '<td><ul class="ui list">'+items+'</ul></td>'+
+            '</tr>'
+        )
+    }).join('')
+
+    return (
+        '<table id="orderTable" class="ui seven column striped very compact table">'+
+            '<thead>'+
+            '<tr>'+
+                '<th>ID</th>'+
+                '<th>CreatedAt</th>'+
+                '<th>Status</th>'+
+                '<th>Customer Name</th>'+
+                '<th>Customer Address</th>'+
+                '<th>Total</th>'+
+                '<th>Items</th>'+
+            '</tr>'+
+            '</thead>'+
+            '<tbody>'+orders+'</tbody>'+
+        '</table>'
+    )
+}
+
 function showModal($modal, header, description, fnApprove) {
     $modal.find('.header').text(header)
     $modal.find('.content').text(description)
@@ -265,6 +302,23 @@ $(function () {
         hideRestaurantForm()
     })
 
+    $('#restaurantList').on('click', '.btnOrders', function() {
+        const $restaurant = $(this).closest('div.item')
+        const restaurantId = $restaurant.attr('id')
+        const restaurantName = $restaurant.find('h3').text()
+
+        $.ajax({
+            url: restaurantServiceApiBaseUrl.concat("/", restaurantId, "/orders"),
+            success: function(data, textStatus, jqXHR) {
+                const $modal = $('.modal.orders')
+                $modal.find('.header').text(restaurantName + " orders")
+                $modal.find('.content').empty().append(buildRestaurantOrderTable(data))
+                $modal.modal('show')
+            },
+            error: function (jqXHR, textStatus, errorThrown) {}
+        })
+    })
+
     $('#restaurantForm button[name="btnCancel"]').click(function() {
         resetRestaurantForm()
     })
@@ -338,7 +392,7 @@ $(function () {
         })
     })
 
-    $('.connWebSocket').click(function(event) {
+    $('.connWebSocket').click(function() {
         connectToWebSocket()
     })
 

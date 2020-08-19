@@ -1,9 +1,8 @@
-let stompClient = null
 const customerServiceApiBaseUrl = "http://localhost:9080/api/customers"
 
 function connectToWebSocket() {
     const socket = new SockJS('/websocket')
-    stompClient = Stomp.over(socket)
+    const stompClient = Stomp.over(socket)
 
     stompClient.connect({},
         function (frame) {
@@ -44,16 +43,10 @@ function loadCustomers() {
                     url: customerServiceApiBaseUrl.concat("/", customer.id, "/orders"),
                     contentType: "application/json",
                     success: function(data, textStatus, jqXHR) {
-                        data.map(function(order) {
-                            return {
-                                customerId: customer.id,
-                                id: order.id,
-                                createdAt: order.createdAt,
-                                status: order.status,
-                                restaurantName: order.restaurantName,
-                                total: order.total,
-                                items: order.items
-                            }
+                        data.map(order => {
+                            let orderCopy = { ... order }
+                            orderCopy['customerId'] = customer.id
+                            return orderCopy
                         })
                         .forEach(order => addOrder(order))
                     },
@@ -100,7 +93,7 @@ function getOrderRow(order) {
         .map(description => '<li>' + description + '</li>')
         .join('')
     return (
-        '<tr id="'+order.id+'">'+
+        '<tr>'+
             '<td>'+order.id+'</td>'+
             '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
             '<td>'+order.status+'</td>'+
@@ -112,8 +105,9 @@ function getOrderRow(order) {
 }
 
 function updateCustomer(customer) {
-    $('#'+customer.id).find('h3.id').text(customer.name)
-    $('#'+customer.id).find('p.address > strong').text(customer.address)
+    const $customer = $('#'+customer.id)
+    $customer.find('h3.id').text(customer.name)
+    $customer.find('p.address > strong').text(customer.address)
 }
 
 function removeCustomer(customer) {
@@ -219,7 +213,7 @@ $(function () {
         resetForm()
     })
 
-    $('.connWebSocket').click(function(event) {
+    $('.connWebSocket').click(function() {
         connectToWebSocket()
     })
 })

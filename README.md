@@ -10,21 +10,33 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 - ### customer-service
 
-  `Spring Boot` application that exposes a REST API to manage `Customers`. This service was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
+  `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
+  
+  ![customer-service](images/customer-service.png)
+  
+  `customer-service` was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
   
   `customer-service` uses `MySQL` to store customers data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
 
 - ### restaurant-service
 
-  `Spring Boot` application that exposes a REST API to manage `Restaurants`. This service was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
+  `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
+  
+  ![restaurant-service](images/restaurant-service.png)
+  
+  `restaurant-service` was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
   
   `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
   
 - ### food-ordering-service
 
-  `Spring Boot` application that exposes a REST API to manage `Orders`. This service was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
+  `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call another service to get this information.
+  ![food-ordering-service](images/food-ordering-service.png)
+  
+  `food-ordering-service` was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
+  
+  `food-ordering-service` uses `MongoDB` to store order data. Besides, it listens to customer and restaurant/dish events, collects the information that it needs and stores them in a customer or restaurant/dish table present in this own database, so that it doesn't need to call another service to get this information.
 
 - ### axon-event-commons
 
@@ -80,6 +92,12 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 | restaurant-service    | http://localhost:9081/swagger-ui.html |
 | food-ordering-service | http://localhost:9082/swagger-ui.html |
 
+## Demo
+
+The GIF below shows a user creating a customer in `customer-service` UI. Then, in `restaurant-service` UI, he creates a restaurant and adds a dish. Finally, using `food-ordering-service` UI, he submits an order using the customer and restaurant/dish created. Note that as soon as a customer or restaurant/dish is created, an event is sent and, the consumer of this event updates its UI in realtime using WebSockets.
+
+![demo](images/demo.gif)
+
 ## Useful Commands & Links
 
 - **Axon Server**
@@ -123,11 +141,6 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
   ```
   docker-compose down -v
   ```
-
-## TODO
-
-- add order in restaurant-service;
-- use axios for ajax calls;
 
 ## References
 
