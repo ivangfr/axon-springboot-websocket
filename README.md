@@ -16,7 +16,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   
   `customer-service` was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
   
-  `customer-service` uses `MySQL` to store customers data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
+  `customer-service` uses `MySQL` to store customer's data. Besides, it listens to order events, collects the order information that it needs and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
 
 - ### restaurant-service
 
@@ -55,7 +55,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   docker-compose up -d
   ```
 
-- Wait a bit until `MySQL`, `PostgreSQL` and `MongoDB` are `Up (healthy)`. You can check it by running
+- Wait until `MySQL`, `PostgreSQL` and `MongoDB` are `Up (healthy)`. You can check it by running
   ```
   docker-compose ps
   ```
@@ -86,11 +86,11 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 ## Application's URLs
 
-| Application           | URL                                   |
-| --------------------- | ------------------------------------- |
-| customer-service      | http://localhost:9080/swagger-ui.html |
-| restaurant-service    | http://localhost:9081/swagger-ui.html |
-| food-ordering-service | http://localhost:9082/swagger-ui.html |
+| Application           | URL                   | Swagger                               |
+| --------------------- | --------------------- | ------------------------------------- |
+| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui.html |
+| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui.html |
+| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui.html |
 
 ## Demo
 

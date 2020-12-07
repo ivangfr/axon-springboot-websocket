@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   axon-server:
-    image: axoniq/axonserver:4.3.6
+    image: axoniq/axonserver:4.4.5
     container_name: axon-server
     restart: unless-stopped
     ports:
@@ -11,7 +11,7 @@ services:
       - "8124:8124"
 
   mysql:
-    image: mysql:8.0.21
+    image: mysql:8.0.22
     container_name: mysql
     restart: unless-stopped
     ports:
@@ -25,7 +25,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:12.3
+    image: postgres:13.1
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -38,7 +38,7 @@ services:
       start_period: 30s
 
   mongodb:
-    image: mongo:4.2.7
+    image: mongo:4.4.2
     container_name: mongodb
     restart: unless-stopped
     ports:

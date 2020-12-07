@@ -4,7 +4,6 @@ import com.mycompany.axoneventcommons.customer.CustomerAddedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerDeletedEvent;
 import com.mycompany.axoneventcommons.customer.CustomerUpdatedEvent;
 import com.mycompany.axoneventcommons.order.OrderCreatedEvent;
-import com.mycompany.customerservice.model.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
