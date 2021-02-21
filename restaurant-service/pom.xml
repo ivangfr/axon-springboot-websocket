@@ -16,9 +16,9 @@
 
     <properties>
         <axon.spring.version>4.4.3</axon.spring.version> <!-- setting version 4.4.5 does not work -->
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-        <springdoc.openapi.version>1.5.0</springdoc.openapi.version>
-        <hibernate.types.version>2.10.0</hibernate.types.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <springdoc.openapi.version>1.5.4</springdoc.openapi.version>
+        <hibernate.types.version>2.10.2</hibernate.types.version>
         <axon.event.commons.version>0.0.1-SNAPSHOT</axon.event.commons.version>
     </properties>
 
@@ -103,6 +103,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
