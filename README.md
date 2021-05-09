@@ -60,7 +60,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   docker-compose ps
   ```
 
-## Running Applications
+## Running applications with Maven
 
 Inside `axon-springboot-websocket` root folder, run the following commands in different terminals.
 
@@ -84,7 +84,59 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
   ./mvnw clean spring-boot:run --projects food-ordering-service -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
-## Application's URLs
+## Running applications as Docker containers
+
+- ### Build Docker images
+
+  - In a terminal, make sure you are in `axon-springboot-websocket` root folder
+  - Run the following script to build the Docker images
+    - JVM
+      ```
+      ./docker-build.sh
+      ```
+    - Native (it's not implemented yet)
+      ```
+      ./docker-build.sh native
+      ```
+
+- ### Environment variables
+
+  - **customer-service**
+
+    | Environment Variable | Description                                                       |
+    | -------------------- | ----------------------------------------------------------------- |
+    | `MYSQL_HOST`         | Specify host of the `MySQL` database to use (default `localhost`) |
+    | `MYSQL_PORT`         | Specify port of the `MySQL` database to use (default `3306`)      |
+    | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)    |
+    | `AXON_SERVER_PORT`   | Specify port of the `Axon Server` to use (default `8124`)         |
+
+  - **restaurant-service**
+
+    | Environment Variable | Description                                                          |
+    | -------------------- | -------------------------------------------------------------------- |
+    | `POSTGRES_HOST`      | Specify host of the `Postgres` database to use (default `localhost`) |
+    | `POSTGRES_PORT`      | Specify port of the `Postgres` database to use (default `5432`)      |
+    | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)       |
+    | `AXON_SERVER_PORT`   | Specify port of the `Axon Server` to use (default `8124`)            |
+
+  - **food-ordering-service**
+
+    | Environment Variable | Description                                                       |
+    | -------------------- | ----------------------------------------------------------------- |
+    | `MONGODB_HOST`       | Specify host of the `Mongo` database to use (default `localhost`) |
+    | `MONGODB_PORT`       | Specify port of the `Mongo` database to use (default `27017`)     |
+    | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)    |
+    | `AXON_SERVER_PORT`   | Specify port of the `Axon Server` to use (default `8124`)         |
+
+- ### Start Docker containers
+
+  - In a terminal, make sure you are inside `axon-springboot-websocket` root folder
+  - Run following command
+    ```
+    ./start-apps.sh
+    ```
+
+## Application URLs
 
 | Application           | URL                   | Swagger                               |
 | --------------------- | --------------------- | ------------------------------------- |
@@ -136,8 +188,13 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 
 ## Shutdown
 
-- To stop the applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker-compose containers, networks and volumes, make sure you are inside `axon-springboot-websocket` root folder and run
+- To stop applications
+    - If you start them with `Maven`, go to their terminals and press `Ctrl+C`
+    - If you start them as Docker containers, make sure you are inside `axon-springboot-websocket` root folder and run the following script
+      ```
+      ./stop-apps.sh
+      ```
+- To stop and remove docker-compose containers, network and volumes, run the command below inside `axon-springboot-websocket` root folder
   ```
   docker-compose down -v
   ```
