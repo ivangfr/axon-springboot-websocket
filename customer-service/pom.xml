@@ -2,11 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.mycompany</groupId>
         <artifactId>axon-springboot-websocket</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,11 +14,12 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <axon.spring.version>4.4.3</axon.spring.version> <!-- setting version 4.4.5 does not work -->
+        <axon-spring.version>4.5</axon-spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <springdoc.openapi.version>1.5.4</springdoc.openapi.version>
-        <hibernate.types.version>2.10.2</hibernate.types.version>
-        <axon.event.commons.version>0.0.1-SNAPSHOT</axon.event.commons.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <springdoc-openapi.version>1.5.8</springdoc-openapi.version>
+        <hibernate-types.version>2.10.4</hibernate-types.version>
+        <axon-event-commons.version>1.0.0</axon-event-commons.version>
     </properties>
 
     <dependencies>
@@ -50,14 +50,14 @@
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
-            <version>${axon.spring.version}</version>
+            <version>${axon-spring.version}</version>
         </dependency>
 
         <!-- axon-event-commons -->
         <dependency>
             <groupId>com.mycompany</groupId>
             <artifactId>axon-event-commons</artifactId>
-            <version>${axon.event.commons.version}</version>
+            <version>${axon-event-commons.version}</version>
         </dependency>
 
         <!-- MapStruct -->
@@ -71,14 +71,14 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.openapi.version}</version>
+            <version>${springdoc-openapi.version}</version>
         </dependency>
 
         <!-- To have JSON format stored in DB -->
         <dependency>
             <groupId>com.vladmihalcea</groupId>
             <artifactId>hibernate-types-52</artifactId>
-            <version>${hibernate.types.version}</version>
+            <version>${hibernate-types.version}</version>
         </dependency>
 
         <dependency>
@@ -117,13 +117,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <annotationProcessorPaths>
-                        <!-- Lombok -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-                        <!-- MapStruct -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok-mapstruct-binding.version}</version>
+                        </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>

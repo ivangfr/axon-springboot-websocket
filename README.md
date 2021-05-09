@@ -40,7 +40,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 - ### axon-event-commons
 
-  `Maven` project where all events mentioned above are defined. It generates a JAR file that is added as a dependency in the `pom.xml` of all the services.
+  `Maven` project where all events mentioned above are defined. It generates a JAR file that is added as a dependency in the `pom.xml` of `customer-service`, `restaurant-service` and `food-ordering-service`.
 
 ## Prerequisites
 
