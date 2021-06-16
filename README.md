@@ -189,7 +189,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 ## Shutdown
 
 - To stop applications
-    - If you start them with `Maven`, go to their terminals and press `Ctrl+C`
+    - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`
     - If you start them as Docker containers, make sure you are inside `axon-springboot-websocket` root folder and run the following script
       ```
       ./stop-apps.sh
