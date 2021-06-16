@@ -198,6 +198,10 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
   ```
   docker-compose down -v
   ```
+- To remove the docker images created by this project, run
+  ```
+  ./remove-docker-images.sh
+  ```
 
 ## References
 
