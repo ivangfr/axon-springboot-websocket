@@ -135,6 +135,10 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
     ```
     ./start-apps.sh
     ```
+  - Wait for applications to be `Up (healthy)`. For it, you can run
+    ```
+    docker ps -f name=customer-service -f name=restaurant-service -f name=food-ordering-service
+    ```
 
 ## Application URLs
 
@@ -194,14 +198,17 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
       ```
       ./stop-apps.sh
       ```
-- To stop and remove docker-compose containers, network and volumes, run the command below inside `axon-springboot-websocket` root folder
+- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `axon-springboot-websocket` root folder, run the command below
   ```
   docker-compose down -v
   ```
-- To remove the docker images created by this project, run
-  ```
-  ./remove-docker-images.sh
-  ```
+
+## Cleanup
+
+To remove the docker images created by this project, go to a terminal and, inside `axon-springboot-websocket` root folder, run the following script
+```
+./remove-docker-images.sh
+```
 
 ## References
 
