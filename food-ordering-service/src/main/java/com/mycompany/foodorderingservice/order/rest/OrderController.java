@@ -71,5 +71,4 @@ public class OrderController {
         return commandGateway.send(new CreateOrderCommand(id, customer.getId(), customer.getName(),
                 customer.getAddress(), restaurant.getId(), restaurant.getName(), items));
     }
-
 }

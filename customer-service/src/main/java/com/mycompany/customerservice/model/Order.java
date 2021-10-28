@@ -40,5 +40,4 @@ public class Order {
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private Set<OrderItem> items;
-
 }

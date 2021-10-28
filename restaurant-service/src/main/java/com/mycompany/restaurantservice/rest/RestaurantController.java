@@ -115,5 +115,4 @@ public class RestaurantController {
                         .map(restaurantMapper::toRestaurantOrderDto)
                         .collect(Collectors.toList()));
     }
-
 }

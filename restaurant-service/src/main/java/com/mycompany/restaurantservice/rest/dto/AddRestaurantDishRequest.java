@@ -17,5 +17,4 @@ public class AddRestaurantDishRequest {
     @Schema(example = "6.99")
     @Positive
     private BigDecimal price;
-
 }

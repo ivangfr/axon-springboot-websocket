@@ -4,7 +4,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Project Architecture
 
-![project-diagram](images/project-diagram.png)
+![project-diagram](documentation/project-diagram.png)
 
 ## Applications
 
@@ -12,7 +12,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![customer-service](images/customer-service.png)
+  ![customer-service](documentation/customer-service.png)
   
   `customer-service` was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
   
@@ -22,7 +22,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![restaurant-service](images/restaurant-service.png)
+  ![restaurant-service](documentation/restaurant-service.png)
   
   `restaurant-service` was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
   
@@ -32,7 +32,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![food-ordering-service](images/food-ordering-service.png)
+  ![food-ordering-service](documentation/food-ordering-service.png)
   
   `food-ordering-service` was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
   
@@ -44,18 +44,18 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
-## Start environment
+## Start Environment
 
 - Open a terminal and inside `axon-springboot-websocket` root folder run
   ```
   docker-compose up -d
   ```
 
-- Wait until `MySQL`, `PostgreSQL` and `MongoDB` are `Up (healthy)`. You can check it by running
+- Wait for `MySQL`, `PostgreSQL` and `MongoDB` Docker containers to be up and running. To check it, run
   ```
   docker-compose ps
   ```
@@ -99,7 +99,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
       ./docker-build.sh native
       ```
 
-- ### Environment variables
+- ### Environment Variables
 
   - **customer-service**
 
@@ -152,7 +152,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 The GIF below shows a user creating a customer in `customer-service` UI. Then, in `restaurant-service` UI, he creates a restaurant and adds a dish. Finally, using `food-ordering-service` UI, he submits an order using the customer and restaurant/dish created. Note that as soon as a customer or restaurant/dish is created, an event is sent and, the consumer of this event updates its UI in realtime using WebSockets.
 
-![demo](images/demo.gif)
+![demo](documentation/demo.gif)
 
 ## Useful Commands & Links
 
@@ -160,11 +160,12 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
   
   Axon Server dashboard can be accessed at http://localhost:8024
   
-  ![axon-server](images/axon-server.png)
+  ![axon-server](documentation/axon-server.png)
 
 - **MySQL**
   ```
   docker exec -it mysql mysql -uroot -psecret --database customerdb
+  
   SELECT * FROM customers;
   SELECT * FROM orders;
   ```
@@ -173,6 +174,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 - **PostgreSQL**
   ```
   docker exec -it postgres psql -U postgres -d restaurantdb
+  
   SELECT * FROM restaurants;
   SELECT * FROM dishes;
   SELECT * FROM orders;
@@ -181,8 +183,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
   
 - **MongoDB**
   ```
-  docker exec -it mongodb mongo
-  use foodorderingdb
+  docker exec -it mongodb mongo foodorderingdb
   
   db.customers.find()
   db.restaurants.find()

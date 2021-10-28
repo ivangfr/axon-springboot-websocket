@@ -90,5 +90,4 @@ public class CustomerRepositoryProjector {
             customerRepository.save(c);
         });
     }
-
 }

@@ -54,5 +54,4 @@ public class WebSocketHandler {
         log.info("<=[E] Received an event: {}", event);
         simpMessagingTemplate.convertAndSend("/topic/restaurant/dish/deleted", event);
     }
-
 }

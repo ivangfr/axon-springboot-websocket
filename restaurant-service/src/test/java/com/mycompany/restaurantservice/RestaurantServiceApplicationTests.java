@@ -11,5 +11,4 @@ class RestaurantServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

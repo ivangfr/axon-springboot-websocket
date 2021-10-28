@@ -15,5 +15,4 @@ public class AddCustomerRequest {
     @Schema(example = "Brooklyn 12, NYC")
     @NotBlank
     private String address;
-
 }

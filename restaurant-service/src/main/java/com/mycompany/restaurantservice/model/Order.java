@@ -41,5 +41,4 @@ public class Order {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private Set<OrderItem> items;
-
 }

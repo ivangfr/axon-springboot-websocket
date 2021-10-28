@@ -25,5 +25,4 @@ public class CustomerController {
                 .map(customerMapper::toCustomerDto)
                 .collect(Collectors.toList());
     }
-
 }

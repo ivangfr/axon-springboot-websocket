@@ -15,5 +15,4 @@ public class RestaurantDishUpdatedEvent implements RestaurantEvent {
     private String dishId;
     private String dishName;
     private BigDecimal dishPrice;
-
 }

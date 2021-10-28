@@ -9,5 +9,4 @@ public interface CustomerService {
     Customer validateAndGetCustomer(String id);
 
     List<Customer> getCustomers();
-
 }

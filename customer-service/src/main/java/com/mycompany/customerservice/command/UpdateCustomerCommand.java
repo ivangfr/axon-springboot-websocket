@@ -14,5 +14,4 @@ public class UpdateCustomerCommand {
     private String id;
     private String name;
     private String address;
-
 }

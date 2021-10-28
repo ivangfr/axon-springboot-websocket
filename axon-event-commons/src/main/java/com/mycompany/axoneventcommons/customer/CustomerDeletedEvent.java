@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class CustomerDeletedEvent implements CustomerEvent {
 
     private String id;
-
 }

@@ -13,5 +13,4 @@ public class AddRestaurantCommand {
     @TargetAggregateIdentifier
     private String id;
     private String name;
-
 }

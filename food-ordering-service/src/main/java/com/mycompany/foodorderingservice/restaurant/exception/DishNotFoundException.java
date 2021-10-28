@@ -9,5 +9,4 @@ public class DishNotFoundException extends RuntimeException {
     public DishNotFoundException(String dishId) {
         super(String.format("Dish with id '%s' not found", dishId));
     }
-
 }

@@ -28,5 +28,4 @@ public class OrderDto {
         private BigDecimal dishPrice;
         private Short quantity;
     }
-
 }

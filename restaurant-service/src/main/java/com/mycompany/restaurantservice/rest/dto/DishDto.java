@@ -11,5 +11,4 @@ public class DishDto {
     private String dishId;
     private String dishName;
     private BigDecimal dishPrice;
-
 }

@@ -11,5 +11,4 @@ public class AddRestaurantRequest {
     @Schema(example = "PizzaHut")
     @NotBlank
     private String name;
-
 }

@@ -51,5 +51,4 @@ public class OrderRepositoryProjector {
                 .collect(Collectors.toSet()));
         orderRepository.save(order);
     }
-
 }

@@ -11,5 +11,4 @@ class FoodOrderingServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

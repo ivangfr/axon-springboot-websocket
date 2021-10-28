@@ -11,5 +11,4 @@ public class RestaurantUpdatedEvent implements RestaurantEvent {
 
     private String id;
     private String name;
-
 }

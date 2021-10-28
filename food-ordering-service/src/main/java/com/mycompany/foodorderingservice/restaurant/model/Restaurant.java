@@ -15,5 +15,4 @@ public class Restaurant {
     private String id;
     private String name;
     private Set<Dish> dishes = new LinkedHashSet<>();
-
 }

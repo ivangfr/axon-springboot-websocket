@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class RestaurantDeletedEvent implements RestaurantEvent {
 
     private String id;
-
 }

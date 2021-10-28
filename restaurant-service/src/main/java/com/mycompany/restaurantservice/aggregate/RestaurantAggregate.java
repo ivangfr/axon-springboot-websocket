@@ -137,5 +137,4 @@ public class RestaurantAggregate {
         private String name;
         private BigDecimal price;
     }
-
 }

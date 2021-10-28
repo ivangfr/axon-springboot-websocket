@@ -63,5 +63,4 @@ public class OrderAggregate {
                 .map(i -> new OrderItem(i.getDishId(), i.getDishName(), i.getDishPrice(), i.getQuantity()))
                 .collect(Collectors.toSet());
     }
-
 }

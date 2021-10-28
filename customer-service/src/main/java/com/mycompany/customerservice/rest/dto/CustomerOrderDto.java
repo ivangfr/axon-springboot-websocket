@@ -16,5 +16,4 @@ public class CustomerOrderDto {
     private BigDecimal total;
     private ZonedDateTime createdAt;
     private Set<OrderItem> items;
-
 }

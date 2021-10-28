@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class GetCustomerQuery {
 
     private String id;
-
 }

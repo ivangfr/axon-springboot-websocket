@@ -78,5 +78,4 @@ public class CustomerController {
                 .thenApply(orders -> orders.stream()
                         .map(customerMapper::toCustomerOrderDto).collect(Collectors.toList()));
     }
-
 }

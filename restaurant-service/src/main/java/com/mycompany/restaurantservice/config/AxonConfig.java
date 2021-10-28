@@ -21,5 +21,4 @@ public class AxonConfig {
         commandBus.registerDispatchInterceptor(new CommandLoggingDispatchInterceptor());
         eventBus.registerDispatchInterceptor(new EventLoggingDispatchInterceptor());
     }
-
 }

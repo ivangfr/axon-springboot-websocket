@@ -41,5 +41,4 @@ public class CustomerRepositoryProjector {
         log.info("<=[E] Received an event: {}", event);
         customerRepository.findById(event.getId()).ifPresent(customerRepository::delete);
     }
-
 }

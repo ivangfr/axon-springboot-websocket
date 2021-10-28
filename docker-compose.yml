@@ -11,7 +11,7 @@ services:
       - "8124:8124"
 
   mysql:
-    image: mysql:8.0.26
+    image: mysql:8.0.27
     container_name: mysql
     restart: unless-stopped
     ports:
@@ -21,11 +21,10 @@ services:
       - MYSQL_DATABASE=customerdb
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
-      start_period: 30s
 
   postgres:
     container_name: postgres
-    image: postgres:13.4
+    image: postgres:14.0
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -35,14 +34,12 @@ services:
       - POSTGRES_USER=postgres
     healthcheck:
       test: "pg_isready -U postgres"
-      start_period: 30s
 
   mongodb:
-    image: mongo:4.4.8
+    image: mongo:5.0.3
     container_name: mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
     healthcheck:
       test: "echo 'db.stats().ok' | mongo localhost:27017/foodorderingdb --quiet"
-      start_period: 30s

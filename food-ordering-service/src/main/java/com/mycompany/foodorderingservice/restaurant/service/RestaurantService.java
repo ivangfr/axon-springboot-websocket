@@ -12,5 +12,4 @@ public interface RestaurantService {
     Dish validateAndGetRestaurantDish(String restaurantId, String dishId);
 
     List<Restaurant> getRestaurants();
-
 }

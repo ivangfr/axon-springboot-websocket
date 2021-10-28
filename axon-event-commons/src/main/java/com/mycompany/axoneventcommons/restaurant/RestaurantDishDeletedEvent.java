@@ -11,5 +11,4 @@ public class RestaurantDishDeletedEvent implements RestaurantEvent {
 
     private String restaurantId;
     private String dishId;
-
 }

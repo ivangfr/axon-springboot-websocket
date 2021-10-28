@@ -23,5 +23,4 @@ public class Order {
     private String restaurantId;
     private String restaurantName;
     private Set<OrderItem> items;
-
 }

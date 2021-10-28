@@ -8,5 +8,4 @@ public class UpdateRestaurantRequest {
 
     @Schema(example = "McDonald's")
     private String name;
-
 }

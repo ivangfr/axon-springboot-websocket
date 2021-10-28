@@ -17,5 +17,4 @@ public class RestaurantOrderDto {
     private BigDecimal total;
     private ZonedDateTime createdAt;
     private Set<OrderItem> items;
-
 }

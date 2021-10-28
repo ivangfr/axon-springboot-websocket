@@ -11,5 +11,4 @@ public class GetRestaurantDishQuery {
 
     private String restaurantId;
     private String dishId;
-
 }

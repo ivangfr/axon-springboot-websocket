@@ -77,5 +77,4 @@ public class RestaurantRepositoryProjector {
             restaurantRepository.save(r);
         });
     }
-
 }

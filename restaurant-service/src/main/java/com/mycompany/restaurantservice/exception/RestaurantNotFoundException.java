@@ -9,5 +9,4 @@ public class RestaurantNotFoundException extends RuntimeException {
     public RestaurantNotFoundException(String id) {
         super(String.format("Restaurant with id '%s' not found", id));
     }
-
 }

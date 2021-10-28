@@ -18,5 +18,4 @@ public class RestaurantDto {
         private String name;
         private BigDecimal price;
     }
-
 }

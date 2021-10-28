@@ -12,5 +12,4 @@ public class DeleteRestaurantCommand {
 
     @TargetAggregateIdentifier
     private String id;
-
 }

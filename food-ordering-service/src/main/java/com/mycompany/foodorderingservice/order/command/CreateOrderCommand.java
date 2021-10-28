@@ -21,5 +21,4 @@ public class CreateOrderCommand {
     private String restaurantId;
     private String restaurantName;
     private Set<OrderItem> items;
-
 }

@@ -6,5 +6,4 @@ public final class MyStringUtils {
         String newValue = value == null ? fallbackValue : value.trim();
         return "".equals(newValue) ? fallbackValue : newValue;
     }
-
 }

@@ -21,5 +21,4 @@ public interface RestaurantMapper {
     @Mapping(target = "dishName", source = "name")
     @Mapping(target = "dishPrice", source = "price")
     DishDto toDishDto(Dish dish);
-
 }

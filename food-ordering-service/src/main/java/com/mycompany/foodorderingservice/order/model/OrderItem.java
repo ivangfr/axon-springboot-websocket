@@ -15,5 +15,4 @@ public class OrderItem {
     private String dishName;
     private BigDecimal dishPrice;
     private Short quantity;
-
 }

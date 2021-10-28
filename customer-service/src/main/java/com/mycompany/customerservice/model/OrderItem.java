@@ -15,5 +15,4 @@ public class OrderItem implements Serializable {
     private String dishName;
     private BigDecimal dishPrice;
     private Short quantity;
-
 }

@@ -64,5 +64,4 @@ public class CustomerAggregate {
     public void handle(CustomerDeletedEvent event) {
         AggregateLifecycle.markDeleted();
     }
-
 }

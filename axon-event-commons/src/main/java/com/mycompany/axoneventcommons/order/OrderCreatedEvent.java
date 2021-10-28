@@ -33,5 +33,4 @@ public class OrderCreatedEvent implements OrderEvent {
         private BigDecimal dishPrice;
         private Short quantity;
     }
-
 }

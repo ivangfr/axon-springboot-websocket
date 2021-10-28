@@ -12,5 +12,4 @@ public class DeleteCustomerCommand {
 
     @TargetAggregateIdentifier
     private String id;
-
 }

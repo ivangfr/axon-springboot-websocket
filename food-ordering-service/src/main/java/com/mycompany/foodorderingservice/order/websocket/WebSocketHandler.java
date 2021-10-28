@@ -82,5 +82,4 @@ public class WebSocketHandler {
         log.info("<=[E] Received an event: {}", event);
         simpMessagingTemplate.convertAndSend("/topic/order/created", event);
     }
-
 }

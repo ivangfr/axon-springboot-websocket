@@ -11,5 +11,4 @@ public class UpdateCustomerRequest {
 
     @Schema(example = "Bronx 182, NYC")
     private String address;
-
 }

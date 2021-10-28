@@ -12,5 +12,4 @@ public class CustomerAddedEvent implements CustomerEvent {
     private String id;
     private String name;
     private String address;
-
 }
