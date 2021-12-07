@@ -55,7 +55,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
   docker-compose up -d
   ```
 
-- Wait for `MySQL`, `PostgreSQL` and `MongoDB` Docker containers to be up and running. To check it, run
+- Wait for Docker containers to be up and running. To check it, run
   ```
   docker-compose ps
   ```
