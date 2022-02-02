@@ -104,7 +104,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
   - **customer-service**
 
     | Environment Variable | Description                                                       |
-    | -------------------- | ----------------------------------------------------------------- |
+    |----------------------|-------------------------------------------------------------------|
     | `MYSQL_HOST`         | Specify host of the `MySQL` database to use (default `localhost`) |
     | `MYSQL_PORT`         | Specify port of the `MySQL` database to use (default `3306`)      |
     | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)    |
@@ -113,7 +113,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
   - **restaurant-service**
 
     | Environment Variable | Description                                                          |
-    | -------------------- | -------------------------------------------------------------------- |
+    |----------------------|----------------------------------------------------------------------|
     | `POSTGRES_HOST`      | Specify host of the `Postgres` database to use (default `localhost`) |
     | `POSTGRES_PORT`      | Specify port of the `Postgres` database to use (default `5432`)      |
     | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)       |
@@ -122,7 +122,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
   - **food-ordering-service**
 
     | Environment Variable | Description                                                       |
-    | -------------------- | ----------------------------------------------------------------- |
+    |----------------------|-------------------------------------------------------------------|
     | `MONGODB_HOST`       | Specify host of the `Mongo` database to use (default `localhost`) |
     | `MONGODB_PORT`       | Specify port of the `Mongo` database to use (default `27017`)     |
     | `AXON_SERVER_HOST`   | Specify host of the `Axon Server` to use (default `localhost`)    |
@@ -143,7 +143,7 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 ## Application URLs
 
 | Application           | URL                   | Swagger                               |
-| --------------------- | --------------------- | ------------------------------------- |
+|-----------------------|-----------------------|---------------------------------------|
 | customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui.html |
 | restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui.html |
 | food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui.html |
