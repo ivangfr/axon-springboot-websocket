@@ -24,7 +24,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:14.1
+    image: postgres:14.2
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -36,7 +36,7 @@ services:
       test: "pg_isready -U postgres"
 
   mongodb:
-    image: mongo:5.0.5
+    image: mongo:5.0.6
     container_name: mongodb
     restart: unless-stopped
     ports:

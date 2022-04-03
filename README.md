@@ -135,10 +135,6 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
     ```
     ./start-apps.sh
     ```
-  - Wait for applications to be `Up (healthy)`. For it, you can run
-    ```
-    docker ps -f name=customer-service -f name=restaurant-service -f name=food-ordering-service
-    ```
 
 ## Application URLs
 
@@ -218,33 +214,93 @@ To remove the docker images created by this project, go to a terminal and, insid
 
 ## Issues
 
-Unable to upgrade to the latest version of `axon`, for instance, version `4.5.8`. It's throwing the following exception.
-> References: [AxonIQ Discuss](https://discuss.axoniq.io/t/getting-xstream-dependency-exception/3634) and [Stackoverflow](https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot)
-```
-WARN 9237 --- [e.repository]-0] o.a.e.TrackingEventProcessor             : Error occurred. Starting retry mode.
+- Unable to upgrade `Axon` (both `axon-spring-boot-starter` dependency in `pom.xml` and `axoniq/axonserver` in `docker-compose.yml`) to version > `4.5.3`. It's throwing the following exception.
+  > References: [AxonIQ Discuss](https://discuss.axoniq.io/t/getting-xstream-dependency-exception/3634) and [Stackoverflow](https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot)
+  ```
+  WARN 9237 --- [e.repository]-0] o.a.e.TrackingEventProcessor             : Error occurred. Starting retry mode.
+  
+  com.thoughtworks.xstream.security.ForbiddenClassException: com.mycompany.axoneventcommons.customer.CustomerAddedEvent
+      at com.thoughtworks.xstream.security.NoTypePermission.allows(NoTypePermission.java:26) ~[xstream-1.4.18.jar:1.4.18]
+      at com.thoughtworks.xstream.mapper.SecurityMapper.realClass(SecurityMapper.java:74) ~[xstream-1.4.18.jar:1.4.18]
+      at com.thoughtworks.xstream.mapper.MapperWrapper.realClass(MapperWrapper.java:125) ~[xstream-1.4.18.jar:1.4.18]
+      at com.thoughtworks.xstream.mapper.CachingMapper.realClass(CachingMapper.java:47) ~[xstream-1.4.18.jar:1.4.18]
+      at org.axonframework.serialization.AbstractXStreamSerializer.classForType(AbstractXStreamSerializer.java:169) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at org.axonframework.axonserver.connector.event.axon.GrpcMetaDataAwareSerializer.classForType(GrpcMetaDataAwareSerializer.java:73) ~[axon-server-connector-4.5.8.jar:4.5.8]
+      at org.axonframework.serialization.LazyDeserializingObject.<init>(LazyDeserializingObject.java:83) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at org.axonframework.eventhandling.EventUtils.lambda$upcastAndDeserializeTrackedEvents$1(EventUtils.java:107) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
+      at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
+      at org.axonframework.axonserver.connector.event.axon.EventBuffer$SimpleSpliterator.tryAdvance(EventBuffer.java:216) ~[axon-server-connector-4.5.8.jar:4.5.8]
+      at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.lambda$initPartialTraversalState$0(StreamSpliterators.java:294) ~[na:na]
+      at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.fillBuffer(StreamSpliterators.java:206) ~[na:na]
+      at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.doAdvance(StreamSpliterators.java:169) ~[na:na]
+      at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.tryAdvance(StreamSpliterators.java:300) ~[na:na]
+      at java.base/java.util.Spliterators$1Adapter.hasNext(Spliterators.java:681) ~[na:na]
+      at org.axonframework.axonserver.connector.event.axon.EventBuffer.peekNullable(EventBuffer.java:171) ~[axon-server-connector-4.5.8.jar:4.5.8]
+      at org.axonframework.axonserver.connector.event.axon.EventBuffer.hasNextAvailable(EventBuffer.java:144) ~[axon-server-connector-4.5.8.jar:4.5.8]
+      at org.axonframework.eventhandling.TrackingEventProcessor.processBatch(TrackingEventProcessor.java:390) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at org.axonframework.eventhandling.TrackingEventProcessor.processingLoop(TrackingEventProcessor.java:294) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at org.axonframework.eventhandling.TrackingEventProcessor$TrackingSegmentWorker.run(TrackingEventProcessor.java:1016) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at org.axonframework.eventhandling.TrackingEventProcessor$WorkerLauncher.run(TrackingEventProcessor.java:1162) ~[axon-messaging-4.5.8.jar:4.5.8]
+      at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]
+  ```
 
-com.thoughtworks.xstream.security.ForbiddenClassException: com.mycompany.axoneventcommons.customer.CustomerAddedEvent
-	at com.thoughtworks.xstream.security.NoTypePermission.allows(NoTypePermission.java:26) ~[xstream-1.4.18.jar:1.4.18]
-	at com.thoughtworks.xstream.mapper.SecurityMapper.realClass(SecurityMapper.java:74) ~[xstream-1.4.18.jar:1.4.18]
-	at com.thoughtworks.xstream.mapper.MapperWrapper.realClass(MapperWrapper.java:125) ~[xstream-1.4.18.jar:1.4.18]
-	at com.thoughtworks.xstream.mapper.CachingMapper.realClass(CachingMapper.java:47) ~[xstream-1.4.18.jar:1.4.18]
-	at org.axonframework.serialization.AbstractXStreamSerializer.classForType(AbstractXStreamSerializer.java:169) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at org.axonframework.axonserver.connector.event.axon.GrpcMetaDataAwareSerializer.classForType(GrpcMetaDataAwareSerializer.java:73) ~[axon-server-connector-4.5.8.jar:4.5.8]
-	at org.axonframework.serialization.LazyDeserializingObject.<init>(LazyDeserializingObject.java:83) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at org.axonframework.eventhandling.EventUtils.lambda$upcastAndDeserializeTrackedEvents$1(EventUtils.java:107) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
-	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
-	at org.axonframework.axonserver.connector.event.axon.EventBuffer$SimpleSpliterator.tryAdvance(EventBuffer.java:216) ~[axon-server-connector-4.5.8.jar:4.5.8]
-	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.lambda$initPartialTraversalState$0(StreamSpliterators.java:294) ~[na:na]
-	at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.fillBuffer(StreamSpliterators.java:206) ~[na:na]
-	at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.doAdvance(StreamSpliterators.java:169) ~[na:na]
-	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.tryAdvance(StreamSpliterators.java:300) ~[na:na]
-	at java.base/java.util.Spliterators$1Adapter.hasNext(Spliterators.java:681) ~[na:na]
-	at org.axonframework.axonserver.connector.event.axon.EventBuffer.peekNullable(EventBuffer.java:171) ~[axon-server-connector-4.5.8.jar:4.5.8]
-	at org.axonframework.axonserver.connector.event.axon.EventBuffer.hasNextAvailable(EventBuffer.java:144) ~[axon-server-connector-4.5.8.jar:4.5.8]
-	at org.axonframework.eventhandling.TrackingEventProcessor.processBatch(TrackingEventProcessor.java:390) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at org.axonframework.eventhandling.TrackingEventProcessor.processingLoop(TrackingEventProcessor.java:294) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at org.axonframework.eventhandling.TrackingEventProcessor$TrackingSegmentWorker.run(TrackingEventProcessor.java:1016) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at org.axonframework.eventhandling.TrackingEventProcessor$WorkerLauncher.run(TrackingEventProcessor.java:1162) ~[axon-messaging-4.5.8.jar:4.5.8]
-	at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]
-```
+- Unable to upgrade to `spring-boot` version > `2.6.4`. It cannot connect to `AxonServer`
+  ```
+  WARN 26631 --- [           main] i.a.a.c.impl.AxonServerManagedChannel    : Connecting to AxonServer node [localhost:8124] failed.
+  
+  io.grpc.StatusRuntimeException: DEADLINE_EXCEEDED: deadline exceeded after 4.957402144s. [buffered_nanos=4962352154, waiting_for_connection]
+  	at io.grpc.stub.ClientCalls.toStatusRuntimeException(ClientCalls.java:262) ~[grpc-stub-1.36.1.jar:1.36.1]
+  	at io.grpc.stub.ClientCalls.getUnchecked(ClientCalls.java:243) ~[grpc-stub-1.36.1.jar:1.36.1]
+  	at io.grpc.stub.ClientCalls.blockingUnaryCall(ClientCalls.java:156) ~[grpc-stub-1.36.1.jar:1.36.1]
+  	at io.axoniq.axonserver.grpc.control.PlatformServiceGrpc$PlatformServiceBlockingStub.getPlatformServer(PlatformServiceGrpc.java:250) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.AxonServerManagedChannel.connectChannel(AxonServerManagedChannel.java:115) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.AxonServerManagedChannel.createConnection(AxonServerManagedChannel.java:335) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.AxonServerManagedChannel.ensureConnected(AxonServerManagedChannel.java:300) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.AxonServerManagedChannel.getState(AxonServerManagedChannel.java:227) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.ContextConnection.ensureConnected(ContextConnection.java:178) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.impl.ContextConnection.connect(ContextConnection.java:145) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at io.axoniq.axonserver.connector.AxonServerConnectionFactory.connect(AxonServerConnectionFactory.java:166) ~[axonserver-connector-java-4.5.2.jar:4.5.2]
+  	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1705) ~[na:na]
+  	at org.axonframework.axonserver.connector.AxonServerConnectionManager.getConnection(AxonServerConnectionManager.java:118) ~[axon-server-connector-4.5.3.jar:4.5.3]
+  	at org.axonframework.axonserver.connector.query.AxonServerQueryBus.subscribe(AxonServerQueryBus.java:187) ~[axon-server-connector-4.5.3.jar:4.5.3]
+  	at org.axonframework.queryhandling.annotation.AnnotationQueryHandlerAdapter.lambda$subscribe$1(AnnotationQueryHandlerAdapter.java:95) ~[axon-messaging-4.5.3.jar:4.5.3]
+  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
+  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
+  	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:177) ~[na:na]
+  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
+  	at java.base/java.util.TreeMap$KeySpliterator.forEachRemaining(TreeMap.java:2739) ~[na:na]
+  	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484) ~[na:na]
+  	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:474) ~[na:na]
+  	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:913) ~[na:na]
+  	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:na]
+  	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:578) ~[na:na]
+  	at org.axonframework.queryhandling.annotation.AnnotationQueryHandlerAdapter.subscribe(AnnotationQueryHandlerAdapter.java:100) ~[axon-messaging-4.5.3.jar:4.5.3]
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+  	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+  	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+  	at org.axonframework.spring.config.AbstractAnnotationHandlerBeanPostProcessor$AdapterIntroductionInterceptor.invoke(AbstractAnnotationHandlerBeanPostProcessor.java:287) ~[axon-spring-4.5.3.jar:4.5.3]
+  	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.18.jar:5.3.18]
+  	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753) ~[spring-aop-5.3.18.jar:5.3.18]
+  	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698) ~[spring-aop-5.3.18.jar:5.3.18]
+  	at com.mycompany.customerservice.repository.CustomerRepositoryProjector$$EnhancerBySpringCGLIB$$9e3df82d.subscribe(<generated>) ~[classes/:na]
+  	at org.axonframework.spring.config.QueryHandlerSubscriber.lambda$start$0(QueryHandlerSubscriber.java:73) ~[axon-spring-4.5.3.jar:4.5.3]
+  	at java.base/java.util.LinkedHashMap$LinkedValues.forEach(LinkedHashMap.java:608) ~[na:na]
+  	at org.axonframework.spring.config.QueryHandlerSubscriber.start(QueryHandlerSubscriber.java:73) ~[axon-spring-4.5.3.jar:4.5.3]
+  	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:178) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:54) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:356) ~[spring-context-5.3.18.jar:5.3.18]
+  	at java.base/java.lang.Iterable.forEach(Iterable.java:75) ~[na:na]
+  	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:155) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:123) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:935) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:586) ~[spring-context-5.3.18.jar:5.3.18]
+  	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:740) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:415) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[spring-boot-2.6.6.jar:2.6.6]
+  	at com.mycompany.customerservice.CustomerServiceApplication.main(CustomerServiceApplication.java:10) ~[classes/:na]
+  ```
