@@ -14,7 +14,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <hibernate-types.version>2.14.1</hibernate-types.version>
+        <hibernate-types.version>2.16.2</hibernate-types.version>
     </properties>
 
     <dependencies>
