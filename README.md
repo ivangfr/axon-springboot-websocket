@@ -160,7 +160,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 
 - **MySQL**
   ```
-  docker exec -it mysql mysql -uroot -psecret --database customerdb
+  docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database customerdb
   
   SELECT * FROM customers;
   SELECT * FROM orders;
