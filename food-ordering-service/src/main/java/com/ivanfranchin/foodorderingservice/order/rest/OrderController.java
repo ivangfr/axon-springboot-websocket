@@ -7,7 +7,7 @@ import com.ivanfranchin.foodorderingservice.order.model.OrderItem;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrderQuery;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrdersQuery;
 import com.ivanfranchin.foodorderingservice.order.rest.dto.CreateOrderRequest;
-import com.ivanfranchin.foodorderingservice.order.rest.dto.OrderDto;
+import com.ivanfranchin.foodorderingservice.order.rest.dto.OrderResponse;
 import com.ivanfranchin.foodorderingservice.customer.model.Customer;
 import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
 import com.ivanfranchin.foodorderingservice.restaurant.model.Dish;
@@ -45,16 +45,16 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping
-    public CompletableFuture<List<OrderDto>> getOrders() {
+    public CompletableFuture<List<OrderResponse>> getOrders() {
         return queryGateway.query(new GetOrdersQuery(), ResponseTypes.multipleInstancesOf(Order.class))
                 .thenApply(orders -> orders.stream()
-                        .map(orderMapper::toOrderDto).collect(Collectors.toList()));
+                        .map(orderMapper::toOrderResponse).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<OrderDto> getOrder(@PathVariable UUID id) {
+    public CompletableFuture<OrderResponse> getOrder(@PathVariable UUID id) {
         return queryGateway.query(new GetOrderQuery(id.toString()), Order.class)
-                .thenApply(orderMapper::toOrderDto);
+                .thenApply(orderMapper::toOrderResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

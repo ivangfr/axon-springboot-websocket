@@ -5,8 +5,8 @@ import com.ivanfranchin.customerservice.model.Order;
 import com.ivanfranchin.customerservice.query.GetCustomerOrdersQuery;
 import com.ivanfranchin.customerservice.query.GetCustomerQuery;
 import com.ivanfranchin.customerservice.rest.dto.AddCustomerRequest;
-import com.ivanfranchin.customerservice.rest.dto.CustomerDto;
-import com.ivanfranchin.customerservice.rest.dto.CustomerOrderDto;
+import com.ivanfranchin.customerservice.rest.dto.CustomerResponse;
+import com.ivanfranchin.customerservice.rest.dto.CustomerOrderResponse;
 import com.ivanfranchin.customerservice.command.AddCustomerCommand;
 import com.ivanfranchin.customerservice.command.DeleteCustomerCommand;
 import com.ivanfranchin.customerservice.command.UpdateCustomerCommand;
@@ -44,15 +44,15 @@ public class CustomerController {
     private final CustomerMapper customerMapper;
 
     @GetMapping
-    public CompletableFuture<List<CustomerDto>> getCustomers() {
+    public CompletableFuture<List<CustomerResponse>> getCustomers() {
         return queryGateway.query(new GetCustomersQuery(), ResponseTypes.multipleInstancesOf(Customer.class))
                 .thenApply(customers -> customers.stream()
-                        .map(customerMapper::toCustomerDto).collect(Collectors.toList()));
+                        .map(customerMapper::toCustomerResponse).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<CustomerDto> getCustomer(@PathVariable String id) {
-        return queryGateway.query(new GetCustomerQuery(id), Customer.class).thenApply(customerMapper::toCustomerDto);
+    public CompletableFuture<CustomerResponse> getCustomer(@PathVariable String id) {
+        return queryGateway.query(new GetCustomerQuery(id), Customer.class).thenApply(customerMapper::toCustomerResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,9 +73,9 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}/orders")
-    public CompletableFuture<List<CustomerOrderDto>> getCustomerOrders(@PathVariable String id) {
+    public CompletableFuture<List<CustomerOrderResponse>> getCustomerOrders(@PathVariable String id) {
         return queryGateway.query(new GetCustomerOrdersQuery(id), ResponseTypes.multipleInstancesOf(Order.class))
                 .thenApply(orders -> orders.stream()
-                        .map(customerMapper::toCustomerOrderDto).collect(Collectors.toList()));
+                        .map(customerMapper::toCustomerOrderResponse).collect(Collectors.toList()));
     }
 }

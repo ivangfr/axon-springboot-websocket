@@ -1,7 +1,7 @@
 package com.ivanfranchin.foodorderingservice.restaurant.rest;
 
 import com.ivanfranchin.foodorderingservice.restaurant.mapper.RestaurantMapper;
-import com.ivanfranchin.foodorderingservice.restaurant.rest.dto.RestaurantDto;
+import com.ivanfranchin.foodorderingservice.restaurant.rest.dto.RestaurantResponse;
 import com.ivanfranchin.foodorderingservice.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +20,9 @@ public class RestaurantController {
     private final RestaurantMapper restaurantMapper;
 
     @GetMapping
-    public List<RestaurantDto> getRestaurants() {
+    public List<RestaurantResponse> getRestaurants() {
         return restaurantService.getRestaurants().stream()
-                .map(restaurantMapper::toRestaurantDto)
+                .map(restaurantMapper::toRestaurantResponse)
                 .collect(Collectors.toList());
     }
 }

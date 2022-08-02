@@ -2,14 +2,14 @@ package com.ivanfranchin.customerservice.mapper;
 
 import com.ivanfranchin.customerservice.model.Customer;
 import com.ivanfranchin.customerservice.model.Order;
-import com.ivanfranchin.customerservice.rest.dto.CustomerDto;
-import com.ivanfranchin.customerservice.rest.dto.CustomerOrderDto;
+import com.ivanfranchin.customerservice.rest.dto.CustomerResponse;
+import com.ivanfranchin.customerservice.rest.dto.CustomerOrderResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
-    CustomerDto toCustomerDto(Customer customer);
+    CustomerResponse toCustomerResponse(Customer customer);
 
-    CustomerOrderDto toCustomerOrderDto(Order order);
+    CustomerOrderResponse toCustomerOrderResponse(Order order);
 }
