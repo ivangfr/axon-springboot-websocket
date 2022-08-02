@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+./mvnw clean install --projects axon-event-commons
+
 #if [ "$1" = "native" ];
 #then
 #  ./mvnw clean spring-boot:build-image --projects customer-service

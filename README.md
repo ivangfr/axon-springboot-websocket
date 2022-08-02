@@ -12,7 +12,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![customer-service](documentation/customer-service.png)
+  ![customer-service](documentation/customer-service.jpeg)
   
   `customer-service` was implemented using `Axon Framework`. Everytime a customer is added, updated or deleted, the service emits the respective event, i.e, `CustomerAddedEvent`, `CustomerUpdatedEvent` or `CustomerDeletedEvent`.
   
@@ -22,7 +22,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![restaurant-service](documentation/restaurant-service.png)
+  ![restaurant-service](documentation/restaurant-service.jpeg)
   
   `restaurant-service` was implemented using `Axon Framework`. Everytime a restaurant is added, updated or deleted, the service emits the respective event, i.e, `RestaurantAddedEvent`, `RestaurantUpdatedEvent` or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent` or `RestaurantDishDeletedEvent` 
   
@@ -32,7 +32,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
   `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `Javascript`, `JQuery` and `Semantic UI`.
   
-  ![food-ordering-service](documentation/food-ordering-service.png)
+  ![food-ordering-service](documentation/food-ordering-service.jpeg)
   
   `food-ordering-service` was implemented using `Axon Framework`. Everytime an order is created, the service emits the respective event, i.e, `OrderCreatedEvent`.
   
@@ -44,7 +44,7 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -138,11 +138,11 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 ## Application URLs
 
-| Application           | URL                   | Swagger                               |
-|-----------------------|-----------------------|---------------------------------------|
-| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui.html |
-| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui.html |
-| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui.html |
+| Application           | URL                   | Swagger                                     |
+|-----------------------|-----------------------|---------------------------------------------|
+| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui/index.html |
+| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui/index.html |
+| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui/index.html |
 
 ## Demo
 
@@ -156,7 +156,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
   
   Axon Server dashboard can be accessed at http://localhost:8024
   
-  ![axon-server](documentation/axon-server.png)
+  ![axon-server](documentation/axon-server.jpeg)
 
 - **MySQL**
   ```
@@ -219,7 +219,7 @@ To remove the docker images created by this project, go to a terminal and, insid
   ```
   WARN 19623 --- [ce.websocket]-0] o.a.e.TrackingEventProcessor             : Error occurred. Starting retry mode.
   
-  com.thoughtworks.xstream.security.ForbiddenClassException: com.mycompany.axoneventcommons.customer.CustomerAddedEvent
+  com.thoughtworks.xstream.security.ForbiddenClassException: CustomerAddedEvent
   	at com.thoughtworks.xstream.security.NoTypePermission.allows(NoTypePermission.java:26) ~[xstream-1.4.19.jar:1.4.19]
   	at com.thoughtworks.xstream.mapper.SecurityMapper.realClass(SecurityMapper.java:74) ~[xstream-1.4.19.jar:1.4.19]
   	at com.thoughtworks.xstream.mapper.MapperWrapper.realClass(MapperWrapper.java:125) ~[xstream-1.4.19.jar:1.4.19]
