@@ -154,7 +154,7 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 
 - **Axon Server**
   
-  Axon Server dashboard can be accessed at http://localhost:8024
+  `Axon Server` dashboard can be accessed at http://localhost:8024
   
   ![axon-server](documentation/axon-server.jpeg)
 
@@ -211,36 +211,3 @@ To remove the docker images created by this project, go to a terminal and, insid
 
 - https://sgitario.github.io/axon-by-example/
 - https://blog.nebrass.fr/playing-with-cqrs-and-event-sourcing-in-spring-boot-and-axon/
-
-## Issues
-
-- Unable to upgrade `Axon` (both `axon-spring-boot-starter` dependency in `pom.xml` and `axoniq/axonserver` in `docker-compose.yml`) to a version > `4.5.3`. It's throwing the following exception.
-  > References: [AxonIQ Discuss](https://discuss.axoniq.io/t/getting-xstream-dependency-exception/3634) and [Stackoverflow](https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot)
-  ```
-  WARN 19623 --- [ce.websocket]-0] o.a.e.TrackingEventProcessor             : Error occurred. Starting retry mode.
-  
-  com.thoughtworks.xstream.security.ForbiddenClassException: CustomerAddedEvent
-  	at com.thoughtworks.xstream.security.NoTypePermission.allows(NoTypePermission.java:26) ~[xstream-1.4.19.jar:1.4.19]
-  	at com.thoughtworks.xstream.mapper.SecurityMapper.realClass(SecurityMapper.java:74) ~[xstream-1.4.19.jar:1.4.19]
-  	at com.thoughtworks.xstream.mapper.MapperWrapper.realClass(MapperWrapper.java:125) ~[xstream-1.4.19.jar:1.4.19]
-  	at com.thoughtworks.xstream.mapper.CachingMapper.realClass(CachingMapper.java:47) ~[xstream-1.4.19.jar:1.4.19]
-  	at org.axonframework.serialization.AbstractXStreamSerializer.classForType(AbstractXStreamSerializer.java:169) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at org.axonframework.axonserver.connector.event.axon.GrpcMetaDataAwareSerializer.classForType(GrpcMetaDataAwareSerializer.java:73) ~[axon-server-connector-4.5.9.jar:4.5.9]
-  	at org.axonframework.serialization.LazyDeserializingObject.<init>(LazyDeserializingObject.java:83) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at org.axonframework.eventhandling.EventUtils.lambda$upcastAndDeserializeTrackedEvents$1(EventUtils.java:107) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
-  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195) ~[na:na]
-  	at org.axonframework.axonserver.connector.event.axon.EventBuffer$SimpleSpliterator.tryAdvance(EventBuffer.java:216) ~[axon-server-connector-4.5.9.jar:4.5.9]
-  	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.lambda$initPartialTraversalState$0(StreamSpliterators.java:294) ~[na:na]
-  	at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.fillBuffer(StreamSpliterators.java:206) ~[na:na]
-  	at java.base/java.util.stream.StreamSpliterators$AbstractWrappingSpliterator.doAdvance(StreamSpliterators.java:169) ~[na:na]
-  	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.tryAdvance(StreamSpliterators.java:300) ~[na:na]
-  	at java.base/java.util.Spliterators$1Adapter.hasNext(Spliterators.java:681) ~[na:na]
-  	at org.axonframework.axonserver.connector.event.axon.EventBuffer.peekNullable(EventBuffer.java:171) ~[axon-server-connector-4.5.9.jar:4.5.9]
-  	at org.axonframework.axonserver.connector.event.axon.EventBuffer.hasNextAvailable(EventBuffer.java:144) ~[axon-server-connector-4.5.9.jar:4.5.9]
-  	at org.axonframework.eventhandling.TrackingEventProcessor.processBatch(TrackingEventProcessor.java:390) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at org.axonframework.eventhandling.TrackingEventProcessor.processingLoop(TrackingEventProcessor.java:294) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at org.axonframework.eventhandling.TrackingEventProcessor$TrackingSegmentWorker.run(TrackingEventProcessor.java:1016) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at org.axonframework.eventhandling.TrackingEventProcessor$WorkerLauncher.run(TrackingEventProcessor.java:1162) ~[axon-messaging-4.5.9.jar:4.5.9]
-  	at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]
-  ```
