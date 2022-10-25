@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   axon-server:
-    image: axoniq/axonserver:4.5.14
+    image: axoniq/axonserver:4.6.1
     container_name: axon-server
     restart: unless-stopped
     ports:
@@ -11,7 +11,7 @@ services:
       - "8124:8124"
 
   mysql:
-    image: mysql:8.0.29
+    image: mysql:8.0.31
     container_name: mysql
     restart: unless-stopped
     ports:
@@ -24,7 +24,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:14.4
+    image: postgres:15.0
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -36,10 +36,10 @@ services:
       test: "pg_isready -U postgres"
 
   mongodb:
-    image: mongo:5.0.10
+    image: mongo:6.0.2
     container_name: mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
     healthcheck:
-      test: "echo 'db.stats().ok' | mongo localhost:27017/foodorderingdb --quiet"
+      test: "echo 'db.stats().ok' | mongosh localhost:27017/foodorderingdb --quiet"
