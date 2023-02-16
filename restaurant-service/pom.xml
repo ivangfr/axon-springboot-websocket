@@ -13,10 +13,6 @@
     <name>restaurant-service</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
-        <hibernate-types.version>2.21.1</hibernate-types.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,13 +37,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <!-- To have JSON format stored in DB -->
-        <dependency>
-            <groupId>com.vladmihalcea</groupId>
-            <artifactId>hibernate-types-52</artifactId>
-            <version>${hibernate-types.version}</version>
         </dependency>
 
         <dependency>

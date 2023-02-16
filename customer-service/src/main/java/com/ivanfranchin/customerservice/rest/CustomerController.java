@@ -13,6 +13,7 @@ import com.ivanfranchin.customerservice.rest.dto.AddCustomerRequest;
 import com.ivanfranchin.customerservice.rest.dto.CustomerOrderResponse;
 import com.ivanfranchin.customerservice.rest.dto.CustomerResponse;
 import com.ivanfranchin.customerservice.rest.dto.UpdateCustomerRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

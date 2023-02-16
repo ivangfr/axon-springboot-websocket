@@ -138,11 +138,11 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 ## Application URLs
 
-| Application           | URL                   | Swagger                                     |
-|-----------------------|-----------------------|---------------------------------------------|
-| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui/index.html |
-| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui/index.html |
-| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui/index.html |
+| Application           | URL                   | Swagger                               |
+|-----------------------|-----------------------|---------------------------------------|
+| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui.html |
+| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui.html |
+| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui.html |
 
 ## Demo
 

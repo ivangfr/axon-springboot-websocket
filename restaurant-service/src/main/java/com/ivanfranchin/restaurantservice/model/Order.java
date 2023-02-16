@@ -1,19 +1,17 @@
 package com.ivanfranchin.restaurantservice.model;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -23,7 +21,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "restaurant")
 @Entity
 @Table(name = "orders")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Order {
 
     @Id
@@ -38,7 +35,6 @@ public class Order {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private Set<OrderItem> items;
 }

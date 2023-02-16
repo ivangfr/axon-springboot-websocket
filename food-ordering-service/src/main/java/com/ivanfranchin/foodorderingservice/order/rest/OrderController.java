@@ -13,6 +13,7 @@ import com.ivanfranchin.foodorderingservice.order.rest.dto.OrderResponse;
 import com.ivanfranchin.foodorderingservice.restaurant.model.Dish;
 import com.ivanfranchin.foodorderingservice.restaurant.model.Restaurant;
 import com.ivanfranchin.foodorderingservice.restaurant.service.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;

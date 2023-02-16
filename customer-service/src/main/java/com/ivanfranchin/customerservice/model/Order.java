@@ -1,19 +1,17 @@
 package com.ivanfranchin.customerservice.model;
 
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -23,7 +21,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "customer")
 @Entity
 @Table(name = "orders")
-@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class Order {
 
     @Id
@@ -37,7 +34,6 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @Type(type = "json")
-    @Column(columnDefinition = "json")
+    @JdbcTypeCode(SqlTypes.JSON)
     private Set<OrderItem> items;
 }

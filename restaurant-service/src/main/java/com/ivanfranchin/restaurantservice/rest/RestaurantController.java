@@ -21,6 +21,7 @@ import com.ivanfranchin.restaurantservice.rest.dto.RestaurantOrderResponse;
 import com.ivanfranchin.restaurantservice.rest.dto.RestaurantResponse;
 import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
 import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -36,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

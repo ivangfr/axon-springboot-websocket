@@ -11,8 +11,6 @@ docker run -d --rm --name customer-service -p 9080:8080 \
   --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
   ivanfranchin/customer-service:1.0.0
 
-wait_for_container_log "customer-service" "Started"
-
 echo
 echo "Starting restaurant-service..."
 
@@ -21,8 +19,6 @@ docker run -d --rm --name restaurant-service -p 9081:8080 \
   --network axon-springboot-websocket_default \
   --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
   ivanfranchin/restaurant-service:1.0.0
-
-wait_for_container_log "restaurant-service" "Started"
 
 echo
 echo "Starting food-ordering-service..."
@@ -33,12 +29,19 @@ docker run -d --rm --name food-ordering-service -p 9082:8080 \
   --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
   ivanfranchin/food-ordering-service:1.0.0
 
+echo
+wait_for_container_log "customer-service" "Started"
+
+echo
+wait_for_container_log "restaurant-service" "Started"
+
+echo
 wait_for_container_log "food-ordering-service" "Started"
 
 printf "\n"
-printf "%21s | %21s | %43s |\n" "Application" "URL" "Swagger"
-printf "%21s + %21s + %43s |\n" "---------------------" "---------------------" "-------------------------------------------"
-printf "%21s | %21s | %43s |\n" "customer-service" "http://localhost:9080" "http://localhost:9080/swagger-ui/index.html"
-printf "%21s | %21s | %43s |\n" "restaurant-service" "http://localhost:9081" "http://localhost:9081/swagger-ui/index.html"
-printf "%21s | %21s | %43s |\n" "food-ordering-service" "http://localhost:9082" "http://localhost:9082/swagger-ui/index.html"
+printf "%21s | %21s | %37s |\n" "Application" "URL" "Swagger"
+printf "%21s + %21s + %37s |\n" "---------------------" "---------------------" "-------------------------------------"
+printf "%21s | %21s | %37s |\n" "customer-service" "http://localhost:9080" "http://localhost:9080/swagger-ui.html"
+printf "%21s | %21s | %37s |\n" "restaurant-service" "http://localhost:9081" "http://localhost:9081/swagger-ui.html"
+printf "%21s | %21s | %37s |\n" "food-ordering-service" "http://localhost:9082" "http://localhost:9082/swagger-ui.html"
 printf "\n"
