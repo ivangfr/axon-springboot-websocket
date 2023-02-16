@@ -1,17 +1,17 @@
 package com.ivanfranchin.customerservice.rest;
 
-import com.ivanfranchin.customerservice.model.Customer;
-import com.ivanfranchin.customerservice.model.Order;
-import com.ivanfranchin.customerservice.query.GetCustomerOrdersQuery;
-import com.ivanfranchin.customerservice.query.GetCustomerQuery;
-import com.ivanfranchin.customerservice.rest.dto.AddCustomerRequest;
-import com.ivanfranchin.customerservice.rest.dto.CustomerResponse;
-import com.ivanfranchin.customerservice.rest.dto.CustomerOrderResponse;
 import com.ivanfranchin.customerservice.command.AddCustomerCommand;
 import com.ivanfranchin.customerservice.command.DeleteCustomerCommand;
 import com.ivanfranchin.customerservice.command.UpdateCustomerCommand;
 import com.ivanfranchin.customerservice.mapper.CustomerMapper;
+import com.ivanfranchin.customerservice.model.Customer;
+import com.ivanfranchin.customerservice.model.Order;
+import com.ivanfranchin.customerservice.query.GetCustomerOrdersQuery;
+import com.ivanfranchin.customerservice.query.GetCustomerQuery;
 import com.ivanfranchin.customerservice.query.GetCustomersQuery;
+import com.ivanfranchin.customerservice.rest.dto.AddCustomerRequest;
+import com.ivanfranchin.customerservice.rest.dto.CustomerOrderResponse;
+import com.ivanfranchin.customerservice.rest.dto.CustomerResponse;
 import com.ivanfranchin.customerservice.rest.dto.UpdateCustomerRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -32,7 +32,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,8 +45,7 @@ public class CustomerController {
     @GetMapping
     public CompletableFuture<List<CustomerResponse>> getCustomers() {
         return queryGateway.query(new GetCustomersQuery(), ResponseTypes.multipleInstancesOf(Customer.class))
-                .thenApply(customers -> customers.stream()
-                        .map(customerMapper::toCustomerResponse).collect(Collectors.toList()));
+                .thenApply(customers -> customers.stream().map(customerMapper::toCustomerResponse).toList());
     }
 
     @GetMapping("/{id}")
@@ -75,7 +73,6 @@ public class CustomerController {
     @GetMapping("/{id}/orders")
     public CompletableFuture<List<CustomerOrderResponse>> getCustomerOrders(@PathVariable String id) {
         return queryGateway.query(new GetCustomerOrdersQuery(id), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(orders -> orders.stream()
-                        .map(customerMapper::toCustomerOrderResponse).collect(Collectors.toList()));
+                .thenApply(orders -> orders.stream().map(customerMapper::toCustomerOrderResponse).toList());
     }
 }

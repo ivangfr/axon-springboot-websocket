@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +20,6 @@ public class RestaurantController {
 
     @GetMapping
     public List<RestaurantResponse> getRestaurants() {
-        return restaurantService.getRestaurants().stream()
-                .map(restaurantMapper::toRestaurantResponse)
-                .collect(Collectors.toList());
+        return restaurantService.getRestaurants().stream().map(restaurantMapper::toRestaurantResponse).toList();
     }
 }

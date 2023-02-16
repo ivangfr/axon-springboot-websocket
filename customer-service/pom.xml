@@ -14,7 +14,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <hibernate-types.version>2.20.0</hibernate-types.version>
+        <hibernate-types.version>2.21.1</hibernate-types.version>
     </properties>
 
     <dependencies>
@@ -51,8 +51,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

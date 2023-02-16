@@ -1,5 +1,7 @@
 package com.ivanfranchin.foodorderingservice.order.rest;
 
+import com.ivanfranchin.foodorderingservice.customer.model.Customer;
+import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
 import com.ivanfranchin.foodorderingservice.order.command.CreateOrderCommand;
 import com.ivanfranchin.foodorderingservice.order.mapper.OrderMapper;
 import com.ivanfranchin.foodorderingservice.order.model.Order;
@@ -8,8 +10,6 @@ import com.ivanfranchin.foodorderingservice.order.query.GetOrderQuery;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrdersQuery;
 import com.ivanfranchin.foodorderingservice.order.rest.dto.CreateOrderRequest;
 import com.ivanfranchin.foodorderingservice.order.rest.dto.OrderResponse;
-import com.ivanfranchin.foodorderingservice.customer.model.Customer;
-import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
 import com.ivanfranchin.foodorderingservice.restaurant.model.Dish;
 import com.ivanfranchin.foodorderingservice.restaurant.model.Restaurant;
 import com.ivanfranchin.foodorderingservice.restaurant.service.RestaurantService;
@@ -47,8 +47,7 @@ public class OrderController {
     @GetMapping
     public CompletableFuture<List<OrderResponse>> getOrders() {
         return queryGateway.query(new GetOrdersQuery(), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(orders -> orders.stream()
-                        .map(orderMapper::toOrderResponse).collect(Collectors.toList()));
+                .thenApply(orders -> orders.stream().map(orderMapper::toOrderResponse).toList());
     }
 
     @GetMapping("/{id}")

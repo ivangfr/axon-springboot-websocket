@@ -17,10 +17,10 @@ import com.ivanfranchin.restaurantservice.query.GetRestaurantsQuery;
 import com.ivanfranchin.restaurantservice.rest.dto.AddRestaurantDishRequest;
 import com.ivanfranchin.restaurantservice.rest.dto.AddRestaurantRequest;
 import com.ivanfranchin.restaurantservice.rest.dto.DishResponse;
-import com.ivanfranchin.restaurantservice.rest.dto.RestaurantResponse;
 import com.ivanfranchin.restaurantservice.rest.dto.RestaurantOrderResponse;
-import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantRequest;
+import com.ivanfranchin.restaurantservice.rest.dto.RestaurantResponse;
 import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
+import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -40,7 +40,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -54,9 +53,7 @@ public class RestaurantController {
     @GetMapping
     public CompletableFuture<List<RestaurantResponse>> getRestaurants() {
         return queryGateway.query(new GetRestaurantsQuery(), ResponseTypes.multipleInstancesOf(Restaurant.class))
-                .thenApply(restaurants -> restaurants.stream()
-                        .map(restaurantMapper::toRestaurantResponse)
-                        .collect(Collectors.toList()));
+                .thenApply(restaurants -> restaurants.stream().map(restaurantMapper::toRestaurantResponse).toList());
     }
 
     @GetMapping("/{id}")
@@ -111,8 +108,6 @@ public class RestaurantController {
     @GetMapping("/{restaurantId}/orders")
     public CompletableFuture<List<RestaurantOrderResponse>> getRestaurantOrders(@PathVariable UUID restaurantId) {
         return queryGateway.query(new GetRestaurantOrdersQuery(restaurantId.toString()), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(restaurants -> restaurants.stream()
-                        .map(restaurantMapper::toRestaurantOrderResponse)
-                        .collect(Collectors.toList()));
+                .thenApply(restaurants -> restaurants.stream().map(restaurantMapper::toRestaurantOrderResponse).toList());
     }
 }

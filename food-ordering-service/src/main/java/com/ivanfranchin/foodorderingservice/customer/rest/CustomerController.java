@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +20,6 @@ public class CustomerController {
 
     @GetMapping
     public List<CustomerResponse> getCustomers() {
-        return customerService.getCustomers().stream()
-                .map(customerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
+        return customerService.getCustomers().stream().map(customerMapper::toCustomerResponse).toList();
     }
 }
