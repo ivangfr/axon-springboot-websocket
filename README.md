@@ -46,18 +46,17 @@ The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we w
 
 - [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
-- [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
 ## Start Environment
 
 - Open a terminal and inside `axon-springboot-websocket` root folder run
   ```
-  docker-compose up -d
+  docker compose up -d
   ```
 
 - Wait for Docker containers to be up and running. To check it, run
   ```
-  docker-compose ps
+  docker compose ps
   ```
 
 ## Running applications with Maven
@@ -195,9 +194,9 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
       ```
       ./stop-apps.sh
       ```
-- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `axon-springboot-websocket` root folder, run the command below
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `axon-springboot-websocket` root folder, run the command below
   ```
-  docker-compose down -v
+  docker compose down -v
   ```
 
 ## Cleanup
