@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   axon-server:
@@ -11,7 +9,7 @@ services:
       - "8124:8124"
 
   mysql:
-    image: mysql:8.0.33
+    image: mysql:9.0.1
     container_name: mysql
     restart: unless-stopped
     ports:
@@ -24,7 +22,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:15.3
+    image: postgres:16.3
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -36,7 +34,7 @@ services:
       test: "pg_isready -U postgres"
 
   mongodb:
-    image: mongo:6.0.6
+    image: mongo:7.0.12
     container_name: mongodb
     restart: unless-stopped
     ports:

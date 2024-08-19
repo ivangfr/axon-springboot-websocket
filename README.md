@@ -1,6 +1,6 @@
 # axon-springboot-websocket
 
-The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) applications: `customer-service`, `restaurant-service` and `food-ordering-service`. These services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind so, in order to achieve it, we used [`Axon Framework`](https://axoniq.io/product-overview/axon-framework). The three services are connected to `axon-server` that is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
+The goal of this project is play with [`Axon`](https://axoniq.io/). For it, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) applications: `customer-service`, `restaurant-service` and `food-ordering-service`. These services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind so, in order to achieve it, we used [`Axon Framework`](https://www.axoniq.io/products/axon-framework). The three services are connected to `axon-server` that is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
 
 ## Proof-of-Concepts & Articles
 
@@ -53,19 +53,19 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Start Environment
 
-- Open a terminal and inside `axon-springboot-websocket` root folder run
+- Open a terminal and inside `axon-springboot-websocket` root folder run:
   ```
   docker compose up -d
   ```
 
-- Wait for Docker containers to be up and running. To check it, run
+- Wait for Docker containers to be up and running. To check it, run:
   ```
   docker compose ps
   ```
 
 ## Running applications with Maven
 
-Inside `axon-springboot-websocket` root folder, run the following commands in different terminals.
+Inside `axon-springboot-websocket` root folder, run the following commands in different terminals:
 
 - **axon-event-commons**
   ```
@@ -91,8 +91,8 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 - ### Build Docker images
 
-  - In a terminal, make sure you are in `axon-springboot-websocket` root folder
-  - Run the following script to build the Docker images
+  - In a terminal, make sure you are in `axon-springboot-websocket` root folder;
+  - Run the following script to build the Docker images:
     - JVM
       ```
       ./docker-build.sh
@@ -133,8 +133,8 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
 - ### Start Docker containers
 
-  - In a terminal, make sure you are inside `axon-springboot-websocket` root folder
-  - Run following command
+  - In a terminal, make sure you are inside `axon-springboot-websocket` root folder;
+  - Run following command:
     ```
     ./start-apps.sh
     ```
@@ -192,20 +192,20 @@ The GIF below shows a user creating a customer in `customer-service` UI. Then, i
 
 ## Shutdown
 
-- To stop applications
-    - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`
-    - If you start them as Docker containers, make sure you are inside `axon-springboot-websocket` root folder and run the following script
+- To stop applications:
+    - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`;
+    - If you start them as Docker containers, make sure you are inside `axon-springboot-websocket` root folder and run the following script:
       ```
       ./stop-apps.sh
       ```
-- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `axon-springboot-websocket` root folder, run the command below
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `axon-springboot-websocket` root folder, run the command below:
   ```
   docker compose down -v
   ```
 
 ## Cleanup
 
-To remove the docker images created by this project, go to a terminal and, inside `axon-springboot-websocket` root folder, run the following script
+To remove the docker images created by this project, go to a terminal and, inside `axon-springboot-websocket` root folder, run the following script:
 ```
 ./remove-docker-images.sh
 ```
