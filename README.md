@@ -48,8 +48,8 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
-- [`Docker`](https://www.docker.com/)
+- [`Java 17`](https://www.oracle.com/java/technologies/downloads/#java17) or higher;
+- A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Start Environment
 
@@ -60,7 +60,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - Wait for Docker containers to be up and running. To check it, run:
   ```
-  docker compose ps
+  docker ps -a
   ```
 
 ## Running applications with Maven
@@ -93,14 +93,9 @@ Inside `axon-springboot-websocket` root folder, run the following commands in di
 
   - In a terminal, make sure you are in `axon-springboot-websocket` root folder;
   - Run the following script to build the Docker images:
-    - JVM
-      ```
-      ./docker-build.sh
-      ```
-    - Native (it's not implemented yet)
-      ```
-      ./docker-build.sh native
-      ```
+    ```
+    ./build-docker-images.sh
+    ```
 
 - ### Environment Variables
 
