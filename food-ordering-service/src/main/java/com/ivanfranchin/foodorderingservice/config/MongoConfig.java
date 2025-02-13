@@ -17,7 +17,7 @@ import static java.time.ZonedDateTime.ofInstant;
 public class MongoConfig {
 
     @Bean
-    public MongoCustomConversions customConversions() {
+    MongoCustomConversions customConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();
         converters.add(DateToZonedDateTimeConverter.INSTANCE);
         converters.add(ZonedDateTimeToDateConverter.INSTANCE);

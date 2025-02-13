@@ -21,7 +21,7 @@ public class AxonConfig {
     // Workaround to avoid the exception "com.thoughtworks.xstream.security.ForbiddenClassException"
     // https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot
     @Bean
-    public XStream xStream() {
+    XStream xStream() {
         XStream xStream = new XStream();
         xStream.allowTypesByWildcard(new String[]{
                 "com.ivanfranchin.**",
