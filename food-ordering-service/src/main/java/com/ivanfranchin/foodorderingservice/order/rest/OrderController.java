@@ -57,11 +57,11 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public CompletableFuture<String> createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        Customer customer = customerService.validateAndGetCustomer(request.getCustomerId().toString());
-        Restaurant restaurant = restaurantService.validateAndGetRestaurant(request.getRestaurantId().toString());
-        Set<OrderItem> items = request.getItems().stream().map(i -> {
-            Dish dish = restaurantService.validateAndGetRestaurantDish(restaurant.getId(), i.getDishId().toString());
-            return new OrderItem(dish.getId(), dish.getName(), dish.getPrice(), i.getQuantity());
+        Customer customer = customerService.validateAndGetCustomer(request.customerId().toString());
+        Restaurant restaurant = restaurantService.validateAndGetRestaurant(request.restaurantId().toString());
+        Set<OrderItem> items = request.items().stream().map(i -> {
+            Dish dish = restaurantService.validateAndGetRestaurantDish(restaurant.getId(), i.dishId().toString());
+            return new OrderItem(dish.getId(), dish.getName(), dish.getPrice(), i.quantity());
         }).collect(Collectors.toSet());
 
         String id = UUID.randomUUID().toString();

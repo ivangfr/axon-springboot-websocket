@@ -54,13 +54,13 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public CompletableFuture<String> addCustomer(@Valid @RequestBody AddCustomerRequest request) {
-        return commandGateway.send(new AddCustomerCommand(UUID.randomUUID().toString(), request.getName(), request.getAddress()));
+        return commandGateway.send(new AddCustomerCommand(UUID.randomUUID().toString(), request.name(), request.address()));
     }
 
     @PatchMapping("/{id}")
     public CompletableFuture<String> updateCustomer(@PathVariable String id,
                                                     @Valid @RequestBody UpdateCustomerRequest request) {
-        return commandGateway.send(new UpdateCustomerCommand(id, request.getName(), request.getAddress()));
+        return commandGateway.send(new UpdateCustomerCommand(id, request.name(), request.address()));
     }
 
     @DeleteMapping("/{id}")

@@ -63,13 +63,13 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public CompletableFuture<String> addRestaurant(@Valid @RequestBody AddRestaurantRequest request) {
-        return commandGateway.send(new AddRestaurantCommand(UUID.randomUUID().toString(), request.getName()));
+        return commandGateway.send(new AddRestaurantCommand(UUID.randomUUID().toString(), request.name()));
     }
 
     @PatchMapping("/{restaurantId}")
     public CompletableFuture<String> updateRestaurant(@PathVariable UUID restaurantId,
                                                       @Valid @RequestBody UpdateRestaurantRequest request) {
-        return commandGateway.send(new UpdateRestaurantCommand(restaurantId.toString(), request.getName()));
+        return commandGateway.send(new UpdateRestaurantCommand(restaurantId.toString(), request.name()));
     }
 
     @DeleteMapping("/{restaurantId}")
@@ -82,7 +82,7 @@ public class RestaurantController {
     public CompletableFuture<String> addRestaurantDish(@PathVariable UUID restaurantId,
                                                        @Valid @RequestBody AddRestaurantDishRequest request) {
         return commandGateway.send(new AddRestaurantDishCommand(restaurantId.toString(), UUID.randomUUID().toString(),
-                request.getName(), request.getPrice()));
+                request.name(), request.price()));
     }
 
     @GetMapping("/{restaurantId}/dishes/{dishId}")
@@ -95,7 +95,7 @@ public class RestaurantController {
     public CompletableFuture<String> updateRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId,
                                                           @Valid @RequestBody UpdateRestaurantDishRequest request) {
         return commandGateway.send(new UpdateRestaurantDishCommand(restaurantId.toString(), dishId.toString(),
-                request.getName(), request.getPrice()));
+                request.name(), request.price()));
     }
 
     @DeleteMapping("/{restaurantId}/dishes/{dishId}")
