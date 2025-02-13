@@ -1,43 +1,43 @@
 services:
 
   axon-server:
-    image: axoniq/axonserver:4.6.11
-    container_name: axon-server
-    restart: unless-stopped
+    image: 'axoniq/axonserver:4.6.11'
+    container_name: 'axon-server'
+    restart: 'unless-stopped'
     ports:
       - "8024:8024"
       - "8124:8124"
 
   mysql:
-    image: mysql:9.1.0
-    container_name: mysql
-    restart: unless-stopped
+    image: 'mysql:9.1.0'
+    container_name: 'mysql'
+    restart: 'unless-stopped'
     ports:
-      - "3306:3306"
+      - '3306:3306'
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=customerdb
+      - 'MYSQL_ROOT_PASSWORD=secret'
+      - 'MYSQL_DATABASE=customerdb'
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
 
   postgres:
-    container_name: postgres
-    image: postgres:17.2
-    restart: unless-stopped
+    container_name: 'postgres'
+    image: 'postgres:17.2'
+    restart: 'unless-stopped'
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
-      - POSTGRES_DB=restaurantdb
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
+      - 'POSTGRES_DB=restaurantdb'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
     healthcheck:
       test: "pg_isready -U postgres"
 
   mongodb:
-    image: mongo:8.0.3
-    container_name: mongodb
-    restart: unless-stopped
+    image: 'mongo:8.0.3'
+    container_name: 'mongodb'
+    restart: 'unless-stopped'
     ports:
-      - "27017:27017"
+      - '27017:27017'
     healthcheck:
       test: "echo 'db.stats().ok' | mongosh localhost:27017/foodorderingdb --quiet"
