@@ -6,7 +6,6 @@ import com.ivanfranchin.restaurantservice.command.DeleteRestaurantCommand;
 import com.ivanfranchin.restaurantservice.command.DeleteRestaurantDishCommand;
 import com.ivanfranchin.restaurantservice.command.UpdateRestaurantCommand;
 import com.ivanfranchin.restaurantservice.command.UpdateRestaurantDishCommand;
-import com.ivanfranchin.restaurantservice.mapper.RestaurantMapper;
 import com.ivanfranchin.restaurantservice.model.Dish;
 import com.ivanfranchin.restaurantservice.model.Order;
 import com.ivanfranchin.restaurantservice.model.Restaurant;
@@ -48,18 +47,17 @@ public class RestaurantController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-    private final RestaurantMapper restaurantMapper;
 
     @GetMapping
     public CompletableFuture<List<RestaurantResponse>> getRestaurants() {
         return queryGateway.query(new GetRestaurantsQuery(), ResponseTypes.multipleInstancesOf(Restaurant.class))
-                .thenApply(restaurants -> restaurants.stream().map(restaurantMapper::toRestaurantResponse).toList());
+                .thenApply(restaurants -> restaurants.stream().map(RestaurantResponse::from).toList());
     }
 
     @GetMapping("/{id}")
     public CompletableFuture<RestaurantResponse> getRestaurant(@PathVariable UUID id) {
         return queryGateway.query(new GetRestaurantQuery(id.toString()), Restaurant.class)
-                .thenApply(restaurantMapper::toRestaurantResponse);
+                .thenApply(RestaurantResponse::from);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -90,7 +88,7 @@ public class RestaurantController {
     @GetMapping("/{restaurantId}/dishes/{dishId}")
     public CompletableFuture<DishResponse> getRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
         return queryGateway.query(new GetRestaurantDishQuery(restaurantId.toString(), dishId.toString()), Dish.class)
-                .thenApply(restaurantMapper::toDishResponse);
+                .thenApply(DishResponse::from);
     }
 
     @PatchMapping("/{restaurantId}/dishes/{dishId}")
@@ -108,6 +106,6 @@ public class RestaurantController {
     @GetMapping("/{restaurantId}/orders")
     public CompletableFuture<List<RestaurantOrderResponse>> getRestaurantOrders(@PathVariable UUID restaurantId) {
         return queryGateway.query(new GetRestaurantOrdersQuery(restaurantId.toString()), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(restaurants -> restaurants.stream().map(restaurantMapper::toRestaurantOrderResponse).toList());
+                .thenApply(restaurants -> restaurants.stream().map(RestaurantOrderResponse::from).toList());
     }
 }

@@ -3,7 +3,6 @@ package com.ivanfranchin.foodorderingservice.order.rest;
 import com.ivanfranchin.foodorderingservice.customer.model.Customer;
 import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
 import com.ivanfranchin.foodorderingservice.order.command.CreateOrderCommand;
-import com.ivanfranchin.foodorderingservice.order.mapper.OrderMapper;
 import com.ivanfranchin.foodorderingservice.order.model.Order;
 import com.ivanfranchin.foodorderingservice.order.model.OrderItem;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrderQuery;
@@ -42,18 +41,17 @@ public class OrderController {
     private final QueryGateway queryGateway;
     private final CustomerService customerService;
     private final RestaurantService restaurantService;
-    private final OrderMapper orderMapper;
 
     @GetMapping
     public CompletableFuture<List<OrderResponse>> getOrders() {
         return queryGateway.query(new GetOrdersQuery(), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(orders -> orders.stream().map(orderMapper::toOrderResponse).toList());
+                .thenApply(orders -> orders.stream().map(OrderResponse::from).toList());
     }
 
     @GetMapping("/{id}")
     public CompletableFuture<OrderResponse> getOrder(@PathVariable UUID id) {
         return queryGateway.query(new GetOrderQuery(id.toString()), Order.class)
-                .thenApply(orderMapper::toOrderResponse);
+                .thenApply(OrderResponse::from);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

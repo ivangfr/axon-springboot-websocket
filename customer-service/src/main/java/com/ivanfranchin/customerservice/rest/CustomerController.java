@@ -3,7 +3,6 @@ package com.ivanfranchin.customerservice.rest;
 import com.ivanfranchin.customerservice.command.AddCustomerCommand;
 import com.ivanfranchin.customerservice.command.DeleteCustomerCommand;
 import com.ivanfranchin.customerservice.command.UpdateCustomerCommand;
-import com.ivanfranchin.customerservice.mapper.CustomerMapper;
 import com.ivanfranchin.customerservice.model.Customer;
 import com.ivanfranchin.customerservice.model.Order;
 import com.ivanfranchin.customerservice.query.GetCustomerOrdersQuery;
@@ -40,17 +39,16 @@ public class CustomerController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-    private final CustomerMapper customerMapper;
 
     @GetMapping
     public CompletableFuture<List<CustomerResponse>> getCustomers() {
         return queryGateway.query(new GetCustomersQuery(), ResponseTypes.multipleInstancesOf(Customer.class))
-                .thenApply(customers -> customers.stream().map(customerMapper::toCustomerResponse).toList());
+                .thenApply(customers -> customers.stream().map(CustomerResponse::from).toList());
     }
 
     @GetMapping("/{id}")
     public CompletableFuture<CustomerResponse> getCustomer(@PathVariable String id) {
-        return queryGateway.query(new GetCustomerQuery(id), Customer.class).thenApply(customerMapper::toCustomerResponse);
+        return queryGateway.query(new GetCustomerQuery(id), Customer.class).thenApply(CustomerResponse::from);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,6 +71,6 @@ public class CustomerController {
     @GetMapping("/{id}/orders")
     public CompletableFuture<List<CustomerOrderResponse>> getCustomerOrders(@PathVariable String id) {
         return queryGateway.query(new GetCustomerOrdersQuery(id), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(orders -> orders.stream().map(customerMapper::toCustomerOrderResponse).toList());
+                .thenApply(orders -> orders.stream().map(CustomerOrderResponse::from).toList());
     }
 }

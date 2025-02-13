@@ -1,6 +1,5 @@
 package com.ivanfranchin.foodorderingservice.customer.rest;
 
-import com.ivanfranchin.foodorderingservice.customer.mapper.CustomerMapper;
 import com.ivanfranchin.foodorderingservice.customer.rest.dto.CustomerResponse;
 import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +15,9 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final CustomerMapper customerMapper;
 
     @GetMapping
     public List<CustomerResponse> getCustomers() {
-        return customerService.getCustomers().stream().map(customerMapper::toCustomerResponse).toList();
+        return customerService.getCustomers().stream().map(CustomerResponse::from).toList();
     }
 }
