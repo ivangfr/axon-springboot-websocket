@@ -54,12 +54,12 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 ## Start Environment
 
 - Open a terminal and inside the `axon-springboot-websocket` root folder run:
-  ```
+  ```bash
   docker compose up -d
   ```
 
 - Wait for Docker containers to be up and running. To check it, run:
-  ```
+  ```bash
   docker ps -a
   ```
 
@@ -68,22 +68,22 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 Inside the `axon-springboot-websocket` root folder, run the following commands in different terminals:
 
 - **axon-event-commons**
-  ```
+  ```bash
   ./mvnw clean install --projects axon-event-commons
   ```
 
 - **customer-service**
-  ```
+  ```bash
   ./mvnw clean spring-boot:run --projects customer-service -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
 
 - **restaurant-service**
-  ```
+  ```bash
   ./mvnw clean spring-boot:run --projects restaurant-service -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
 
 - **food-ordering-service**
-  ```
+  ```bash
   ./mvnw clean spring-boot:run --projects food-ordering-service -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
@@ -93,7 +93,7 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
 
   - In a terminal, make sure you are in the `axon-springboot-websocket` root folder;
   - Run the following script to build the Docker images:
-    ```
+    ```bash
     ./build-docker-images.sh
     ```
 
@@ -130,7 +130,7 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
 
   - In a terminal, make sure you are inside the `axon-springboot-websocket` root folder;
   - Run the following command:
-    ```
+    ```bash
     ./start-apps.sh
     ```
 
@@ -157,7 +157,7 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
   ![axon-server](documentation/axon-server.jpeg)
 
 - **MySQL**
-  ```
+  ```bash
   docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database customerdb
   
   SELECT * FROM customers;
@@ -166,7 +166,7 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
   > Type `exit` to exit
 
 - **PostgreSQL**
-  ```
+  ```bash
   docker exec -it postgres psql -U postgres -d restaurantdb
   
   SELECT * FROM restaurants;
@@ -176,7 +176,7 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
   > Type `\q` to exit
   
 - **MongoDB**
-  ```
+  ```bash
   docker exec -it mongodb mongo foodorderingdb
   
   db.customers.find()
@@ -190,18 +190,18 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
 - To stop applications:
     - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`;
     - If you start them as Docker containers, make sure you are inside the `axon-springboot-websocket` root folder and run the following script:
-      ```
+      ```bash
       ./stop-apps.sh
       ```
 - To stop and remove docker compose containers, network, and volumes, go to a terminal and, inside the `axon-springboot-websocket` root folder, run the command below:
-  ```
+  ```bash
   docker compose down -v
   ```
 
 ## Cleanup
 
 To remove the docker images created by this project, go to a terminal and, inside the `axon-springboot-websocket` root folder, run the following script:
-```
+```bash
 ./remove-docker-images.sh
 ```
 
