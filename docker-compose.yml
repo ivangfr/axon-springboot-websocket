@@ -9,7 +9,7 @@ services:
       - "8124:8124"
 
   mysql:
-    image: 'mysql:9.1.0'
+    image: 'mysql:9.2.0'
     container_name: 'mysql'
     restart: 'unless-stopped'
     ports:
@@ -34,7 +34,7 @@ services:
       test: "pg_isready -U postgres"
 
   mongodb:
-    image: 'mongo:8.0.3'
+    image: 'mongo:8.0.6'
     container_name: 'mongodb'
     restart: 'unless-stopped'
     ports:

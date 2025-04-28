@@ -15,17 +15,17 @@ SKIP_TESTS="true"
 
 ./mvnw clean install --projects axon-event-commons
 
-./mvnw clean compile jib:dockerBuild \
+./mvnw clean spring-boot:build-image \
   --projects "$CUSTOMER_SERVICE_APP_NAME" \
   -DskipTests="$SKIP_TESTS" \
-  -Dimage="$CUSTOMER_SERVICE_DOCKER_IMAGE_NAME"
+  -Dspring-boot.build-image.imageName="$CUSTOMER_SERVICE_DOCKER_IMAGE_NAME"
 
-./mvnw clean compile jib:dockerBuild \
+./mvnw clean spring-boot:build-image \
   --projects "$RESTAURANT_SERVICE_APP_NAME" \
   -DskipTests="$SKIP_TESTS" \
-  -Dimage="$RESTAURANT_SERVICE_DOCKER_IMAGE_NAME"
+  -Dspring-boot.build-image.imageName="$RESTAURANT_SERVICE_DOCKER_IMAGE_NAME"
 
-./mvnw clean compile jib:dockerBuild \
+./mvnw clean spring-boot:build-image \
   --projects "$FOOD_ORDERING_SERVICE_APP_NAME" \
   -DskipTests="$SKIP_TESTS" \
-  -Dimage="$FOOD_ORDERING_SERVICE_DOCKER_IMAGE_NAME"
+  -Dspring-boot.build-image.imageName="$FOOD_ORDERING_SERVICE_DOCKER_IMAGE_NAME"
