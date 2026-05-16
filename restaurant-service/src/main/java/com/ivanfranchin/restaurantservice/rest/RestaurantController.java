@@ -54,9 +54,9 @@ public class RestaurantController {
                 .thenApply(restaurants -> restaurants.stream().map(RestaurantResponse::from).toList());
     }
 
-    @GetMapping("/{id}")
-    public CompletableFuture<RestaurantResponse> getRestaurant(@PathVariable UUID id) {
-        return queryGateway.query(new GetRestaurantQuery(id.toString()), Restaurant.class)
+    @GetMapping("/{restaurantId}")
+    public CompletableFuture<RestaurantResponse> getRestaurant(@PathVariable UUID restaurantId) {
+        return queryGateway.query(new GetRestaurantQuery(restaurantId.toString()), Restaurant.class)
                 .thenApply(RestaurantResponse::from);
     }
 

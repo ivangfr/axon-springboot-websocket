@@ -5,8 +5,8 @@ services:
     container_name: 'axon-server'
     restart: 'unless-stopped'
     ports:
-      - "8024:8024"
-      - "8124:8124"
+      - '8024:8024'
+      - '8124:8124'
 
   mysql:
     image: 'mysql:9.6.0'
@@ -18,7 +18,10 @@ services:
       - 'MYSQL_ROOT_PASSWORD=secret'
       - 'MYSQL_DATABASE=customerdb'
     healthcheck:
-      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+      test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=$$MYSQL_ROOT_PASSWORD"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   postgres:
     container_name: 'postgres'
@@ -31,7 +34,10 @@ services:
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
     healthcheck:
-      test: "pg_isready -U postgres"
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   mongodb:
     image: 'mongo:8.2.5'
@@ -40,4 +46,7 @@ services:
     ports:
       - '27017:27017'
     healthcheck:
-      test: "echo 'db.stats().ok' | mongosh localhost:27017/foodorderingdb --quiet"
+      test: ["CMD-SHELL", "echo 'db.stats().ok' | mongosh localhost:27017/foodorderingdb --quiet"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
