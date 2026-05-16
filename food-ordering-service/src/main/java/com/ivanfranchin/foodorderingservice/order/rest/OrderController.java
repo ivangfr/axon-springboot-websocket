@@ -1,20 +1,13 @@
 package com.ivanfranchin.foodorderingservice.order.rest;
 
-import com.ivanfranchin.foodorderingservice.customer.model.Customer;
-import com.ivanfranchin.foodorderingservice.customer.service.CustomerService;
-import com.ivanfranchin.foodorderingservice.order.command.CreateOrderCommand;
 import com.ivanfranchin.foodorderingservice.order.model.Order;
-import com.ivanfranchin.foodorderingservice.order.model.OrderItem;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrderQuery;
 import com.ivanfranchin.foodorderingservice.order.query.GetOrdersQuery;
 import com.ivanfranchin.foodorderingservice.order.rest.dto.CreateOrderRequest;
 import com.ivanfranchin.foodorderingservice.order.rest.dto.OrderResponse;
-import com.ivanfranchin.foodorderingservice.restaurant.model.Dish;
-import com.ivanfranchin.foodorderingservice.restaurant.model.Restaurant;
-import com.ivanfranchin.foodorderingservice.restaurant.service.RestaurantService;
+import com.ivanfranchin.foodorderingservice.order.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
@@ -27,20 +20,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-    private final CustomerService customerService;
-    private final RestaurantService restaurantService;
+    private final OrderService orderService;
 
     @GetMapping
     public CompletableFuture<List<OrderResponse>> getOrders() {
@@ -57,15 +46,6 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public CompletableFuture<String> createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        Customer customer = customerService.validateAndGetCustomer(request.customerId().toString());
-        Restaurant restaurant = restaurantService.validateAndGetRestaurant(request.restaurantId().toString());
-        Set<OrderItem> items = request.items().stream().map(i -> {
-            Dish dish = restaurantService.validateAndGetRestaurantDish(restaurant.getId(), i.dishId().toString());
-            return new OrderItem(dish.getId(), dish.getName(), dish.getPrice(), i.quantity());
-        }).collect(Collectors.toSet());
-
-        String id = UUID.randomUUID().toString();
-        return commandGateway.send(new CreateOrderCommand(id, customer.getId(), customer.getName(),
-                customer.getAddress(), restaurant.getId(), restaurant.getName(), items));
+        return orderService.createOrder(request);
     }
 }

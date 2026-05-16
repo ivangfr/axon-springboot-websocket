@@ -63,9 +63,10 @@ public class CustomerController {
         return commandGateway.send(new UpdateCustomerCommand(id, request.name(), request.address()));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public CompletableFuture<String> deleteCustomer(@PathVariable String id) {
-        return commandGateway.send(new DeleteCustomerCommand(id));
+    public void deleteCustomer(@PathVariable String id) {
+        commandGateway.send(new DeleteCustomerCommand(id));
     }
 
     @GetMapping("/{id}/orders")

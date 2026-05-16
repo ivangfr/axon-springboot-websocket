@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public record CreateOrderRequest(
-        UUID customerId,
-        UUID restaurantId,
+        @NotNull UUID customerId,
+        @NotNull UUID restaurantId,
         @NotNull @NotEmpty Set<OrderItemRequest> items) {
 
     public record OrderItemRequest(

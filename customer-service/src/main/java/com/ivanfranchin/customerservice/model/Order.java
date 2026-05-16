@@ -6,8 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -16,9 +17,10 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @ToString(exclude = "customer")
-@EqualsAndHashCode(exclude = "customer")
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -36,4 +38,17 @@ public class Order {
 
     @JdbcTypeCode(SqlTypes.JSON)
     private Set<OrderItem> items;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return id != null && id.equals(order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

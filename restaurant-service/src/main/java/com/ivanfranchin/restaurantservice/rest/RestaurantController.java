@@ -72,9 +72,10 @@ public class RestaurantController {
         return commandGateway.send(new UpdateRestaurantCommand(restaurantId.toString(), request.name()));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{restaurantId}")
-    public CompletableFuture<String> deleteRestaurant(@PathVariable UUID restaurantId) {
-        return commandGateway.send(new DeleteRestaurantCommand(restaurantId.toString()));
+    public void deleteRestaurant(@PathVariable UUID restaurantId) {
+        commandGateway.send(new DeleteRestaurantCommand(restaurantId.toString()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -98,9 +99,10 @@ public class RestaurantController {
                 request.name(), request.price()));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{restaurantId}/dishes/{dishId}")
-    public CompletableFuture<String> deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
-        return commandGateway.send(new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
+    public void deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
+        commandGateway.send(new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
     }
 
     @GetMapping("/{restaurantId}/orders")
