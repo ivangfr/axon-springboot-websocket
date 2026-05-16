@@ -6,7 +6,7 @@
         <groupId>com.ivanfranchin</groupId>
         <artifactId>axon-springboot-websocket</artifactId>
         <version>1.0.0</version>
-		<relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <artifactId>food-ordering-service</artifactId>
     <name/>
