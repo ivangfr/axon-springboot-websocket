@@ -6,9 +6,9 @@ The goal of this project is to play with [`Axon`](https://axoniq.io/). For this,
 
 On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
 
-## Project Diagram
+## Project Overview
 
-![project-diagram](documentation/project-diagram.jpeg)
+![project-overview](documentation/project-overview.jpeg)
 
 ## Applications
 
@@ -48,7 +48,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 17`](https://www.oracle.com/java/technologies/downloads/#java17) or higher;
+- [`Java 17`](https://www.oracle.com/java/technologies/downloads/#java17) or higher.
 - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Start Environment
@@ -91,7 +91,7 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
 
 - ### Build Docker images
 
-  - In a terminal, make sure you are in the `axon-springboot-websocket` root folder;
+  - In a terminal, make sure you are in the `axon-springboot-websocket` root folder.
   - Run the following script to build the Docker images:
     ```bash
     ./build-docker-images.sh
@@ -128,7 +128,7 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
 
 - ### Start Docker containers
 
-  - In a terminal, make sure you are inside the `axon-springboot-websocket` root folder;
+  - In a terminal, make sure you are inside the `axon-springboot-websocket` root folder.
   - Run the following command:
     ```bash
     ./start-apps.sh
@@ -188,7 +188,7 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
 ## Shutdown
 
 - To stop applications:
-    - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`;
+    - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`.
     - If you start them as Docker containers, make sure you are inside the `axon-springboot-websocket` root folder and run the following script:
       ```bash
       ./stop-apps.sh
