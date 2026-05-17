@@ -1,35 +1,53 @@
+let stompClient = null
+
 const customerServiceApiBaseUrl = "http://localhost:9080/api/customers"
 
 function connectToWebSocket() {
-    const socket = new SockJS('/websocket')
-    const stompClient = Stomp.over(socket)
+    stompClient = new StompJs.Client({
+        webSocketFactory: () => new SockJS('/websocket'),
+        debug: () => {},
+    })
 
-    stompClient.connect({},
-        function (frame) {
-            console.log('Connected: ' + frame)
-            $('.connWebSocket').find('i').removeClass('red').addClass('green')
+    stompClient.onConnect = function (frame) {
+        console.log('Connected: ' + frame)
+        $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
-            stompClient.subscribe('/topic/customer/added', function (event) {
-                addCustomer(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/customer/added', function (event) {
+            addCustomer(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/customer/updated', function (event) {
-                updateCustomer(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/customer/updated', function (event) {
+            updateCustomer(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/customer/deleted', function (event) {
-                removeCustomer(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/customer/deleted', function (event) {
+            removeCustomer(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/customer/order/created', function (event) {
-                addOrder(JSON.parse(event.body))
-            })
-        },
-        function() {
-            showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, customer-service is down or restarting')
-            $('.connWebSocket').find('i').removeClass('green').addClass('red')
-        }
-    )
+        stompClient.subscribe('/topic/customer/order/created', function (event) {
+            addOrder(JSON.parse(event.body))
+        })
+    }
+
+    stompClient.onStompError = function (frame) {
+        console.log('STOMP error: ' + frame)
+        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    }
+
+    stompClient.onWebSocketClose = function () {
+        showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, customer-service is down or restarting')
+        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    }
+
+    stompClient.activate()
+}
+
+function disconnectWebSocket() {
+    if (stompClient !== null) {
+        stompClient.deactivate()
+    }
+    $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    console.log('Disconnected')
 }
 
 function loadCustomers() {
@@ -95,7 +113,7 @@ function getOrderRow(order) {
     return (
         '<tr>'+
             '<td>'+order.id+'</td>'+
-            '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
+            '<td>'+dayjs(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
             '<td>'+order.status+'</td>'+
             '<td><strong>'+order.restaurantName+'</strong></td>'+
             '<td>'+accounting.formatMoney(order.total)+'</td>'+
@@ -214,6 +232,9 @@ $(function () {
     })
 
     $('.connWebSocket').click(function() {
+        if (stompClient !== null) {
+            disconnectWebSocket()
+        }
         connectToWebSocket()
     })
 })

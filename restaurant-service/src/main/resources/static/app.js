@@ -1,43 +1,61 @@
+let stompClient = null
+
 const restaurantServiceApiBaseUrl = "http://localhost:9081/api/restaurants"
 
 function connectToWebSocket() {
-    const socket = new SockJS('/websocket')
-    const stompClient = Stomp.over(socket)
+    stompClient = new StompJs.Client({
+        webSocketFactory: () => new SockJS('/websocket'),
+        debug: () => {},
+    })
 
-    stompClient.connect({},
-        function (frame) {
-            console.log('Connected: ' + frame)
-            $('.connWebSocket').find('i').removeClass('red').addClass('green')
+    stompClient.onConnect = function (frame) {
+        console.log('Connected: ' + frame)
+        $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
-            stompClient.subscribe('/topic/restaurant/added', function (event) {
-                addRestaurant(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/restaurant/added', function (event) {
+            addRestaurant(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/restaurant/updated', function (event) {
-                updateRestaurant(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/restaurant/updated', function (event) {
+            updateRestaurant(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/restaurant/deleted', function (event) {
-                removeRestaurant(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/restaurant/deleted', function (event) {
+            removeRestaurant(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/restaurant/dish/added', function (event) {
-                addRestaurantDish(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/restaurant/dish/added', function (event) {
+            addRestaurantDish(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/restaurant/dish/updated', function (event) {
-                updateRestaurantDish(JSON.parse(event.body))
-            })
+        stompClient.subscribe('/topic/restaurant/dish/updated', function (event) {
+            updateRestaurantDish(JSON.parse(event.body))
+        })
 
-            stompClient.subscribe('/topic/restaurant/dish/deleted', function (event) {
-                removeRestaurantDish(JSON.parse(event.body))
-            })
-        },
-        function() {
-            showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, restaurant-service is down or restarting')
-            $('.connWebSocket').find('i').removeClass('green').addClass('red')
-        }
-    )
+        stompClient.subscribe('/topic/restaurant/dish/deleted', function (event) {
+            removeRestaurantDish(JSON.parse(event.body))
+        })
+    }
+
+    stompClient.onStompError = function (frame) {
+        console.log('STOMP error: ' + frame)
+        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    }
+
+    stompClient.onWebSocketClose = function () {
+        showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, restaurant-service is down or restarting')
+        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    }
+
+    stompClient.activate()
+}
+
+function disconnectWebSocket() {
+    if (stompClient !== null) {
+        stompClient.deactivate()
+    }
+    $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    console.log('Disconnected')
 }
 
 function loadRestaurants() {
@@ -198,7 +216,7 @@ function buildRestaurantOrderTable(data) {
         return (
             '<tr>'+
                 '<td>'+order.id+'</td>'+
-                '<td>'+moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
+                '<td>'+dayjs(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
                 '<td>'+order.status+'</td>'+
                 '<td><strong>'+order.customerName+'</strong></td>'+
                 '<td><strong>'+order.customerAddress+'</strong></td>'+
@@ -393,6 +411,9 @@ $(function () {
     })
 
     $('.connWebSocket').click(function() {
+        if (stompClient !== null) {
+            disconnectWebSocket()
+        }
         connectToWebSocket()
     })
 
