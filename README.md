@@ -11,7 +11,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Project Overview
 
-![project-overview](documentation/project-overview.jpeg)
+![project-overview](documentation/project-overview.png)
 
 ## Applications
 
@@ -159,11 +159,11 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
 
 ## Application URLs
 
-| Application           | URL                   | Swagger                               |
-|-----------------------|-----------------------|---------------------------------------|
-| customer-service      | http://localhost:9080 | http://localhost:9080/swagger-ui.html |
-| restaurant-service    | http://localhost:9081 | http://localhost:9081/swagger-ui.html |
-| food-ordering-service | http://localhost:9082 | http://localhost:9082/swagger-ui.html |
+| Application           | URL                   |
+|-----------------------|-----------------------|
+| customer-service      | http://localhost:9080 |
+| restaurant-service    | http://localhost:9081 |
+| food-ordering-service | http://localhost:9082 |
 
 ## Demo
 
@@ -177,7 +177,7 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
   
   The `Axon Server` dashboard can be accessed at http://localhost:8024
   
-  ![axon-server](documentation/axon-server.jpeg)
+  ![axon-server](documentation/axon-server.png)
 
 - **MySQL**
   ```bash

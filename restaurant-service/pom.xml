@@ -27,13 +27,8 @@
     <properties>
         <axon.version>4.13.1</axon.version>
         <axon-event-commons.version>1.0.0</axon-event-commons.version>
-        <springdoc-openapi.version>3.0.3</springdoc-openapi.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -68,11 +63,15 @@
             <version>${axon-event-commons.version}</version>
         </dependency>
 
-        <!-- SpringDoc OpenApi -->
+        <!-- Jackson 2 runtime compat for Hibernate JSON mapping.
+             Spring Boot 4.x defaults to Jackson 3 (tools.jackson.*), but Hibernate 7.x's
+             JacksonJsonFormatMapper still expects Jackson 2 (com.fasterxml.jackson.databind.ObjectMapper).
+             Without this, @JdbcTypeCode(SqlTypes.JSON) on Order.items causes:
+             "Could not find a FormatMapper for the JSON format" -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -85,11 +84,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa-test</artifactId>

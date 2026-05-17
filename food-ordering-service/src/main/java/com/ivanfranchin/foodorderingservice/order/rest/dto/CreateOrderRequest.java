@@ -1,6 +1,5 @@
 package com.ivanfranchin.foodorderingservice.order.rest.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,6 +13,6 @@ public record CreateOrderRequest(
 
     public record OrderItemRequest(
             UUID dishId,
-            @Schema(example = "2") Short quantity) {
+            Short quantity) {
     }
 }
