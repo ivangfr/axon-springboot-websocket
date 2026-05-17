@@ -1,6 +1,9 @@
 # axon-springboot-websocket
 
-The goal of this project is to play with [`Axon`](https://axoniq.io/). For this, we will implement a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) applications: `customer-service`, `restaurant-service`, and `food-ordering-service`. These services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind. To achieve this, we used the [`Axon Framework`](https://www.axoniq.io/products/axon-framework). The three services are connected to `axon-server`, which is the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution used.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ivan.franchin-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/ivan.franchin)
+
+The goal of this project is to play with [`Axon`](https://axoniq.io/). For this, we implemented a `food-ordering` app that consists of three [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) applications: `customer-service`, `restaurant-service`, and `food-ordering-service`. These services were implemented with [`CQRS`](https://martinfowler.com/bliki/CQRS.html) and [`Event Sourcing`](https://martinfowler.com/eaaDev/EventSourcing.html) in mind. To achieve this, we used the [`Axon Framework`](https://www.axoniq.io/products/axon-framework). The three services are connected to `axon-server`, which serves as the [`Event Store`](https://en.wikipedia.org/wiki/Event_store) and `Message Routing` solution.
 
 ## Proof-of-Concepts & Articles
 
@@ -20,7 +23,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
   `customer-service` was implemented using the `Axon Framework`. Every time a customer is added, updated, or deleted, the service emits the respective event, i.e., `CustomerAddedEvent`, `CustomerUpdatedEvent`, or `CustomerDeletedEvent`.
   
-  `customer-service` uses `MySQL` to store customer data. Additionally, it listens to order events, collects the order information that it needs, and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
+  `customer-service` uses `MySQL` to store customer data. Additionally, it listens to order events, collects the order information that it needs, and stores it in an order table present in its own database, so that it doesn't need to call another service to get this information.
 
 - ### restaurant-service
 
@@ -30,7 +33,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
   `restaurant-service` was implemented using the `Axon Framework`. Every time a restaurant is added, updated, or deleted, the service emits the respective event, i.e., `RestaurantAddedEvent`, `RestaurantUpdatedEvent`, or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent`, or `RestaurantDishDeletedEvent`.
   
-  `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Additionally, it listens to order events, collects the order information that it needs, and stores them in an order table present in its own database, so that it doesn't need to call another service to get this information.
+  `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Additionally, it listens to order events, collects the order information that it needs, and stores it in an order table present in its own database, so that it doesn't need to call another service to get this information.
   
 - ### food-ordering-service
 
@@ -48,19 +51,14 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 25`](https://www.oracle.com/java/technologies/downloads/#java25).
+- [`Java 25`](https://www.oracle.com/java/technologies/downloads/#java25) or higher.
 - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
-## Start Environment
+## Init Environment
 
 - Open a terminal and inside the `axon-springboot-websocket` root folder run:
   ```bash
-  docker compose up -d
-  ```
-
-- Wait for Docker containers to be up and running. To check it, run:
-  ```bash
-  docker ps -a
+  ./init-environment.sh
   ```
 
 ## Running applications with Maven
@@ -134,6 +132,31 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
     ./start-apps.sh
     ```
 
+## Running Tests
+
+- In a terminal, make sure you are inside the `axon-springboot-websocket` root folder.
+- Run the following commands to execute the tests for each module:
+
+  - **customer-service**
+    ```bash
+    ./mvnw clean test --projects customer-service
+    ```
+
+  - **restaurant-service**
+    ```bash
+    ./mvnw clean test --projects restaurant-service
+    ```
+
+  - **food-ordering-service**
+    ```bash
+    ./mvnw clean test --projects food-ordering-service
+    ```
+
+- Alternatively, to run all tests at once:
+  ```bash
+  ./mvnw clean test
+  ```
+
 ## Application URLs
 
 | Application           | URL                   | Swagger                               |
@@ -193,9 +216,9 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
       ```bash
       ./stop-apps.sh
       ```
-- To stop and remove docker compose containers, network, and volumes, go to a terminal and, inside the `axon-springboot-websocket` root folder, run the command below:
+- To stop and remove environment containers and network, go to a terminal and, inside the `axon-springboot-websocket` root folder, run the following script:
   ```bash
-  docker compose down -v
+  ./shutdown-environment.sh
   ```
 
 ## Cleanup
@@ -209,3 +232,13 @@ To remove the docker images created by this project, go to a terminal and, insid
 
 - https://sgitario.github.io/axon-by-example/
 - https://blog.nebrass.fr/playing-with-cqrs-and-event-sourcing-in-spring-boot-and-axon/
+
+## Support
+
+If you find this useful, consider buying me a coffee:
+
+<a href="https://buymeacoffee.com/ivan.franchin"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50"></a>
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
