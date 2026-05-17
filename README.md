@@ -17,7 +17,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### customer-service
 
-  `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Semantic UI`.
+  `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
   
   ![customer-service](documentation/customer-service.jpeg)
   
@@ -27,7 +27,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### restaurant-service
 
-  `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Semantic UI`.
+  `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
   
   ![restaurant-service](documentation/restaurant-service.jpeg)
   
@@ -37,7 +37,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
 - ### food-ordering-service
 
-  `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `JavaScript`, `jQuery`, and `Semantic UI`.
+  `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
   
   ![food-ordering-service](documentation/food-ordering-service.jpeg)
   

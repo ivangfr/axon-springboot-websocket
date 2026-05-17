@@ -2,6 +2,16 @@ let stompClient = null
 
 const foodOrderingServiceApiBaseUrl = "http://localhost:9082/api"
 
+function setWsStatus(connected) {
+    if (connected) {
+        $('#wsStatusDot').removeClass('bg-red-500').addClass('bg-green-500')
+        $('#wsStatusText').text('Connected').removeClass('text-red-400').addClass('text-green-400')
+    } else {
+        $('#wsStatusDot').removeClass('bg-green-500').addClass('bg-red-500')
+        $('#wsStatusText').text('Disconnected').removeClass('text-green-400').addClass('text-red-400')
+    }
+}
+
 function connectToWebSocket() {
     stompClient = new StompJs.Client({
         webSocketFactory: () => new SockJS('/websocket'),
@@ -10,7 +20,7 @@ function connectToWebSocket() {
 
     stompClient.onConnect = function (frame) {
         console.log('Connected: ' + frame)
-        $('.connWebSocket').find('i').removeClass('red').addClass('green')
+        setWsStatus(true)
 
         stompClient.subscribe('/topic/customer/added', function (event) {
             addCustomer(JSON.parse(event.body))
@@ -55,12 +65,12 @@ function connectToWebSocket() {
 
     stompClient.onStompError = function (frame) {
         console.log('STOMP error: ' + frame)
-        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+        setWsStatus(false)
     }
 
     stompClient.onWebSocketClose = function () {
-        showModal($('.modal.alert'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, food-ordering-service is down or restarting')
-        $('.connWebSocket').find('i').removeClass('green').addClass('red')
+        showModal($('#alertModal'), 'WebSocket Disconnected', 'WebSocket is disconnected. Maybe, food-ordering-service is down or restarting')
+        setWsStatus(false)
     }
 
     stompClient.activate()
@@ -70,7 +80,7 @@ function disconnectWebSocket() {
     if (stompClient !== null) {
         stompClient.deactivate()
     }
-    $('.connWebSocket').find('i').removeClass('green').addClass('red')
+    setWsStatus(false)
     console.log('Disconnected')
 }
 
@@ -78,12 +88,11 @@ function loadCustomers() {
     $.ajax({
         url: foodOrderingServiceApiBaseUrl.concat("/customers"),
         contentType: "application/json",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
             data.forEach(customer => {
                 addCustomer(customer)
             })
-        },
-        error: function (jqXHR, textStatus, errorThrown) {}
+        }
     })
 }
 
@@ -91,7 +100,7 @@ function loadRestaurants() {
     $.ajax({
         url: foodOrderingServiceApiBaseUrl.concat("/restaurants"),
         contentType: "application/json",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
             data.forEach(restaurant => {
                 addRestaurant(restaurant)
                 restaurant.dishes.map(dish => {
@@ -99,8 +108,7 @@ function loadRestaurants() {
                 })
                 .map(dish => addRestaurantDish(dish))
             })
-        },
-        error: function (jqXHR, textStatus, errorThrown) {}
+        }
     })
 }
 
@@ -108,93 +116,93 @@ function loadOrders() {
     $.ajax({
         url: foodOrderingServiceApiBaseUrl.concat("/orders"),
         contentType: "application/json",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
             data.forEach(order => {
                 addOrder(order)
             })
-        },
-        error: function (jqXHR, textStatus, errorThrown) {}
+        }
     })
 }
 
 function addOrder(order) {
     const items = order.items
-        .map(item => item.quantity + "x " + item.dishName + " " + accounting.formatMoney(item.dishPrice) + " (" + accounting.formatMoney(item.quantity*item.dishPrice) + ")")
+        .map(item => item.quantity + "x " + item.dishName + " " + accounting.formatMoney(item.dishPrice) + " (" + accounting.formatMoney(item.quantity * item.dishPrice) + ")")
         .map(description => '<li>' + description + '</li>')
         .join('')
 
     const row =
-        '<tr>'+
-            '<td>'+order.id+'</th>'+
-            '<td><strong>'+order.customerName+'</strong></th>'+
-            '<td>'+order.customerAddress+'</th>'+
-            '<td><strong>'+order.restaurantName+'</strong></th>'+
-            '<td>'+order.status+'</th>'+
-            '<td>'+accounting.formatMoney(order.total)+'</th>'+
-            '<td>'+dayjs(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</th>'+
-            '<td><ul class="ui list">'+items+'</ul></td>'+
+        '<tr class="border-b border-gray-100">'+
+            '<td class="py-2 px-4 text-gray-500">'+order.id+'</td>'+
+            '<td class="py-2 px-4"><strong>'+order.customerName+'</strong></td>'+
+            '<td class="py-2 px-4">'+order.customerAddress+'</td>'+
+            '<td class="py-2 px-4"><strong>'+order.restaurantName+'</strong></td>'+
+            '<td class="py-2 px-4">'+order.status+'</td>'+
+            '<td class="py-2 px-4 text-right font-medium">'+accounting.formatMoney(order.total)+'</td>'+
+            '<td class="py-2 px-4">'+dayjs(order.createdAt).format('YYYY-MM-DD HH:mm:ss')+'</td>'+
+            '<td class="py-2 px-4"><ul class="list-disc list-inside text-xs text-gray-600">'+items+'</ul></td>'+
         '</tr>'
 
     $('#orderTable').find('tbody').prepend(row)
 }
 
 function addCustomer(customer) {
-    $('.ui.dropdown').find('div.menu').append('<div class="item" id="'+customer.id+'" data-value="'+customer.id+'">'+customer.name+'</div>')
+    const $menu = $('#customerDropdown').find('.dropdown-menu')
+    $menu.append('<div class="dropdown-item px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" data-value="'+customer.id+'">'+customer.name+'</div>')
 }
 
 function updateCustomer(customer) {
-    $('#'+customer.id).text(customer.name)
+    $('#customerDropdown').find('[data-value="'+customer.id+'"]').text(customer.name)
 }
 
 function removeCustomer(customer) {
-    $('#'+customer.id).remove()
+    $('#customerDropdown').find('[data-value="'+customer.id+'"]').remove()
 }
 
 function addRestaurant(restaurant) {
     const row =
-        '<div id="'+restaurant.id+'_title" class="title">'+
-            '<h3>'+restaurant.name+'</h3>'+
-        '</div>'+
-        '<div id="'+restaurant.id+'_content" class="content">'+
-            '<table class="ui compact table unstackable">'+
-                '<tbody></tbody>'+
-                '<tfoot>'+
-                    '<tr>'+
-                        '<th class="one wide"></th>'+
-                        '<th class="five wide"></th>'+
-                        '<th class="three wide"></th>'+
-                        '<th class="total four wide"></th>'+
-                        '<th class="three wide">'+
-                            '<button class="btnOrder ui teal fluid small button">Order</button>'+
-                        '</th>'+
-                    '</tr>'+
-                '</tfoot>'+
-            '</table>'+
+        '<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">'+
+            '<div class="accordion-title px-4 py-3 cursor-pointer hover:bg-gray-50 flex items-center justify-between select-none" data-id="'+restaurant.id+'">'+
+                '<h3 class="text-base font-semibold text-gray-900">'+restaurant.name+'</h3>'+
+                '<svg class="accordion-arrow w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>'+
+            '</div>'+
+            '<div class="accordion-content hidden px-4 pb-4">'+
+                '<table class="w-full text-sm border-collapse">'+
+                    '<tbody></tbody>'+
+                    '<tfoot>'+
+                        '<tr>'+
+                            '<th class="w-10"></th>'+
+                            '<th class="text-left"></th>'+
+                            '<th class="text-left"></th>'+
+                            '<th class="total text-right font-semibold text-teal-600"></th>'+
+                            '<th class="w-24">'+
+                                '<button class="btnOrder w-full px-3 py-1.5 bg-teal-500 hover:bg-teal-600 text-white rounded text-xs font-medium transition-colors">Order</button>'+
+                            '</th>'+
+                        '</tr>'+
+                    '</tfoot>'+
+                '</table>'+
+            '</div>'+
         '</div>'
-    $('.ui.accordion').prepend(row)
+    $('#restaurantAccordion').prepend(row)
 }
 
 function updateRestaurant(restaurant) {
-    $('#'+restaurant.id+'_title').find('h3').text(restaurant.name)
+    $('.accordion-title[data-id="'+restaurant.id+'"]').find('h3').text(restaurant.name)
 }
 
 function removeRestaurant(restaurant) {
-    $('#'+restaurant.id+'_title').remove()
-    $('#'+restaurant.id+'_content').remove()
+    $('.accordion-title[data-id="'+restaurant.id+'"]').closest('.overflow-hidden').remove()
 }
 
 function getRestaurantDishRow(dish) {
     return (
-        '<tr id="'+dish.dishId+'" class="dish">'+
-            '<td class="ui center aligned">'+
-                '<input type="checkbox">'+
+        '<tr id="'+dish.dishId+'" class="dish border-b border-gray-100">'+
+            '<td class="py-1.5 px-2 text-center">'+
+                '<input type="checkbox" class="rounded border-gray-300 text-teal-500 focus:ring-teal-500">'+
             '</td>'+
-            '<td class="name">'+dish.dishName+'</td>'+
-            '<td class="price">'+accounting.formatMoney(dish.dishPrice)+'</td>'+
-            '<td class="quantity">'+
-                '<div class="ui small input">'+
-                    '<input type="number" value="1" min="1" max="10">'+
-                '</div>'+
+            '<td class="py-1.5 px-2 name">'+dish.dishName+'</td>'+
+            '<td class="py-1.5 px-2 price">'+accounting.formatMoney(dish.dishPrice)+'</td>'+
+            '<td class="py-1.5 px-2 quantity">'+
+                '<input type="number" value="1" min="1" max="10" class="w-16 px-2 py-1 border border-gray-300 rounded text-sm">'+
             '</td>'+
             '<td></td>'+
         '</tr>'
@@ -202,11 +210,12 @@ function getRestaurantDishRow(dish) {
 }
 
 function addRestaurantDish(dish) {
-    $('#'+dish.restaurantId+'_content').find('tbody').prepend(getRestaurantDishRow(dish))
+    const $content = $('.accordion-title[data-id="'+dish.restaurantId+'"]').next('.accordion-content')
+    $content.find('tbody').prepend(getRestaurantDishRow(dish))
 }
 
 function updateRestaurantDish(dish) {
-    const $dish = $('#'+dish.dishId);
+    const $dish = $('#'+dish.dishId)
     $dish.find('td.name').text(dish.dishName)
     $dish.find('td.price').text(accounting.formatMoney(dish.dishPrice))
 }
@@ -216,32 +225,32 @@ function removeRestaurantDish(dish) {
 }
 
 function getOrderRequest($this) {
-    const customerId = $(".dropdown").dropdown('get value')
+    const customerId = $('#customerDropdown').find('.dropdown-value').val()
 
-    const $restaurantContent = $this.closest('.content')
-    const restaurantContentId = $restaurantContent.attr('id')
-    const restaurantId = restaurantContentId.substring(0, restaurantContentId.indexOf('_'))
+    const $accordionContent = $this.closest('.accordion-content')
+    const $accordionTitle = $accordionContent.prev('.accordion-title')
+    const restaurantId = $accordionTitle.data('id')
 
     const items = []
-    $restaurantContent.find('tr.dish').each(function(index, tr) {
-        const dishChecked = $(tr).find('input[type="checkbox"]').prop('checked')
+    $accordionContent.find('tr.dish').each(function() {
+        const dishChecked = $(this).find('input[type="checkbox"]').prop('checked')
         if (dishChecked) {
-            const dishId = $(tr).attr('id')
-            const quantity = $(tr).find('input[type="number"]').val()
+            const dishId = $(this).attr('id')
+            const quantity = $(this).find('input[type="number"]').val()
             items.push({dishId, quantity})
         }
-    });
+    })
 
-    return { customerId, restaurantId, items }
+    return {customerId, restaurantId, items}
 }
 
 function validOrderRequest(orderRequest) {
-    if (orderRequest.customerId.length === 0) {
-        showModal($('.modal.alert'), 'Select a customer', 'Please select a Customer in the dropbox')
+    if (!orderRequest.customerId || orderRequest.customerId.length === 0) {
+        showModal($('#alertModal'), 'Select a customer', 'Please select a Customer in the dropbox')
         return false
     }
     if (orderRequest.items.length === 0) {
-        showModal($('.modal.alert'), 'Choose some dishes', 'Please select some dishes of a restaurant')
+        showModal($('#alertModal'), 'Choose some dishes', 'Please select some dishes of a restaurant')
         return false
     }
     return true
@@ -251,15 +260,15 @@ function handlePreviewTotalOrder($this) {
     const $table = $this.closest('table')
 
     let total = 0
-    $table.find('tr.dish').each(function(index, tr) {
-        const $tr = $(tr)
+    $table.find('tr.dish').each(function() {
+        const $tr = $(this)
         const dishChecked = $tr.find('input[type="checkbox"]').prop('checked')
         if (dishChecked) {
             const price = accounting.unformat($tr.find('td.price').text())
             const quantity = $tr.find('input[type="number"]').val()
             total += price * quantity
         }
-    });
+    })
 
     const $total = $table.find('.total')
     if (total > 0) {
@@ -270,27 +279,64 @@ function handlePreviewTotalOrder($this) {
 }
 
 function showModal($modal, header, description, fnApprove) {
-    $modal.find('.header').text(header)
-    $modal.find('.content').text(description)
-    $modal.modal({
-        onApprove: function() {
-            fnApprove && fnApprove()
-        }
-    }).modal('show')
+    $modal.removeClass('hidden')
+    $modal.find('.modal-header').text(header)
+    $modal.find('.modal-content').text(description)
+    $modal.data('fn-approve', fnApprove)
 }
 
+$(document).on('click', '.modal-yes, .modal-ok', function() {
+    const $modal = $(this).closest('[id$="Modal"]')
+    const fn = $modal.data('fn-approve')
+    if (typeof fn === 'function') fn()
+    $modal.addClass('hidden')
+})
+
+$(document).on('click', '.modal-no, .modal-backdrop', function() {
+    $(this).closest('[id$="Modal"]').addClass('hidden')
+})
+
+$(document).on('click', '.accordion-title', function() {
+    const $content = $(this).next('.accordion-content')
+    const $arrow = $(this).find('.accordion-arrow')
+    $content.toggleClass('hidden')
+    $arrow.toggleClass('rotate-180')
+})
+
+$(document).on('click', '.dropdown-toggle', function(e) {
+    e.stopPropagation()
+    $(this).siblings('.dropdown-menu').toggleClass('hidden')
+})
+
+$(document).on('click', '.dropdown-menu .dropdown-item', function() {
+    const val = $(this).data('value')
+    const text = $(this).text()
+    const $container = $(this).closest('.relative')
+    $container.find('.dropdown-text').text(text).removeClass('text-gray-500').addClass('text-gray-900')
+    $container.find('.dropdown-value').val(val)
+    $container.find('.dropdown-menu').addClass('hidden')
+})
+
+$(document).click(function() {
+    $('.dropdown-menu').addClass('hidden')
+})
+
 $(function () {
+    setWsStatus(false)
     loadCustomers()
     loadRestaurants()
     loadOrders()
 
     connectToWebSocket()
 
-    $('.menu .item').tab()
-    $('.ui.dropdown').dropdown()
-    $('.ui.accordion').accordion()
+    $(document).on('click', '.tab-item', function() {
+        $('.tab-item').removeClass('active border-teal-500 text-teal-600 border-transparent text-gray-500')
+        $(this).addClass('border-teal-500 text-teal-600')
+        $('.tab-panel').addClass('hidden')
+        $('#' + $(this).data('tab-panel')).removeClass('hidden')
+    })
 
-    $('.accordion').on('click', '.btnOrder', function() {
+    $('#restaurantAccordion').on('click', '.btnOrder', function() {
         const orderRequest = getOrderRequest($(this))
         if (validOrderRequest(orderRequest)) {
             $.ajax({
@@ -298,19 +344,18 @@ $(function () {
                 url: foodOrderingServiceApiBaseUrl.concat("/orders"),
                 contentType: "application/json",
                 data: JSON.stringify(orderRequest),
-                success: function(data, textStatus, jqXHR) {
-                    showModal($('.modal.alert'), 'Order Submitted', 'Order submitted successfully. The order id is "' + data + '"')
-                },
-                error: function (jqXHR, textStatus, errorThrown) {}
+                success: function(data) {
+                    showModal($('#alertModal'), 'Order Submitted', 'Order submitted successfully. The order id is "' + data + '"')
+                }
             })
         }
     })
 
-    $('.accordion').on('change', 'input[type="checkbox"]', function() {
+    $('#restaurantAccordion').on('change', 'input[type="checkbox"]', function() {
         handlePreviewTotalOrder($(this))
     })
 
-    $('.accordion').on('change', 'input[type="number"]', function() {
+    $('#restaurantAccordion').on('change', 'input[type="number"]', function() {
         handlePreviewTotalOrder($(this))
     })
 
