@@ -15,8 +15,10 @@ import com.ivanfranchin.restaurantservice.command.DeleteRestaurantCommand;
 import com.ivanfranchin.restaurantservice.command.UpdateRestaurantCommand;
 import com.ivanfranchin.restaurantservice.command.UpdateRestaurantDishCommand;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -128,13 +130,29 @@ public class RestaurantAggregate {
         this.dishes.removeIf(d -> d.getId().equals(event.getDishId()));
     }
 
-    @Data
+    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    @ToString
     public static class Dish {
 
         private String id;
         private String name;
         private BigDecimal price;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Dish dish)) return false;
+            return java.util.Objects.equals(id, dish.id)
+                    && java.util.Objects.equals(name, dish.name)
+                    && java.util.Objects.equals(price, dish.price);
+        }
+
+        @Override
+        public int hashCode() {
+            return java.util.Objects.hash(id, name, price);
+        }
     }
 }
