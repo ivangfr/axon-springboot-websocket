@@ -48,7 +48,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 17`](https://www.oracle.com/java/technologies/downloads/#java17) or higher.
+- [`Java 25`](https://www.oracle.com/java/technologies/downloads/#java25).
 - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Start Environment

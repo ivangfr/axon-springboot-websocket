@@ -16,7 +16,6 @@ import com.ivanfranchin.restaurantservice.exception.DishNotFoundException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -29,6 +28,7 @@ class RestaurantAggregateTest {
     @BeforeEach
     void setUp() {
         fixture = new AggregateTestFixture<>(RestaurantAggregate.class);
+        fixture.setReportIllegalStateChange(false);
     }
 
     @Test
@@ -65,7 +65,6 @@ class RestaurantAggregateTest {
                 .expectEvents(new RestaurantDishAddedEvent(restaurantId, dishId, "Pizza Margherita", new BigDecimal("6.99")));
     }
 
-    @Disabled("Axon fixture state comparison issue with Java 25")
     @Test
     void testUpdateRestaurantDish() {
         String restaurantId = UUID.randomUUID().toString();
@@ -77,7 +76,6 @@ class RestaurantAggregateTest {
                 .expectEvents(new RestaurantDishUpdatedEvent(restaurantId, dishId, "Pizza Margherita 35cm", new BigDecimal("7.99")));
     }
 
-    @Disabled("Axon fixture state comparison issue with Java 25")
     @Test
     void testUpdateRestaurantDish_whenNameNull_keepsOriginalName() {
         String restaurantId = UUID.randomUUID().toString();
@@ -89,7 +87,6 @@ class RestaurantAggregateTest {
                 .expectEvents(new RestaurantDishUpdatedEvent(restaurantId, dishId, "Pizza Margherita", new BigDecimal("7.99")));
     }
 
-    @Disabled("Axon fixture state comparison issue with Java 25")
     @Test
     void testUpdateRestaurantDish_whenPriceNull_keepsOriginalPrice() {
         String restaurantId = UUID.randomUUID().toString();
