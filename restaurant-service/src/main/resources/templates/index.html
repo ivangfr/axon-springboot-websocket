@@ -1,128 +1,228 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Restaurant-Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
-
-<nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 border-b border-gray-800 shadow-lg">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <nav
+      class="fixed top-0 left-0 right-0 z-40 bg-gray-900 border-b border-gray-800 shadow-lg"
+    >
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="flex items-center justify-between h-14">
-            <a th:href="@{/}" class="text-white font-bold text-lg tracking-wide">Restaurant-Service</a>
-            <div class="flex items-center gap-3">
-                <span class="flex items-center gap-2 connWebSocket cursor-pointer">
-                    <span id="wsStatusDot" class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-                    <span id="wsStatusText" class="text-green-400 text-xs font-semibold tracking-wider uppercase">Connected</span>
-                </span>
-            </div>
+          <a th:href="@{/}" class="text-white font-bold text-lg tracking-wide"
+            >Restaurant-Service</a
+          >
+          <div class="flex items-center gap-3">
+            <span class="flex items-center gap-2 connWebSocket cursor-pointer">
+              <span
+                id="wsStatusDot"
+                class="w-2 h-2 rounded-full bg-green-500 inline-block"
+              ></span>
+              <span
+                id="wsStatusText"
+                class="text-green-400 text-xs font-semibold tracking-wider uppercase"
+                >Connected</span
+              >
+            </span>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="h-14"></div>
+    <div class="h-14"></div>
 
-<main class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-    <div class="grid grid-cols-12 gap-6">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <div class="grid grid-cols-12 gap-6">
         <div class="col-span-3">
-            <form id="restaurantForm" class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant ID</label>
-                    <input name="id" type="text" disabled
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant Name</label>
-                    <input name="name" type="text"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                </div>
-                <div class="flex gap-2 pt-2">
-                    <button name="btnCancel" type="button"
-                            class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
-                    <button name="btnSave" type="submit"
-                            class="flex-1 px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">Save</button>
-                </div>
-            </form>
+          <form
+            id="restaurantForm"
+            class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 space-y-4"
+          >
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Restaurant ID</label
+              >
+              <input
+                name="id"
+                type="text"
+                disabled
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Restaurant Name</label
+              >
+              <input
+                name="name"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              />
+            </div>
+            <div class="flex gap-2 pt-2">
+              <button
+                name="btnCancel"
+                type="button"
+                class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                name="btnSave"
+                type="submit"
+                class="flex-1 px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors"
+              >
+                Save
+              </button>
+            </div>
+          </form>
 
-            <form id="restaurantDishForm" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-5 space-y-4 mt-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Restaurant ID</label>
-                    <input name="restaurantId" type="text" disabled
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Dish ID</label>
-                    <input name="dishId" type="text" disabled
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Dish Name</label>
-                    <input name="dishName" type="text"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Dish Price</label>
-                    <input name="dishPrice" type="number"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                </div>
-                <div class="flex gap-2 pt-2">
-                    <button name="btnCancel" type="button"
-                            class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
-                    <button name="btnSave" type="submit"
-                            class="flex-1 px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">Save</button>
-                </div>
-            </form>
+          <form
+            id="restaurantDishForm"
+            class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-5 space-y-4 mt-4"
+          >
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Restaurant ID</label
+              >
+              <input
+                name="restaurantId"
+                type="text"
+                disabled
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Dish ID</label
+              >
+              <input
+                name="dishId"
+                type="text"
+                disabled
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 text-sm cursor-not-allowed"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Dish Name</label
+              >
+              <input
+                name="dishName"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Dish Price</label
+              >
+              <input
+                name="dishPrice"
+                type="number"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              />
+            </div>
+            <div class="flex gap-2 pt-2">
+              <button
+                name="btnCancel"
+                type="button"
+                class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                name="btnSave"
+                type="submit"
+                class="flex-1 px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
         <div class="col-span-9">
-            <div id="restaurantList" class="space-y-3"></div>
+          <div id="restaurantList" class="space-y-3"></div>
         </div>
-    </div>
-</main>
+      </div>
+    </main>
 
-<!-- Orders Modal -->
-<div id="ordersModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
-    <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
-    <div class="relative bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 p-6 max-h-[80vh] overflow-y-auto">
+    <!-- Orders Modal -->
+    <div
+      id="ordersModal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+    >
+      <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
+      <div
+        class="relative bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 p-6 max-h-[80vh] overflow-y-auto"
+      >
         <h3 class="modal-header text-lg font-semibold text-gray-900 mb-4"></h3>
         <div class="modal-content"></div>
         <div class="flex justify-end mt-4">
-            <button class="modal-ok px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">Ok</button>
+          <button
+            class="modal-ok px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors"
+          >
+            Ok
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- Confirmation Modal -->
-<div id="confirmationModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
-    <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
-    <div class="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+    <!-- Confirmation Modal -->
+    <div
+      id="confirmationModal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+    >
+      <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
+      <div
+        class="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6"
+      >
         <h3 class="modal-header text-lg font-semibold text-gray-900"></h3>
         <p class="modal-content mt-2 text-gray-600"></p>
         <div class="flex justify-end gap-3 mt-6">
-            <button class="modal-no px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">No</button>
-            <button class="modal-yes px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">Yes</button>
+          <button
+            class="modal-no px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+          >
+            No
+          </button>
+          <button
+            class="modal-yes px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors"
+          >
+            Yes
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- Alert Modal -->
-<div id="alertModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
-    <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
-    <div class="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+    <!-- Alert Modal -->
+    <div
+      id="alertModal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+    >
+      <div class="fixed inset-0 bg-black/50 modal-backdrop"></div>
+      <div
+        class="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6"
+      >
         <h3 class="modal-header text-lg font-semibold text-gray-900"></h3>
         <p class="modal-content mt-2 text-gray-600"></p>
         <div class="flex justify-end mt-6">
-            <button class="modal-ok px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">Ok</button>
+          <button
+            class="modal-ok px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors"
+          >
+            Ok
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.3.0/bundles/stomp.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.18/dayjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/accounting@0.4.1/accounting.min.js"></script>
-<script src="/app.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.3.0/bundles/stomp.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.18/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/accounting@0.4.1/accounting.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
 </html>

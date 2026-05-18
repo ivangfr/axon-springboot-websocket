@@ -1,6 +1,3 @@
 package com.ivanfranchin.customerservice.rest.dto;
 
-public record UpdateCustomerRequest(
-        String name,
-        String address) {
-}
+public record UpdateCustomerRequest(String name, String address) {}

@@ -10,7 +10,6 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @NoArgsConstructor
 public class DeleteRestaurantDishCommand {
 
-    @TargetAggregateIdentifier
-    private String restaurantId;
-    private String dishId;
+  @TargetAggregateIdentifier private String restaurantId;
+  private String dishId;
 }

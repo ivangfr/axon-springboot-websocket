@@ -5,12 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -20,25 +19,24 @@ import java.math.BigDecimal;
 @Table(name = "dishes")
 public class Dish {
 
-    @Id
-    private String id;
-    private String name;
-    private BigDecimal price;
+  @Id private String id;
+  private String name;
+  private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+  @ManyToOne
+  @JoinColumn(name = "restaurant_id")
+  private Restaurant restaurant;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Dish)) return false;
-        Dish dish = (Dish) o;
-        return id != null && id.equals(dish.id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Dish)) return false;
+    Dish dish = (Dish) o;
+    return id != null && id.equals(dish.id);
+  }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 }

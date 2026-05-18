@@ -21,6 +21,9 @@ import com.ivanfranchin.restaurantservice.rest.dto.RestaurantResponse;
 import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantDishRequest;
 import com.ivanfranchin.restaurantservice.rest.dto.UpdateRestaurantRequest;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -36,78 +39,92 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/restaurants")
 public class RestaurantController {
 
-    private final CommandGateway commandGateway;
-    private final QueryGateway queryGateway;
+  private final CommandGateway commandGateway;
+  private final QueryGateway queryGateway;
 
-    @GetMapping
-    public CompletableFuture<List<RestaurantResponse>> getRestaurants() {
-        return queryGateway.query(new GetRestaurantsQuery(), ResponseTypes.multipleInstancesOf(Restaurant.class))
-                .thenApply(restaurants -> restaurants.stream().map(RestaurantResponse::from).toList());
-    }
+  @GetMapping
+  public CompletableFuture<List<RestaurantResponse>> getRestaurants() {
+    return queryGateway
+        .query(new GetRestaurantsQuery(), ResponseTypes.multipleInstancesOf(Restaurant.class))
+        .thenApply(restaurants -> restaurants.stream().map(RestaurantResponse::from).toList());
+  }
 
-    @GetMapping("/{restaurantId}")
-    public CompletableFuture<RestaurantResponse> getRestaurant(@PathVariable UUID restaurantId) {
-        return queryGateway.query(new GetRestaurantQuery(restaurantId.toString()), Restaurant.class)
-                .thenApply(RestaurantResponse::from);
-    }
+  @GetMapping("/{restaurantId}")
+  public CompletableFuture<RestaurantResponse> getRestaurant(@PathVariable UUID restaurantId) {
+    return queryGateway
+        .query(new GetRestaurantQuery(restaurantId.toString()), Restaurant.class)
+        .thenApply(RestaurantResponse::from);
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public CompletableFuture<String> addRestaurant(@Valid @RequestBody AddRestaurantRequest request) {
-        return commandGateway.send(new AddRestaurantCommand(UUID.randomUUID().toString(), request.name()));
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
+  public CompletableFuture<String> addRestaurant(@Valid @RequestBody AddRestaurantRequest request) {
+    return commandGateway.send(
+        new AddRestaurantCommand(UUID.randomUUID().toString(), request.name()));
+  }
 
-    @PatchMapping("/{restaurantId}")
-    public CompletableFuture<String> updateRestaurant(@PathVariable UUID restaurantId,
-                                                      @Valid @RequestBody UpdateRestaurantRequest request) {
-        return commandGateway.send(new UpdateRestaurantCommand(restaurantId.toString(), request.name()));
-    }
+  @PatchMapping("/{restaurantId}")
+  public CompletableFuture<String> updateRestaurant(
+      @PathVariable UUID restaurantId, @Valid @RequestBody UpdateRestaurantRequest request) {
+    return commandGateway.send(
+        new UpdateRestaurantCommand(restaurantId.toString(), request.name()));
+  }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{restaurantId}")
-    public void deleteRestaurant(@PathVariable UUID restaurantId) {
-        commandGateway.send(new DeleteRestaurantCommand(restaurantId.toString()));
-    }
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping("/{restaurantId}")
+  public void deleteRestaurant(@PathVariable UUID restaurantId) {
+    commandGateway.send(new DeleteRestaurantCommand(restaurantId.toString()));
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{restaurantId}/dishes")
-    public CompletableFuture<String> addRestaurantDish(@PathVariable UUID restaurantId,
-                                                       @Valid @RequestBody AddRestaurantDishRequest request) {
-        return commandGateway.send(new AddRestaurantDishCommand(restaurantId.toString(), UUID.randomUUID().toString(),
-                request.name(), request.price()));
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/{restaurantId}/dishes")
+  public CompletableFuture<String> addRestaurantDish(
+      @PathVariable UUID restaurantId, @Valid @RequestBody AddRestaurantDishRequest request) {
+    return commandGateway.send(
+        new AddRestaurantDishCommand(
+            restaurantId.toString(),
+            UUID.randomUUID().toString(),
+            request.name(),
+            request.price()));
+  }
 
-    @GetMapping("/{restaurantId}/dishes/{dishId}")
-    public CompletableFuture<DishResponse> getRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
-        return queryGateway.query(new GetRestaurantDishQuery(restaurantId.toString(), dishId.toString()), Dish.class)
-                .thenApply(DishResponse::from);
-    }
+  @GetMapping("/{restaurantId}/dishes/{dishId}")
+  public CompletableFuture<DishResponse> getRestaurantDish(
+      @PathVariable UUID restaurantId, @PathVariable UUID dishId) {
+    return queryGateway
+        .query(new GetRestaurantDishQuery(restaurantId.toString(), dishId.toString()), Dish.class)
+        .thenApply(DishResponse::from);
+  }
 
-    @PatchMapping("/{restaurantId}/dishes/{dishId}")
-    public CompletableFuture<String> updateRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId,
-                                                          @Valid @RequestBody UpdateRestaurantDishRequest request) {
-        return commandGateway.send(new UpdateRestaurantDishCommand(restaurantId.toString(), dishId.toString(),
-                request.name(), request.price()));
-    }
+  @PatchMapping("/{restaurantId}/dishes/{dishId}")
+  public CompletableFuture<String> updateRestaurantDish(
+      @PathVariable UUID restaurantId,
+      @PathVariable UUID dishId,
+      @Valid @RequestBody UpdateRestaurantDishRequest request) {
+    return commandGateway.send(
+        new UpdateRestaurantDishCommand(
+            restaurantId.toString(), dishId.toString(), request.name(), request.price()));
+  }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{restaurantId}/dishes/{dishId}")
-    public void deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
-        commandGateway.send(new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
-    }
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping("/{restaurantId}/dishes/{dishId}")
+  public void deleteRestaurantDish(@PathVariable UUID restaurantId, @PathVariable UUID dishId) {
+    commandGateway.send(
+        new DeleteRestaurantDishCommand(restaurantId.toString(), dishId.toString()));
+  }
 
-    @GetMapping("/{restaurantId}/orders")
-    public CompletableFuture<List<RestaurantOrderResponse>> getRestaurantOrders(@PathVariable UUID restaurantId) {
-        return queryGateway.query(new GetRestaurantOrdersQuery(restaurantId.toString()), ResponseTypes.multipleInstancesOf(Order.class))
-                .thenApply(restaurants -> restaurants.stream().map(RestaurantOrderResponse::from).toList());
-    }
+  @GetMapping("/{restaurantId}/orders")
+  public CompletableFuture<List<RestaurantOrderResponse>> getRestaurantOrders(
+      @PathVariable UUID restaurantId) {
+    return queryGateway
+        .query(
+            new GetRestaurantOrdersQuery(restaurantId.toString()),
+            ResponseTypes.multipleInstancesOf(Order.class))
+        .thenApply(restaurants -> restaurants.stream().map(RestaurantOrderResponse::from).toList());
+  }
 }

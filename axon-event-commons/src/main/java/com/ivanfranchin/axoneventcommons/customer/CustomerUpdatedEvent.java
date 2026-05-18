@@ -4,62 +4,69 @@ import java.util.Objects;
 
 public class CustomerUpdatedEvent implements CustomerEvent {
 
-    private String id;
-    private String name;
-    private String address;
+  private String id;
+  private String name;
+  private String address;
 
-    public CustomerUpdatedEvent() {
-    }
+  public CustomerUpdatedEvent() {}
 
-    public CustomerUpdatedEvent(String id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
+  public CustomerUpdatedEvent(String id, String name, String address) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getAddress() {
-        return address;
-    }
+  public String getAddress() {
+    return address;
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+  public void setAddress(String address) {
+    this.address = address;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CustomerUpdatedEvent that = (CustomerUpdatedEvent) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    CustomerUpdatedEvent that = (CustomerUpdatedEvent) o;
+    return Objects.equals(id, that.id)
+        && Objects.equals(name, that.name)
+        && Objects.equals(address, that.address);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, address);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, address);
+  }
 
-    @Override
-    public String toString() {
-        return "CustomerUpdatedEvent{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "CustomerUpdatedEvent{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", address='"
+        + address
+        + '\''
+        + '}';
+  }
 }

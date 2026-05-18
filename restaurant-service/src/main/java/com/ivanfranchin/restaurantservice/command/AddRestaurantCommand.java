@@ -10,7 +10,6 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @NoArgsConstructor
 public class AddRestaurantCommand {
 
-    @TargetAggregateIdentifier
-    private String id;
-    private String name;
+  @TargetAggregateIdentifier private String id;
+  private String name;
 }

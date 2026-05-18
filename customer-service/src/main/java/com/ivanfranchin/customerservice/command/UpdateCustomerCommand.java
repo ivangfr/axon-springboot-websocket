@@ -10,8 +10,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @NoArgsConstructor
 public class UpdateCustomerCommand {
 
-    @TargetAggregateIdentifier
-    private String id;
-    private String name;
-    private String address;
+  @TargetAggregateIdentifier private String id;
+  private String name;
+  private String address;
 }

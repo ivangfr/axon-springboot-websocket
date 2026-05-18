@@ -18,50 +18,50 @@ import org.axonframework.spring.stereotype.Aggregate;
 @Aggregate
 public class CustomerAggregate {
 
-    @AggregateIdentifier
-    private String id;
-    private String name;
-    private String address;
+  @AggregateIdentifier private String id;
+  private String name;
+  private String address;
 
-    // -- Add Customer
+  // -- Add Customer
 
-    @CommandHandler
-    public CustomerAggregate(AddCustomerCommand command) {
-        AggregateLifecycle.apply(new CustomerAddedEvent(command.getId(), command.getName(), command.getAddress()));
-    }
+  @CommandHandler
+  public CustomerAggregate(AddCustomerCommand command) {
+    AggregateLifecycle.apply(
+        new CustomerAddedEvent(command.getId(), command.getName(), command.getAddress()));
+  }
 
-    @EventSourcingHandler
-    public void handle(CustomerAddedEvent event) {
-        this.id = event.getId();
-        this.name = event.getName();
-        this.address = event.getAddress();
-    }
+  @EventSourcingHandler
+  public void handle(CustomerAddedEvent event) {
+    this.id = event.getId();
+    this.name = event.getName();
+    this.address = event.getAddress();
+  }
 
-    // -- Update Customer
+  // -- Update Customer
 
-    @CommandHandler
-    public void handle(UpdateCustomerCommand command) {
-        String newName = MyStringUtils.getTrimmedValueOrElse(command.getName(), this.name);
-        String newAddress = MyStringUtils.getTrimmedValueOrElse(command.getAddress(), this.address);
-        AggregateLifecycle.apply(new CustomerUpdatedEvent(command.getId(), newName, newAddress));
-    }
+  @CommandHandler
+  public void handle(UpdateCustomerCommand command) {
+    String newName = MyStringUtils.getTrimmedValueOrElse(command.getName(), this.name);
+    String newAddress = MyStringUtils.getTrimmedValueOrElse(command.getAddress(), this.address);
+    AggregateLifecycle.apply(new CustomerUpdatedEvent(command.getId(), newName, newAddress));
+  }
 
-    @EventSourcingHandler
-    public void handle(CustomerUpdatedEvent event) {
-        this.id = event.getId();
-        this.name = event.getName();
-        this.address = event.getAddress();
-    }
+  @EventSourcingHandler
+  public void handle(CustomerUpdatedEvent event) {
+    this.id = event.getId();
+    this.name = event.getName();
+    this.address = event.getAddress();
+  }
 
-    // -- Delete Customer
+  // -- Delete Customer
 
-    @CommandHandler
-    public void handle(DeleteCustomerCommand command) {
-        AggregateLifecycle.apply(new CustomerDeletedEvent(command.getId()));
-    }
+  @CommandHandler
+  public void handle(DeleteCustomerCommand command) {
+    AggregateLifecycle.apply(new CustomerDeletedEvent(command.getId()));
+  }
 
-    @EventSourcingHandler
-    public void handle(CustomerDeletedEvent event) {
-        AggregateLifecycle.markDeleted();
-    }
+  @EventSourcingHandler
+  public void handle(CustomerDeletedEvent event) {
+    AggregateLifecycle.markDeleted();
+  }
 }

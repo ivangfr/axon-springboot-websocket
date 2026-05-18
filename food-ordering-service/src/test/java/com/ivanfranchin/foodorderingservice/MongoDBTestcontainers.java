@@ -6,6 +6,6 @@ import org.testcontainers.mongodb.MongoDBContainer;
 
 public interface MongoDBTestcontainers {
 
-    @Container @ServiceConnection
-    MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.2.5");
+  @Container @ServiceConnection
+  MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.2.5");
 }

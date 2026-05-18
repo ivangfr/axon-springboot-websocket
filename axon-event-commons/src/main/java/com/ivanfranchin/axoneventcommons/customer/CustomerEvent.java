@@ -1,4 +1,3 @@
 package com.ivanfranchin.axoneventcommons.customer;
 
-public interface CustomerEvent {
-}
+public interface CustomerEvent {}

@@ -1,4 +1,3 @@
 package com.ivanfranchin.axoneventcommons.restaurant;
 
-public interface RestaurantEvent {
-}
+public interface RestaurantEvent {}

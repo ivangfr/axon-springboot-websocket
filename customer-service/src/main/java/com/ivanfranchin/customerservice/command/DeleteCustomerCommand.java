@@ -10,6 +10,5 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @NoArgsConstructor
 public class DeleteCustomerCommand {
 
-    @TargetAggregateIdentifier
-    private String id;
+  @TargetAggregateIdentifier private String id;
 }

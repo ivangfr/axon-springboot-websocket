@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetCustomerOrdersQuery {
 
-    private String id;
+  private String id;
 }

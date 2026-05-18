@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetRestaurantDishQuery {
 
-    private String restaurantId;
-    private String dishId;
+  private String restaurantId;
+  private String dishId;
 }

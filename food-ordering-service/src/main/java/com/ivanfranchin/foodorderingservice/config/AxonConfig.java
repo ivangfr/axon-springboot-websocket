@@ -12,21 +12,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AxonConfig {
 
-    @Autowired
-    public void registerDispatchInterceptor(CommandBus commandBus, EventBus eventBus) {
-        commandBus.registerDispatchInterceptor(new CommandLoggingDispatchInterceptor());
-        eventBus.registerDispatchInterceptor(new EventLoggingDispatchInterceptor());
-    }
+  @Autowired
+  public void registerDispatchInterceptor(CommandBus commandBus, EventBus eventBus) {
+    commandBus.registerDispatchInterceptor(new CommandLoggingDispatchInterceptor());
+    eventBus.registerDispatchInterceptor(new EventLoggingDispatchInterceptor());
+  }
 
-    // Workaround to avoid the exception "com.thoughtworks.xstream.security.ForbiddenClassException"
-    // https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot
-    @Bean
-    XStream xStream() {
-        XStream xStream = new XStream();
-        xStream.allowTypesByWildcard(new String[]{
-                "com.ivanfranchin.**",
-                "org.hibernate.proxy.pojo.bytebuddy.**"
-        });
-        return xStream;
-    }
+  // Workaround to avoid the exception "com.thoughtworks.xstream.security.ForbiddenClassException"
+  // https://stackoverflow.com/questions/70624317/getting-forbiddenclassexception-in-axon-springboot
+  @Bean
+  XStream xStream() {
+    XStream xStream = new XStream();
+    xStream.allowTypesByWildcard(
+        new String[] {"com.ivanfranchin.**", "org.hibernate.proxy.pojo.bytebuddy.**"});
+    return xStream;
+  }
 }
