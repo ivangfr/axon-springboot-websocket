@@ -12,7 +12,7 @@
     <artifactId>axon-springboot-websocket</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name/>
+    <name>axon-springboot-websocket</name>
     <description/>
     <url/>
     <licenses>

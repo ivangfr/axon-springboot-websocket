@@ -1,5 +1,6 @@
 package com.ivanfranchin.foodorderingservice.repository;
 
+import com.ivanfranchin.foodorderingservice.MongoDBTestcontainers;
 import com.ivanfranchin.foodorderingservice.customer.model.Customer;
 import com.ivanfranchin.foodorderingservice.customer.repository.CustomerRepository;
 import com.ivanfranchin.foodorderingservice.order.model.Order;
@@ -12,6 +13,7 @@ import com.ivanfranchin.foodorderingservice.restaurant.repository.RestaurantRepo
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataMongoTest
+@ImportTestcontainers(MongoDBTestcontainers.class)
 class MongoRepositoriesDataMongoTest {
 
     @Autowired

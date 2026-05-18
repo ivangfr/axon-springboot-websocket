@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <artifactId>customer-service</artifactId>
-    <name/>
+    <name>customer-service</name>
     <description/>
     <url/>
     <licenses>
