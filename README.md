@@ -126,31 +126,6 @@ Inside the `axon-springboot-websocket` root folder, run the following commands i
     ./start-apps.sh
     ```
 
-## Running Tests
-
-- In a terminal, make sure you are inside the `axon-springboot-websocket` root folder.
-- Run the following commands to execute the tests for each module:
-
-  - **customer-service**
-    ```bash
-    ./mvnw clean test --projects customer-service
-    ```
-
-  - **restaurant-service**
-    ```bash
-    ./mvnw clean test --projects restaurant-service
-    ```
-
-  - **food-ordering-service**
-    ```bash
-    ./mvnw clean test --projects food-ordering-service
-    ```
-
-- Alternatively, to run all tests at once:
-  ```bash
-  ./mvnw clean test
-  ```
-
 ## Application URLs
 
 | Application           | URL                   |
@@ -221,6 +196,31 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
   ./shutdown-environment.sh
   ```
 
+## Running Tests
+
+- In a terminal, make sure you are inside the `axon-springboot-websocket` root folder.
+- Run the following commands to execute the tests for each module:
+
+  - **customer-service**
+    ```bash
+    ./mvnw clean test --projects customer-service
+    ```
+
+  - **restaurant-service**
+    ```bash
+    ./mvnw clean test --projects restaurant-service
+    ```
+
+  - **food-ordering-service**
+    ```bash
+    ./mvnw clean test --projects food-ordering-service
+    ```
+
+- Alternatively, to run all tests at once:
+  ```bash
+  ./mvnw clean test
+  ```
+
 ## Cleanup
 
 To remove the docker images created by this project, go to a terminal and, inside the `axon-springboot-websocket` root folder, run the following script:
@@ -228,10 +228,28 @@ To remove the docker images created by this project, go to a terminal and, insid
 ./remove-docker-images.sh
 ```
 
-## References
+## Code Formatting
 
-- https://sgitario.github.io/axon-by-example/
-- https://blog.nebrass.fr/playing-with-cqrs-and-event-sourcing-in-spring-boot-and-axon/
+Uses [Spotless Maven Plugin](https://github.com/diffplug/spotless/tree/main/plugin-maven) + [Google Java Format](https://github.com/google/google-java-format) (Java) and [Prettier](https://prettier.io/) (JS/HTML) for automated formatting.
+
+- **Check formatting:**
+
+  ```bash
+  ./mvnw spotless:check
+  ```
+
+- **Auto-fix formatting:**
+
+  ```bash
+  ./mvnw spotless:apply
+  ```
+
+Formatting is enforced automatically during `./mvnw verify`.
+
+## How to optimize the GIF in the documentation folder
+
+- [Medium]: [**How I Reduce GIF and Screenshot Sizes for My Technical Articles on macOS**](https://medium.com/itnext/how-i-reduce-gif-and-screenshot-sizes-for-my-technical-articles-on-macos-7fea331afc68)
+
 
 ## Support
 
@@ -242,3 +260,8 @@ If you find this useful, consider buying me a coffee:
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
+
+## References
+
+- https://sgitario.github.io/axon-by-example/
+- https://blog.nebrass.fr/playing-with-cqrs-and-event-sourcing-in-spring-boot-and-axon/
