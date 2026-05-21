@@ -19,8 +19,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   `Spring Boot` application that exposes a REST API to manage `Customers`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
   
-  ![customer-service](documentation/customer-service.jpeg)
-  
   `customer-service` was implemented using the `Axon Framework`. Every time a customer is added, updated, or deleted, the service emits the respective event, i.e., `CustomerAddedEvent`, `CustomerUpdatedEvent`, or `CustomerDeletedEvent`.
   
   `customer-service` uses `MySQL` to store customer data. Additionally, it listens to order events, collects the order information that it needs, and stores it in an order table present in its own database, so that it doesn't need to call another service to get this information.
@@ -29,8 +27,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   `Spring Boot` application that exposes a REST API to manage `Restaurants`. It also has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
   
-  ![restaurant-service](documentation/restaurant-service.jpeg)
-  
   `restaurant-service` was implemented using the `Axon Framework`. Every time a restaurant is added, updated, or deleted, the service emits the respective event, i.e., `RestaurantAddedEvent`, `RestaurantUpdatedEvent`, or `RestaurantDeletedEvent`. The same applies to the restaurant dishes, whose events are: `RestaurantDishAddedEvent`, `RestaurantDishUpdatedEvent`, or `RestaurantDishDeletedEvent`.
   
   `restaurant-service` uses `PostgreSQL` to store restaurant/dish data. Additionally, it listens to order events, collects the order information that it needs, and stores it in an order table present in its own database, so that it doesn't need to call another service to get this information.
@@ -38,8 +34,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - ### food-ordering-service
 
   `Spring Boot` application that exposes a REST API to manage `Orders`. It has a UI implemented using `JavaScript`, `jQuery`, and `Tailwind CSS`.
-  
-  ![food-ordering-service](documentation/food-ordering-service.jpeg)
   
   `food-ordering-service` was implemented using the `Axon Framework`. Every time an order is created, the service emits the respective event, i.e., `OrderCreatedEvent`.
   
@@ -182,7 +176,9 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
 - **MySQL**
   ```bash
   docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database customerdb
+  ```
   
+  ```sql
   SELECT * FROM customers;
   SELECT * FROM orders;
   ```
@@ -191,7 +187,9 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
 - **PostgreSQL**
   ```bash
   docker exec -it postgres psql -U postgres -d restaurantdb
+  ```
   
+  ```sql
   SELECT * FROM restaurants;
   SELECT * FROM dishes;
   SELECT * FROM orders;
@@ -201,7 +199,9 @@ The GIF below shows a user creating a customer in the `customer-service` UI. The
 - **MongoDB**
   ```bash
   docker exec -it mongodb mongo foodorderingdb
+  ```
   
+  ```js
   db.customers.find()
   db.restaurants.find()
   db.orders.find()
