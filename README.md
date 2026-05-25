@@ -9,6 +9,10 @@ The goal of this project is to play with [`Axon`](https://axoniq.io/). For this,
 
 On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
 
+## Additional Readings
+
+- \[**Medium**\] [**Event Sourcing vs Traditional CRUD: A Side-by-Side Comparison with Real Spring Boot Code**](https://medium.com/@ivangfr/event-sourcing-vs-traditional-crud-a-side-by-side-comparison-with-real-spring-boot-code-16d0879fd689)
+
 ## Project Overview
 
 ![project-overview](documentation/project-overview.png)
