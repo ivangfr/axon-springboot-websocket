@@ -12,6 +12,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 ## Additional Readings
 
 - \[**Medium**\] [**Event Sourcing vs Traditional CRUD: A Side-by-Side Comparison with Real Spring Boot Code**](https://medium.com/@ivangfr/event-sourcing-vs-traditional-crud-a-side-by-side-comparison-with-real-spring-boot-code-16d0879fd689)
+- \[**Medium**\] [**From Zero to Event-Driven: Migrating a Traditional CRUD App to Axon Framework**](https://medium.com/@ivangfr/from-zero-to-event-driven-migrating-a-traditional-crud-app-to-axon-framework-9a0e8a791bfb)
 
 ## Project Overview
 
