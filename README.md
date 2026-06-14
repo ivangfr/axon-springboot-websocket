@@ -255,7 +255,6 @@ Formatting is enforced automatically during `./mvnw verify`.
 
 - [Medium]: [**How I Reduce GIF and Screenshot Sizes for My Technical Articles on macOS**](https://medium.com/itnext/how-i-reduce-gif-and-screenshot-sizes-for-my-technical-articles-on-macos-7fea331afc68)
 
-
 ## Support
 
 If you find this useful, consider buying me a coffee:
