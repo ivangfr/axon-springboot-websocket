@@ -249,7 +249,7 @@ Uses [Spotless Maven Plugin](https://github.com/diffplug/spotless/tree/main/plug
   ./mvnw spotless:apply
   ```
 
-Formatting is enforced automatically during `./mvnw verify`.
+Formatting is enforced automatically during `./mvnw test`.
 
 ## How to optimize the GIF in the documentation folder
 

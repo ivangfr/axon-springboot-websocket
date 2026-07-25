@@ -92,7 +92,7 @@ function connectToWebSocket() {
     showModal(
       $("#alertModal"),
       "WebSocket Disconnected",
-      "WebSocket is disconnected. Maybe, food-ordering-service is down or restarting",
+      "WebSocket is disconnected. Maybe, food-ordering-service is down or restarting"
     );
     setWsStatus(false);
   };
@@ -165,7 +165,7 @@ function addOrder(order) {
         accounting.formatMoney(item.dishPrice) +
         " (" +
         accounting.formatMoney(item.quantity * item.dishPrice) +
-        ")",
+        ")"
     )
     .map((description) => "<li>" + description + "</li>")
     .join("");
@@ -209,7 +209,7 @@ function addCustomer(customer) {
       customer.id +
       '">' +
       customer.name +
-      "</div>",
+      "</div>"
   );
 }
 
@@ -296,7 +296,7 @@ function removeRestaurantDish(dish) {
   const dishList = dataStore.dishes[dish.restaurantId];
   if (dishList) {
     dataStore.dishes[dish.restaurantId] = dishList.filter(
-      (d) => d.dishId !== dish.dishId,
+      (d) => d.dishId !== dish.dishId
     );
   }
   if (
@@ -329,7 +329,7 @@ function renderDishRows() {
         '<input type="number" value="1" min="1" max="10" class="dish-qty w-16 px-2 py-1 border border-gray-300 rounded text-sm">' +
         "</td>" +
         '<td class="py-2 px-2"></td>' +
-        "</tr>",
+        "</tr>"
     );
   });
 }
@@ -391,7 +391,7 @@ function renderReview() {
         item.dishName +
         '</span><span class="text-gray-600">' +
         accounting.formatMoney(lineTotal) +
-        "</span></li>",
+        "</span></li>"
     );
   });
   $("#reviewCustomer").text(wizardState.customerName);
@@ -547,7 +547,7 @@ $(function () {
 
   $(document).on("click", ".tab-item", function () {
     $(".tab-item").removeClass(
-      "active border-teal-500 text-teal-600 border-transparent text-gray-500",
+      "active border-teal-500 text-teal-600 border-transparent text-gray-500"
     );
     $(this).addClass("border-teal-500 text-teal-600");
     $(".tab-panel").addClass("hidden");
@@ -587,7 +587,7 @@ $(function () {
       showModal(
         $("#alertModal"),
         "No dishes selected",
-        "Please select at least one dish.",
+        "Please select at least one dish."
       );
       return;
     }
@@ -595,7 +595,7 @@ $(function () {
       showModal(
         $("#alertModal"),
         "No customer selected",
-        "Please select a customer.",
+        "Please select a customer."
       );
       return;
     }
@@ -619,7 +619,7 @@ $(function () {
           null,
           function () {
             resetWizard();
-          },
+          }
         );
       },
     });

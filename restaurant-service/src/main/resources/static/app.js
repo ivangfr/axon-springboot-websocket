@@ -62,7 +62,7 @@ function connectToWebSocket() {
     showModal(
       $("#alertModal"),
       "WebSocket Disconnected",
-      "WebSocket is disconnected. Maybe, restaurant-service is down or restarting",
+      "WebSocket is disconnected. Maybe, restaurant-service is down or restarting"
     );
     setWsStatus(false);
   };
@@ -221,7 +221,7 @@ function validateAndGetRestaurantFormData() {
     showModal(
       $("#alertModal"),
       "Missing fields",
-      "Please inform restaurant Name",
+      "Please inform restaurant Name"
     );
     return null;
   }
@@ -231,7 +231,7 @@ function validateAndGetRestaurantFormData() {
 
 function validateAndGetRestaurantDishFormData() {
   const restaurantId = $(
-    '#restaurantDishForm input[name="restaurantId"]',
+    '#restaurantDishForm input[name="restaurantId"]'
   ).val();
   const dishId = $('#restaurantDishForm input[name="dishId"]').val();
   const dishName = $('#restaurantDishForm input[name="dishName"]').val();
@@ -241,7 +241,7 @@ function validateAndGetRestaurantDishFormData() {
     showModal(
       $("#alertModal"),
       "Missing fields",
-      "Please inform dish Name and Price",
+      "Please inform dish Name and Price"
     );
     return null;
   }
@@ -278,7 +278,7 @@ function buildRestaurantOrderTable(data) {
             accounting.formatMoney(item.dishPrice) +
             " (" +
             accounting.formatMoney(item.quantity * item.dishPrice) +
-            ")",
+            ")"
         )
         .map((description) => "<li>" + description + "</li>")
         .join("");
@@ -392,7 +392,7 @@ $(function () {
           type: "DELETE",
           url: restaurantServiceApiBaseUrl.concat("/", id),
         });
-      },
+      }
     );
   });
 
@@ -450,7 +450,7 @@ $(function () {
     let url = restaurantServiceApiBaseUrl.concat(
       "/",
       restaurantDishData.restaurantId,
-      "/dishes",
+      "/dishes"
     );
     if (restaurantDishData.dishId.length > 0) {
       type = "PATCH";
@@ -502,10 +502,10 @@ $(function () {
             "/",
             restaurantId,
             "/dishes/",
-            dishId,
+            dishId
           ),
         });
-      },
+      }
     );
   });
 
@@ -517,7 +517,7 @@ $(function () {
         "/",
         restaurantId,
         "/dishes/",
-        dishId,
+        dishId
       ),
       success: function (data) {
         fillRestaurantDishForm(data);

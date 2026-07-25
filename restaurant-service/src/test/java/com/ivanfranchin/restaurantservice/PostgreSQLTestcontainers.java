@@ -7,5 +7,5 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 public interface PostgreSQLTestcontainers {
 
   @Container @ServiceConnection
-  PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:18.0");
+  PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:18.4");
 }

@@ -54,7 +54,7 @@ function connectToWebSocket() {
     showModal(
       $("#alertModal"),
       "WebSocket Disconnected",
-      "WebSocket is disconnected. Maybe, customer-service is down or restarting",
+      "WebSocket is disconnected. Maybe, customer-service is down or restarting"
     );
     setWsStatus(false);
   };
@@ -141,7 +141,7 @@ function getOrderRow(order) {
         accounting.formatMoney(item.dishPrice) +
         " (" +
         accounting.formatMoney(item.quantity * item.dishPrice) +
-        ")",
+        ")"
     )
     .map((description) => "<li>" + description + "</li>")
     .join("");
@@ -206,7 +206,7 @@ function validateAndGetFormData() {
     showModal(
       $("#alertModal"),
       "Missing fields",
-      "Please inform customer Name and Address",
+      "Please inform customer Name and Address"
     );
     return null;
   }
@@ -279,7 +279,7 @@ $(function () {
           type: "DELETE",
           url: customerServiceApiBaseUrl.concat("/", id),
         });
-      },
+      }
     );
   });
 

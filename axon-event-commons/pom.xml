@@ -11,18 +11,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
-        <google-java-format.version>1.35.0</google-java-format.version>
+        <spotless.version>3.8.0</spotless.version>
     </properties>
     <build>
         <plugins>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>${spotless.version}</version>
                 <configuration>
                     <java>
                         <googleJavaFormat>
-                            <version>${google-java-format.version}</version>
                             <style>GOOGLE</style>
                         </googleJavaFormat>
                         <removeUnusedImports />
@@ -35,7 +34,7 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <phase>verify</phase>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
